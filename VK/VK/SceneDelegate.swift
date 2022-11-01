@@ -3,7 +3,7 @@
 
 import UIKit
 
-/// Delegates
+/// Сгенерированный SceneDelegate
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
