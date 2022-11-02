@@ -9,7 +9,7 @@ final class AuthorizationViewController: UIViewController {
 
     @IBOutlet private var authorizationScrollView: UIScrollView!
     @IBOutlet private var loginWithAppleButton: UIButton!
-    @IBOutlet var loginTextField: UITextField!
+    @IBOutlet private var loginTextField: UITextField!
 
     // MARK: - life cycle
 
@@ -26,13 +26,12 @@ final class AuthorizationViewController: UIViewController {
     }
 
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if identifier == "loginSegue" {
-            guard let loginTextFieldText = loginTextField.text else { return false }
-            guard loginTextFieldText == "@gai1_grigorenko" else { return false }
-            return true
-        } else {
-            return false
-        }
+        guard
+            identifier == StringConstants.segueIdentifier,
+            let loginTextFieldText = loginTextField.text
+        else { return false }
+        guard loginTextFieldText == StringConstants.trueLogin else { return false }
+        return true
     }
 
     // MARK: - private methods
@@ -96,7 +95,7 @@ final class AuthorizationViewController: UIViewController {
         authorizationScrollView.scrollIndicatorInsets = UIEdgeInsets.zero
     }
 
-    @objc func hideKeyboard() {
+    @objc private func hideKeyboard() {
         authorizationScrollView.endEditing(true)
     }
 }

@@ -4,7 +4,7 @@
 import UIKit
 
 /// Сгенерированный SceneDelegate
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     func scene(
