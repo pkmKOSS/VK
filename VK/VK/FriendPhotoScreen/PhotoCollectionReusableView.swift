@@ -5,20 +5,21 @@ import UIKit
 
 /// Хидер коллекции с фотографиями друга.
 final class PhotoCollectionReusableView: UICollectionReusableView {
+    
     // MARK: - Private IBOutlets
-
+    
     @IBOutlet private var avatarImageView: UIImageView!
     @IBOutlet private var nameLabel: UILabel!
     @IBOutlet private var countOfLikesLabel: UILabel!
     @IBOutlet private var heartButton: UIButton!
-
+    
     // MARK: - Private properties
-
+    
     private var countOfLikes = 0
     private var isAvatarLiked = false
-
+    
     // MARK: Private IBAction
-
+    
     @IBAction private func heartButtonAction(_ sender: Any) {
         guard
             isAvatarLiked

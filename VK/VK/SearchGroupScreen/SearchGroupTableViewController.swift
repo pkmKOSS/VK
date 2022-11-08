@@ -15,13 +15,17 @@ final class SearchGroupTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         makeGroups()
+        regCells()
+    }
+    
+    // MARK: - Private methods
+
+    private func regCells() {
         tableView.register(
             UINib(nibName: CellIdentifiers.commonGroupTableViewCellID, bundle: nil),
             forCellReuseIdentifier: CellIdentifiers.commonGroupTableViewCellID
         )
     }
-    
-    // MARK: - Private methods
     
     private func makeGroups() {
         var indexCounter = 0
@@ -39,17 +43,14 @@ final class SearchGroupTableViewController: UITableViewController {
         performSegue(withIdentifier: SegueIdentifiers.addGroupID, sender: nil)
     }
     
-    // MARK: - delegates methods
+    // MARK: - UITableViewDelegates
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         didRequestUnwind()
     }
     
-    // MARK: - datasource methods
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        1
-    }
+    // MARK: - UITableViewDataSource
+
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         groups.count

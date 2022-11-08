@@ -26,11 +26,7 @@ final class MyGroupsTableViewController: UITableViewController {
         )
     }
     
-    // MARK: - Table view data source
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        1
-    }
+    // MARK: - UITableViewDataSource
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         groups.count
@@ -62,7 +58,7 @@ final class MyGroupsTableViewController: UITableViewController {
         UITableView.automaticDimension
     }
     
-    @IBAction func addGroup(segue: UIStoryboardSegue) {
+    @IBAction func addGroupAction(segue: UIStoryboardSegue) {
         guard
             segue.identifier == SegueIdentifiers.addGroupID,
             let myGroupsTableViewController = segue.source as? SearchGroupTableViewController,

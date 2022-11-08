@@ -9,13 +9,7 @@ final class FriendPhotoCollectionViewController: UICollectionViewController {
     // MARK: Public properties
     
     var friend: NetworkUnit?
-    
-    // MARK: - Life cycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
+
     // MARK: UICollectionViewDataSource
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {

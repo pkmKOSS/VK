@@ -56,6 +56,8 @@ final class FriendListTableViewController: UITableViewController {
         }
     }
 
+    // MARK: - Public methods
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == SegueIdentifiers.showFriendSegue else { return }
         guard let destination = segue.destination as? FriendPhotoCollectionViewController else { return }
@@ -63,11 +65,7 @@ final class FriendListTableViewController: UITableViewController {
         destination.friend = friend
     }
 
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        1
-    }
+    // MARK: - UITableViewDataSource
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         users.count
