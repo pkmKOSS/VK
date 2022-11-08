@@ -3,14 +3,13 @@
 
 import UIKit
 
-typealias TapHandler = ((NetworkUnit) -> ())
+typealias TapHandler = (NetworkUnit) -> ()
 
 /// Экран со списком друзей.
 final class FriendListTableViewController: UITableViewController {
-
     // MARK: - Private properties
 
-    private var users: [User] = []
+    private var users: [NetworkUnit] = []
     private var selectedFriend: NetworkUnit?
     private var tapHandler: TapHandler?
 
@@ -18,12 +17,45 @@ final class FriendListTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupCell()
+    }
+
+    // MARK: - Public methods
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard
+            segue.identifier == SegueIdentifiers.showFriendSegue,
+            let destination = segue.destination as? FriendPhotoCollectionViewController,
+            let friend = selectedFriend
+        else { return }
+        destination.friend = friend
+    }
+
+    // MARK: - Public methods
+
+    // MARK: - UITableViewDataSource
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        users.count
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: CellIdentifiers.commonGroupTableViewCellID,
+                for: indexPath
+            ) as? CommonGroupTableViewCell else { return UITableViewCell() }
+        cell.configureCell(unit: users[indexPath.row], tapHandler: tapHandler)
+        return cell
+    }
+
+    // MARK: - Private methods
+
+    private func setupCell() {
         makeUsers()
         regCells()
         configreTapHandler()
     }
-
-    // MARK: - Private methods
 
     private func regCells() {
         tableView.register(
@@ -46,7 +78,7 @@ final class FriendListTableViewController: UITableViewController {
     private func makeUsers() {
         var indexCounter = 0
         for user in UserNames.names {
-            users.append(User(
+            users.append(NetworkUnit(
                 name: user,
                 description: UserLocations.locations[safe: indexCounter] ?? "",
                 avatarImageName: UserAvatarImageNames.avatarImageNames[safe: indexCounter] ?? "",
@@ -54,30 +86,5 @@ final class FriendListTableViewController: UITableViewController {
             ))
             indexCounter += 1
         }
-    }
-
-    // MARK: - Public methods
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == SegueIdentifiers.showFriendSegue else { return }
-        guard let destination = segue.destination as? FriendPhotoCollectionViewController else { return }
-        guard let friend = selectedFriend else { return }
-        destination.friend = friend
-    }
-
-    // MARK: - UITableViewDataSource
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        users.count
-    }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: CellIdentifiers.commonGroupTableViewCellID,
-                for: indexPath
-            ) as? CommonGroupTableViewCell else { return UITableViewCell() }
-        cell.configureCell(unit: users[indexPath.row], tapHandler: tapHandler)
-        return cell
     }
 }
