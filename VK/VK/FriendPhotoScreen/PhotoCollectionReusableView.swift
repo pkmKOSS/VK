@@ -28,7 +28,27 @@ final class PhotoCollectionReusableView: UICollectionReusableView {
                 UIImage(systemName: StringConstants.likeButtonFillImageName),
                 for: .normal
             )
-            countOfLikesLabel.text = "\(countOfLikes)"
+
+            UIView.animate(
+                withDuration: 0.2,
+                delay: 0,
+                options: [],
+                animations: {
+                    [
+                        self.countOfLikesLabel.transform = CGAffineTransform(a: 0, b: 0, c: 0, d: 0, tx: 20, ty: -20),
+                        self.countOfLikesLabel.text = "\(self.countOfLikes)"
+                    ]
+                },
+                completion: { _ in
+                    UIView.animate(
+                        withDuration: 1,
+                        delay: 0,
+                        animations: {
+                            self.countOfLikesLabel.transform = .identity
+                        }
+                    )
+                }
+            )
             isAvatarLiked = true
             return
         }

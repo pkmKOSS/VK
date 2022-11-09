@@ -8,13 +8,18 @@ final class SearchGroupTableViewController: UITableViewController {
     // MARK: - Public properties
 
     var groups: [NetworkUnit] = []
+    var hidenGroups: [NetworkUnit] = []
+    var searchedGroup: NetworkUnit?
+
+    // MARK: - Private visual components
+
+    private var searchBar = UISearchBar()
 
     // MARK: - life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        makeGroups()
-        regCells()
+        configureScreen()
     }
 
     // MARK: - Public methods
@@ -48,6 +53,12 @@ final class SearchGroupTableViewController: UITableViewController {
 
     // MARK: - Private methods
 
+    private func configureScreen() {
+        makeGroups()
+        regCells()
+        configTableView()
+    }
+
     private func regCells() {
         tableView.register(
             UINib(nibName: CellIdentifiers.commonGroupTableViewCellID, bundle: nil),
@@ -70,5 +81,31 @@ final class SearchGroupTableViewController: UITableViewController {
 
     private func didRequestUnwind() {
         performSegue(withIdentifier: SegueIdentifiers.addGroupID, sender: nil)
+    }
+
+    private func configTableView() {
+        searchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 0, height: 40))
+        searchBar.showsCancelButton = true
+        searchBar.searchTextField.clearButtonMode = .whileEditing
+        tableView.tableHeaderView = searchBar
+        searchBar.delegate = self
+    }
+}
+
+// UISearchBarDelegate
+extension SearchGroupTableViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        for group in groups where group.name == searchBar.text {
+            hidenGroups = groups
+            groups = [group]
+            tableView.reloadData()
+        }
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        guard !hidenGroups.isEmpty else { return }
+        groups = hidenGroups
+        hidenGroups.removeAll()
+        tableView.reloadData()
     }
 }

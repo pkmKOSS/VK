@@ -14,17 +14,19 @@ final class CommonGroupTableViewCell: UITableViewCell {
     // MARK: - Private properties
 
     private var friend: NetworkUnit?
-    private var tapHandler: TapHandler?
+    private var labelNameTapHandler: TapHandler?
+    private var avatarTapHandler: TapHandler?
 
     // MARK: - Public methods
 
-    func configureCell(unit: NetworkUnit, tapHandler: TapHandler? = nil) {
-        self.tapHandler = tapHandler
+    func configureCell(unit: NetworkUnit, labelNameTapHandler: TapHandler? = nil) {
+        self.labelNameTapHandler = labelNameTapHandler
         friend = unit
         configreAvatarImageView(avatarImageName: unit.avatarImageName)
         configureNameLabel(nameText: unit.name)
         configureDescriptionLabel(nameText: unit.description)
-        addTapGestoreRecognizer()
+        configTapNameLabelHandler()
+        configTapAvatarHandler()
     }
 
     // MARK: - Private methods
@@ -41,16 +43,46 @@ final class CommonGroupTableViewCell: UITableViewCell {
         groupDescriptionLabel.text = nameText
     }
 
-    private func addTapGestoreRecognizer() {
-        guard tapHandler != nil else { return }
+    private func configTapNameLabelHandler() {
+        guard labelNameTapHandler != nil else { return }
         let gesotreRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapAction))
-        contentView.isUserInteractionEnabled = true
-        contentView.addGestureRecognizer(gesotreRecognizer)
+        groupNameLabel.isUserInteractionEnabled = true
+        groupNameLabel.addGestureRecognizer(gesotreRecognizer)
+    }
+
+    private func configTapAvatarHandler() {
+        let gesotreRecognizer = UITapGestureRecognizer(target: self, action: #selector(avatarTapAction))
+        groupAvatarImageView.isUserInteractionEnabled = true
+        groupAvatarImageView.addGestureRecognizer(gesotreRecognizer)
+    }
+
+    @objc private func avatarTapAction() {
+        UIView.animate(
+            withDuration: 1.5,
+            delay: 0,
+            usingSpringWithDamping: 0.3,
+            initialSpringVelocity: 1.7,
+            options: .curveEaseOut,
+            animations: { [weak self] in
+                guard let self = self else { return }
+                self.groupAvatarImageView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+            },
+            completion: { _ in
+                UIView.animate(
+                    withDuration: 1,
+                    delay: 0,
+                    animations: { [weak self] in
+                        guard let self = self else { return }
+                        self.groupAvatarImageView.transform = .identity
+                    }
+                )
+            }
+        )
     }
 
     @objc private func tapAction() {
         guard
-            let action = tapHandler,
+            let action = labelNameTapHandler,
             let friend = friend
         else {
             return

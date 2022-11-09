@@ -8,15 +8,27 @@ final class MyGroupsTableViewController: UITableViewController {
     // MARK: - Private properties
 
     private var groups: [NetworkUnit] = []
+    private var selectedGroup: NetworkUnit?
+    private var tapHandler: TapHandler?
 
     // MARK: - Life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureTapHandler()
         regCells()
     }
 
     // MARK: - Public methods
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard
+            segue.identifier == SegueIdentifiers.groupNewsScreen,
+            let destination = segue.destination as? GroupNewsTableViewController,
+            let group = selectedGroup
+        else { return }
+        destination.group = group
+    }
 
     // MARK: - UITableViewDataSource
 
@@ -42,7 +54,7 @@ final class MyGroupsTableViewController: UITableViewController {
                 for: indexPath
             ) as? CommonGroupTableViewCell
         else { return UITableViewCell() }
-        cell.configureCell(unit: groups[indexPath.row])
+        cell.configureCell(unit: groups[indexPath.row], labelNameTapHandler: tapHandler)
         return cell
     }
 
@@ -68,5 +80,13 @@ final class MyGroupsTableViewController: UITableViewController {
             UINib(nibName: CellIdentifiers.commonGroupTableViewCellID, bundle: nil),
             forCellReuseIdentifier: CellIdentifiers.commonGroupTableViewCellID
         )
+    }
+
+    private func configureTapHandler() {
+        tapHandler = { [weak self] group in
+            guard let self = self else { return }
+            self.selectedGroup = group
+            self.performSegue(withIdentifier: SegueIdentifiers.groupNewsScreen, sender: nil)
+        }
     }
 }
