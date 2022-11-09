@@ -62,7 +62,7 @@ final class MyGroupsTableViewController: UITableViewController {
         UITableView.automaticDimension
     }
 
-    // MARK: Private methods
+    // MARK: Private IBAction
 
     @IBAction private func addGroupAction(segue: UIStoryboardSegue) {
         guard
@@ -74,6 +74,8 @@ final class MyGroupsTableViewController: UITableViewController {
         groups.append(group)
         tableView.reloadData()
     }
+
+    // MARK: Private methods
 
     private func regCells() {
         tableView.register(

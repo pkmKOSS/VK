@@ -1,8 +1,6 @@
 // Loader.swift
 // Copyright © RoadMap. All rights reserved.
 
-// CommonGroupTableViewCell.swift
-// Copyright © RoadMap. All rights reserved.
 import UIKit
 
 /// Представление "Три анимированных точки"
@@ -25,19 +23,19 @@ final class Loader: UIView {
 
     // MARK: - Init
 
-    public convenience init() {
-        self.init(frame: .zero, tintColor: nil)
-    }
-
-    public convenience init(tintColor: UIColor) {
-        self.init(frame: .zero, tintColor: tintColor)
-    }
-
     init(frame: CGRect, tintColor: UIColor?) {
         super.init(frame: CGRect(x: 0, y: 0, width: dotSize * 5, height: dotSize * 2))
 
         if let color = tintColor { self.tintColor = color }
         drawIndicatorView()
+    }
+
+    convenience init() {
+        self.init(frame: .zero, tintColor: nil)
+    }
+
+    convenience init(tintColor: UIColor) {
+        self.init(frame: .zero, tintColor: tintColor)
     }
 
     required init?(coder aDecoder: NSCoder) {

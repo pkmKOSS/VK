@@ -27,15 +27,18 @@ final class GroupNewsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView
-            .dequeueReusableCell(withIdentifier: CellIdentifiers.newTableViewCell) as? NewTableViewCell
-        else { return UITableViewCell() }
-        guard let group = group else {
+        guard
+            let cell = tableView
+            .dequeueReusableCell(withIdentifier: CellIdentifiers.newTableViewCell) as? NewTableViewCell,
+            let group = group
+        else {
             return UITableViewCell()
         }
         cell.configureCell(unit: group)
         return cell
     }
+
+    // MARK: - Private methods
 
     private func configureTableView() {
         tableView.register(
