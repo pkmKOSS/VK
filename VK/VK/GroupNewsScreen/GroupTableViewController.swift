@@ -16,7 +16,7 @@ final class GroupNewsTableViewController: UITableViewController {
         configureTableView()
     }
 
-    // MARK: - Table view data source
+    // MARK: - TableViewDataSource
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         1
