@@ -17,6 +17,14 @@ final class Loader: UIView {
         }
     }
 
+    // MARK: - Private properties
+
+    private let dotSize: CGFloat = 6.0
+    private var dotColor: UIColor = .darkGray
+    private var defaultFrame: CGRect { CGRect(x: 0, y: 0, width: dotSize * 5, height: dotSize * 2) }
+
+    // MARK: - Init
+
     public convenience init() {
         self.init(frame: .zero, tintColor: nil)
     }
@@ -24,12 +32,6 @@ final class Loader: UIView {
     public convenience init(tintColor: UIColor) {
         self.init(frame: .zero, tintColor: tintColor)
     }
-
-    // MARK: - Private properties
-
-    private let dotSize: CGFloat = 6.0
-    private var dotColor: UIColor = .darkGray
-    private var defaultFrame: CGRect { CGRect(x: 0, y: 0, width: dotSize * 5, height: dotSize * 2) }
 
     init(frame: CGRect, tintColor: UIColor?) {
         super.init(frame: CGRect(x: 0, y: 0, width: dotSize * 5, height: dotSize * 2))

@@ -23,7 +23,7 @@ final class MyGroupsTableViewController: UITableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard
-            segue.identifier == SegueIdentifiers.groupNewsScreen,
+            segue.identifier == SegueIdentifiers.groupNewsScreenText,
             let destination = segue.destination as? GroupNewsTableViewController,
             let group = selectedGroup
         else { return }
@@ -66,7 +66,7 @@ final class MyGroupsTableViewController: UITableViewController {
 
     @IBAction private func addGroupAction(segue: UIStoryboardSegue) {
         guard
-            segue.identifier == SegueIdentifiers.addGroupID,
+            segue.identifier == SegueIdentifiers.addGroupText,
             let myGroupsTableViewController = segue.source as? SearchGroupTableViewController,
             let indexPath = myGroupsTableViewController.tableView.indexPathForSelectedRow
         else { return }
@@ -86,7 +86,7 @@ final class MyGroupsTableViewController: UITableViewController {
         tapHandler = { [weak self] group in
             guard let self = self else { return }
             self.selectedGroup = group
-            self.performSegue(withIdentifier: SegueIdentifiers.groupNewsScreen, sender: nil)
+            self.performSegue(withIdentifier: SegueIdentifiers.groupNewsScreenText, sender: nil)
         }
     }
 }

@@ -63,16 +63,14 @@ final class CommonGroupTableViewCell: UITableViewCell {
             usingSpringWithDamping: 0.3,
             initialSpringVelocity: 1.7,
             options: .curveEaseOut,
-            animations: { [weak self] in
-                guard let self = self else { return }
+            animations: {
                 self.groupAvatarImageView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
             },
             completion: { _ in
                 UIView.animate(
                     withDuration: 1,
                     delay: 0,
-                    animations: { [weak self] in
-                        guard let self = self else { return }
+                    animations: {
                         self.groupAvatarImageView.transform = .identity
                     }
                 )

@@ -5,10 +5,11 @@ import UIKit
 
 /// Ячейка с новостным постом.
 final class NewTableViewCell: UITableViewCell {
-    // MARK: - Private visual components
 
-    @IBOutlet var groupNameLabel: UILabel!
-    @IBOutlet var postImageView: UIImageView!
+    // MARK: - IBOutlets
+
+    @IBOutlet private var groupNameLabel: UILabel!
+    @IBOutlet private var postImageView: UIImageView!
 
     // MARK: - Public methods
 

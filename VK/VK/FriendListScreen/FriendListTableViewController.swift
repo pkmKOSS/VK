@@ -47,7 +47,7 @@ final class FriendListTableViewController: UITableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard
-            segue.identifier == SegueIdentifiers.showFriendSegue,
+            segue.identifier == SegueIdentifiers.showFriendSegueText,
             let destination = segue.destination as? FriendPhotoCollectionViewController,
             let friend = selectedFriend
         else { return }
@@ -182,7 +182,7 @@ final class FriendListTableViewController: UITableViewController {
         tapHandler = { [weak self] user in
             guard let self = self else { return }
             self.selectedFriend = user
-            self.performSegue(withIdentifier: SegueIdentifiers.showFriendSegue, sender: nil)
+            self.performSegue(withIdentifier: SegueIdentifiers.showFriendSegueText, sender: nil)
         }
     }
 

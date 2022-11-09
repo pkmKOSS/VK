@@ -23,9 +23,9 @@ enum CellIdentifiers {
 
 /// Идентификаторы segue
 enum SegueIdentifiers {
-    static let addGroupID = "addGroup"
-    static let showFriendSegue = "showFriendSegue"
-    static let groupNewsScreen = "GroupNewsScreen"
+    static let addGroupText = "addGroup"
+    static let showFriendSegueText = "showFriendSegue"
+    static let groupNewsScreenText = "GroupNewsScreen"
 }
 
 /// Перечисление с набором букв алфавита, пригодных для использования в качестве первой буквы фамилии или имени.

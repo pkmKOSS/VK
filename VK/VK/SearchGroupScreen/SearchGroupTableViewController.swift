@@ -1,4 +1,4 @@
-// SearchGroupTableViewController.swift
+// SearchGroupNewsTableViewController.swift
 // Copyright © RoadMap. All rights reserved.
 
 import UIKit
@@ -21,8 +21,6 @@ final class SearchGroupTableViewController: UITableViewController {
         super.viewDidLoad()
         configureScreen()
     }
-
-    // MARK: - Public methods
 
     // MARK: - UITableViewDelegates
 
@@ -80,7 +78,7 @@ final class SearchGroupTableViewController: UITableViewController {
     }
 
     private func didRequestUnwind() {
-        performSegue(withIdentifier: SegueIdentifiers.addGroupID, sender: nil)
+        performSegue(withIdentifier: SegueIdentifiers.addGroupText, sender: nil)
     }
 
     private func configTableView() {
@@ -92,7 +90,8 @@ final class SearchGroupTableViewController: UITableViewController {
     }
 }
 
-// UISearchBarDelegate
+// MARK: - UISearchBarDelegate
+
 extension SearchGroupTableViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         for group in groups where group.name == searchBar.text {

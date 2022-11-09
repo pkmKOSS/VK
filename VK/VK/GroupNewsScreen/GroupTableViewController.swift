@@ -1,4 +1,4 @@
-// GroupTableViewController.swift
+// GroupTableNewsViewController.swift
 // Copyright © RoadMap. All rights reserved.
 
 import UIKit
@@ -13,12 +13,7 @@ final class GroupNewsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(
-            UINib(nibName: CellIdentifiers.newTableViewCell, bundle: nil),
-            forCellReuseIdentifier: CellIdentifiers.newTableViewCell
-        )
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 44.0
+        configureTableView()
     }
 
     // MARK: - Table view data source
@@ -40,5 +35,14 @@ final class GroupNewsTableViewController: UITableViewController {
         }
         cell.configureCell(unit: group)
         return cell
+    }
+
+    private func configureTableView() {
+        tableView.register(
+            UINib(nibName: CellIdentifiers.newTableViewCell, bundle: nil),
+            forCellReuseIdentifier: CellIdentifiers.newTableViewCell
+        )
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 44.0
     }
 }
