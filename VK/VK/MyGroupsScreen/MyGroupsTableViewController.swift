@@ -8,11 +8,13 @@ final class MyGroupsTableViewController: UITableViewController {
     // MARK: - Private properties
 
     private var groups: [NetworkUnit] = []
+    private var tapHandler: TapHandler?
 
     // MARK: - Life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureTapHandler()
         regCells()
     }
 
@@ -42,7 +44,7 @@ final class MyGroupsTableViewController: UITableViewController {
                 for: indexPath
             ) as? CommonGroupTableViewCell
         else { return UITableViewCell() }
-        cell.configureCell(unit: groups[indexPath.row])
+        cell.configureCell(unit: groups[indexPath.row], labelNameTapHandler: tapHandler)
         return cell
     }
 
@@ -68,5 +70,12 @@ final class MyGroupsTableViewController: UITableViewController {
             UINib(nibName: CellIdentifiers.commonGroupTableViewCellID, bundle: nil),
             forCellReuseIdentifier: CellIdentifiers.commonGroupTableViewCellID
         )
+    }
+
+    private func configureTapHandler() {
+        tapHandler = { [weak self] _ in
+            guard let self = self else { return }
+            self.performSegue(withIdentifier: "GroupNewsScreen", sender: nil)
+        }
     }
 }

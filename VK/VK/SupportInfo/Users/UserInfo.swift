@@ -6,15 +6,15 @@ import Foundation
 /// Имена пользователей
 struct UserNames {
     static let names = [
-        "Ivan Petrov",
-        "Sophie Sokolova",
-        "Alex Leonov",
-        "Anna Karenina",
-        "Tagir Ulanobekov",
-        "Olya Velikaya",
-        "Artem Panarin",
-        "Jon Sin",
-        "Vanessa justVanessa"
+        "Иван Петров",
+        "София Соколова",
+        "Алекс Леонов",
+        "Анна Каренина",
+        "Тагир Уланубеков",
+        "Оля Васнецова",
+        "Артем Панарин",
+        "Джон Син",
+        "Ванесса"
     ]
 }
 

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewTableViewCell" rowHeight="101" id="KGk-i7-Jjw" customClass="NewTableViewCell" customModule="VK" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="399"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="399"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AlexLeonovAvatar" translatesAutoresizingMaskIntoConstraints="NO" id="IcU-bY-RhB">
+                        <rect key="frame" x="0.0" y="37" width="320" height="298"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="IcU-bY-RhB" secondAttribute="height" multiplier="160:149" id="Ukb-Ri-Ezc"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Оренбург онлайн" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tmV-ua-fGi">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S7Q-4W-c4e">
+                        <rect key="frame" x="0.0" y="351" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="VaX-Iy-p7u"/>
+                        </constraints>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain" image="heart" catalog="system"/>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Hs-Kk-Vss">
+                        <rect key="frame" x="287" y="356" width="33" height="31"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="33" id="gha-1O-YsM"/>
+                        </constraints>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain" image="arrowshape.turn.up.right.fill" catalog="system" title=""/>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="msh-W4-I7z">
+                        <rect key="frame" x="89" y="356" width="143" height="31"/>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="plain" title="Комментировать"/>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstAttribute="bottomMargin" secondItem="msh-W4-I7z" secondAttribute="bottom" constant="1" id="1R4-gQ-0To"/>
+                    <constraint firstItem="msh-W4-I7z" firstAttribute="top" secondItem="IcU-bY-RhB" secondAttribute="bottom" constant="21" id="4CW-he-nld"/>
+                    <constraint firstItem="S7Q-4W-c4e" firstAttribute="top" secondItem="IcU-bY-RhB" secondAttribute="bottom" constant="16" id="77n-jr-XYh"/>
+                    <constraint firstItem="msh-W4-I7z" firstAttribute="leading" secondItem="S7Q-4W-c4e" secondAttribute="trailing" constant="49" id="7Xt-f4-BE6"/>
+                    <constraint firstAttribute="trailing" secondItem="tmV-ua-fGi" secondAttribute="trailing" id="8qL-DS-g29"/>
+                    <constraint firstItem="S7Q-4W-c4e" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="EH8-3z-Hnj"/>
+                    <constraint firstAttribute="trailing" secondItem="2Hs-Kk-Vss" secondAttribute="trailing" id="EHK-JA-fi5"/>
+                    <constraint firstItem="IcU-bY-RhB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="F4u-Ov-ysy"/>
+                    <constraint firstItem="tmV-ua-fGi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="J3S-8w-Zwg"/>
+                    <constraint firstAttribute="bottom" secondItem="2Hs-Kk-Vss" secondAttribute="bottom" constant="12" id="KbC-8e-hJE"/>
+                    <constraint firstItem="tmV-ua-fGi" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="NB4-xh-pkF"/>
+                    <constraint firstItem="2Hs-Kk-Vss" firstAttribute="leading" secondItem="msh-W4-I7z" secondAttribute="trailing" constant="55" id="Vk4-6L-ovl"/>
+                    <constraint firstItem="IcU-bY-RhB" firstAttribute="top" secondItem="tmV-ua-fGi" secondAttribute="bottom" constant="16.5" id="X3k-Px-Dze"/>
+                    <constraint firstAttribute="trailing" secondItem="IcU-bY-RhB" secondAttribute="trailing" id="qrP-89-CDk"/>
+                    <constraint firstAttribute="bottom" secondItem="S7Q-4W-c4e" secondAttribute="bottom" constant="8" id="tb7-I5-DBr"/>
+                    <constraint firstItem="2Hs-Kk-Vss" firstAttribute="top" secondItem="IcU-bY-RhB" secondAttribute="bottom" constant="21" id="wCT-Wj-p6h"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="groupNameLabel" destination="tmV-ua-fGi" id="4cf-kb-gFu"/>
+                <outlet property="postImageView" destination="IcU-bY-RhB" id="NwB-af-OHH"/>
+            </connections>
+            <point key="canvasLocation" x="136.23188405797103" y="159.04017857142856"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="AlexLeonovAvatar" width="1024" height="1024"/>
+        <image name="arrowshape.turn.up.right.fill" catalog="system" width="128" height="106"/>
+        <image name="heart" catalog="system" width="128" height="109"/>
+    </resources>
+</document>
