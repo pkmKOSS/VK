@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,23 +17,15 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="95"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sdfsdfsdfsdfsdfsdfsdfsdf" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mbJ-R7-j8y">
-                        <rect key="frame" x="103" y="0.0" width="201" height="44"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="201" id="7hi-W9-KmB"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="asdfasdfffffffffffddfdfd" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QdN-X8-SfY">
-                        <rect key="frame" x="103" y="41" width="201" height="43"/>
+                        <rect key="frame" x="103" y="32.5" width="117" height="43"/>
+                        <color key="tintColor" systemColor="opaqueSeparatorColor"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="201" id="V0u-9d-OQ5"/>
+                            <constraint firstAttribute="width" constant="117" id="V0u-9d-OQ5"/>
                             <constraint firstAttribute="height" constant="43" id="V4E-fa-FcG"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VKLogo" translatesAutoresizingMaskIntoConstraints="NO" id="xSz-1G-zT4">
@@ -47,22 +40,48 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="phone" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Hed-Ka-8j1">
+                        <rect key="frame" x="234" y="32.5" width="30" height="28.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="MlP-d2-ec9"/>
+                            <constraint firstAttribute="height" constant="30" id="Sx6-L7-jlY"/>
+                        </constraints>
+                    </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="message" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="yYT-5g-QXg">
+                        <rect key="frame" x="272" y="32" width="30" height="29.5"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="dap-ah-GaO"/>
+                            <constraint firstAttribute="width" constant="30" id="quV-pd-2qi"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sdfsdfsdfsdfsdfsdfsdfsdf" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mbJ-R7-j8y">
+                        <rect key="frame" x="103" y="15" width="208.5" height="20.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="117" id="7hi-W9-KmB"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
+                    <constraint firstItem="yYT-5g-QXg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="32" id="0Zn-aD-ktQ"/>
+                    <constraint firstItem="yYT-5g-QXg" firstAttribute="leading" secondItem="Hed-Ka-8j1" secondAttribute="trailing" constant="8" symbolic="YES" id="OiQ-U9-M8p"/>
                     <constraint firstItem="QdN-X8-SfY" firstAttribute="leading" secondItem="xSz-1G-zT4" secondAttribute="trailing" constant="8" symbolic="YES" id="Rrb-DR-kbS"/>
+                    <constraint firstItem="Hed-Ka-8j1" firstAttribute="leading" secondItem="QdN-X8-SfY" secondAttribute="trailing" constant="14" id="SBV-2c-rYb"/>
                     <constraint firstItem="xSz-1G-zT4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="eR6-Cm-MtR"/>
+                    <constraint firstAttribute="trailing" secondItem="yYT-5g-QXg" secondAttribute="trailing" constant="18" id="mIp-PT-Zvy"/>
                     <constraint firstItem="QdN-X8-SfY" firstAttribute="top" secondItem="mbJ-R7-j8y" secondAttribute="bottom" constant="-3" id="mS7-GL-ucq"/>
                     <constraint firstItem="mbJ-R7-j8y" firstAttribute="leading" secondItem="xSz-1G-zT4" secondAttribute="trailing" constant="8" symbolic="YES" id="otu-pu-JzA"/>
+                    <constraint firstItem="Hed-Ka-8j1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="32" id="ryg-IU-4kZ"/>
                     <constraint firstItem="xSz-1G-zT4" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="sxV-dT-CG0"/>
                     <constraint firstAttribute="bottom" secondItem="xSz-1G-zT4" secondAttribute="bottom" constant="5" id="v5Q-sq-XwT"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <constraints>
-                <constraint firstItem="mbJ-R7-j8y" firstAttribute="top" secondItem="njF-e1-oar" secondAttribute="top" id="5Tg-8s-UIv"/>
-                <constraint firstItem="njF-e1-oar" firstAttribute="trailing" secondItem="QdN-X8-SfY" secondAttribute="trailing" constant="16" id="Vgp-MR-KGz"/>
-                <constraint firstItem="njF-e1-oar" firstAttribute="trailing" secondItem="mbJ-R7-j8y" secondAttribute="trailing" constant="16" id="nr5-Ni-gVK"/>
-                <constraint firstItem="njF-e1-oar" firstAttribute="bottom" secondItem="QdN-X8-SfY" secondAttribute="bottom" constant="11" id="vvh-9j-4AA"/>
+                <constraint firstItem="mbJ-R7-j8y" firstAttribute="top" secondItem="njF-e1-oar" secondAttribute="top" constant="15" id="5Tg-8s-UIv"/>
             </constraints>
             <connections>
                 <outlet property="groupAvatarImageView" destination="xSz-1G-zT4" id="bIB-F9-YnJ"/>
@@ -74,5 +93,10 @@
     </objects>
     <resources>
         <image name="VKLogo" width="1200" height="1200"/>
+        <image name="message" catalog="system" width="128" height="113"/>
+        <image name="phone" catalog="system" width="128" height="115"/>
+        <systemColor name="opaqueSeparatorColor">
+            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

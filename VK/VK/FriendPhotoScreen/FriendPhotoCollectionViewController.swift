@@ -15,6 +15,10 @@ final class FriendPhotoCollectionViewController: UICollectionViewController {
         1
     }
 
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        1
+    }
+
     override func collectionView(
         _ collectionView: UICollectionView,
         viewForSupplementaryElementOfKind kind: String,

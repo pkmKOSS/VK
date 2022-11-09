@@ -8,15 +8,27 @@ final class MyGroupsTableViewController: UITableViewController {
     // MARK: - Private properties
 
     private var groups: [NetworkUnit] = []
+    private var selectedGroup: NetworkUnit?
+    private var tapHandler: TapHandler?
 
     // MARK: - Life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureTapHandler()
         regCells()
     }
 
     // MARK: - Public methods
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard
+            segue.identifier == SegueIdentifiers.groupNewsScreenText,
+            let destination = segue.destination as? GroupNewsTableViewController,
+            let group = selectedGroup
+        else { return }
+        destination.group = group
+    }
 
     // MARK: - UITableViewDataSource
 
@@ -42,7 +54,7 @@ final class MyGroupsTableViewController: UITableViewController {
                 for: indexPath
             ) as? CommonGroupTableViewCell
         else { return UITableViewCell() }
-        cell.configureCell(unit: groups[indexPath.row])
+        cell.configureCell(unit: groups[indexPath.row], labelNameTapHandler: tapHandler)
         return cell
     }
 
@@ -50,11 +62,11 @@ final class MyGroupsTableViewController: UITableViewController {
         UITableView.automaticDimension
     }
 
-    // MARK: Private methods
+    // MARK: Private IBAction
 
     @IBAction private func addGroupAction(segue: UIStoryboardSegue) {
         guard
-            segue.identifier == SegueIdentifiers.addGroupID,
+            segue.identifier == SegueIdentifiers.addGroupText,
             let myGroupsTableViewController = segue.source as? SearchGroupTableViewController,
             let indexPath = myGroupsTableViewController.tableView.indexPathForSelectedRow
         else { return }
@@ -63,10 +75,20 @@ final class MyGroupsTableViewController: UITableViewController {
         tableView.reloadData()
     }
 
+    // MARK: Private methods
+
     private func regCells() {
         tableView.register(
             UINib(nibName: CellIdentifiers.commonGroupTableViewCellID, bundle: nil),
             forCellReuseIdentifier: CellIdentifiers.commonGroupTableViewCellID
         )
+    }
+
+    private func configureTapHandler() {
+        tapHandler = { [weak self] group in
+            guard let self = self else { return }
+            self.selectedGroup = group
+            self.performSegue(withIdentifier: SegueIdentifiers.groupNewsScreenText, sender: nil)
+        }
     }
 }
