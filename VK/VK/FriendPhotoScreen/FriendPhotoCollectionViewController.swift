@@ -8,12 +8,26 @@ final class FriendPhotoCollectionViewController: UICollectionViewController {
     // MARK: Public properties
 
     var friend: NetworkUnit?
+    var handler: TapHandler?
+
+    // MARK: - life cycle
+
+    override func viewDidLoad() {
+        configureTapHandler()
+    }
+
+    // MARK: - Public func
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard
+            segue.identifier == SegueIdentifiers.showPhotoSegueText,
+            let destination = segue.destination as? ShowFriendPhotoScreenViewController,
+            let unit = friend
+        else { return }
+        destination.friend = unit
+    }
 
     // MARK: UICollectionViewDataSource
-
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        1
-    }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         1
@@ -43,16 +57,36 @@ final class FriendPhotoCollectionViewController: UICollectionViewController {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard let cell = collectionView
-            .dequeueReusableCell(
-                withReuseIdentifier: CellIdentifiers.photoCollectionViewCellID,
-                for: indexPath
-            ) as? PhotoCollectionViewCell,
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: CellIdentifiers.photoCollectionViewCellID,
+            for: indexPath
+        )
+        if
+            let configCell = cell as? PhotoCollectionViewCell,
             let friend = friend
-        else {
-            return UICollectionViewCell()
+        {
+            configCell.configureCell(unit: friend, handler: handler)
         }
-        cell.configureCell(unit: friend)
         return cell
+    }
+
+    // MARK: - Private methods
+
+    private func configureTapHandler() {
+        handler = { unit in
+            self.friend = unit
+            self.performSegue(withIdentifier: SegueIdentifiers.showPhotoSegueText, sender: nil)
+        }
+    }
+
+    private func configreGestoreRecognizer() {
+        let recognizer = UISwipeGestureRecognizer(target: self, action: #selector(gestoreAction))
+        recognizer.direction = .left
+        collectionView.addGestureRecognizer(recognizer)
+        collectionView.isUserInteractionEnabled = true
+    }
+
+    @objc private func gestoreAction() {
+        navigationController?.popViewController(animated: true)
     }
 }

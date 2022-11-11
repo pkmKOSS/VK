@@ -12,9 +12,17 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
     @IBOutlet private var thirdPhotoImageView: UIImageView!
     @IBOutlet private var foursPhotoImageView: UIImageView!
 
+    // MARK: - Private properties
+
+    private var tapHandler: TapHandler?
+    private var selectedFriend: NetworkUnit?
+
     // MARK: Public methods
 
-    func configureCell(unit: NetworkUnit) {
+    func configureCell(unit: NetworkUnit, handler: TapHandler?) {
+        tapHandler = handler
+        selectedFriend = unit
+        configureTapGestoreRecognizer()
         configreAvatarImageView(imageNames: unit.unitImageNames ?? [])
     }
 
@@ -25,5 +33,19 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
         secondPhotoImageView.image = UIImage(named: imageNames[safe: 1] ?? "")
         thirdPhotoImageView.image = UIImage(named: imageNames[safe: 2] ?? "")
         foursPhotoImageView.image = UIImage(named: imageNames[safe: 3] ?? "")
+    }
+
+    private func configureTapGestoreRecognizer() {
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(tapHandlerAction))
+        firstPhotoImageView.addGestureRecognizer(recognizer)
+        firstPhotoImageView.isUserInteractionEnabled = true
+    }
+
+    @objc private func tapHandlerAction() {
+        guard
+            let action = tapHandler,
+            let unit = selectedFriend
+        else { return }
+        action(unit)
     }
 }

@@ -5,7 +5,6 @@ import UIKit
 
 /// Ячейка с новостным постом.
 final class NewTableViewCell: UITableViewCell {
-
     // MARK: - IBOutlets
 
     @IBOutlet private var groupNameLabel: UILabel!

@@ -6,7 +6,7 @@ import UIKit
 typealias TapHandler = (NetworkUnit) -> ()
 
 /// Экран со списком друзей.
-final class FriendListTableViewController: UITableViewController {
+final class FriendListTableViewController: UITableViewController, UIViewControllerTransitioningDelegate {
     // MARK: - Private visual components
 
     private var loaderView = Loader()
@@ -28,7 +28,7 @@ final class FriendListTableViewController: UITableViewController {
         super.viewDidLoad()
         configScreen()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupCell()
@@ -177,8 +177,15 @@ final class FriendListTableViewController: UITableViewController {
     private func configreTapHandler() {
         tapHandler = { [weak self] user in
             guard let self = self else { return }
-            self.selectedFriend = user
-            self.performSegue(withIdentifier: SegueIdentifiers.showFriendSegueText, sender: nil)
+            guard let vc = self.storyboard?
+                .instantiateViewController(
+                    withIdentifier: ViewControllersID
+                        .friendPhotoText
+                ) as? FriendPhotoCollectionViewController
+            else { return }
+            vc.friend = user
+            vc.transitioningDelegate = self
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
 

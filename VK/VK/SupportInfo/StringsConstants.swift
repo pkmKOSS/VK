@@ -26,6 +26,17 @@ enum SegueIdentifiers {
     static let addGroupText = "addGroup"
     static let showFriendSegueText = "showFriendSegue"
     static let groupNewsScreenText = "GroupNewsScreen"
+    static let showPhotoSegueText = "ShowPhotoSegue"
+}
+
+/// Идентификаторы контроллеров представлений.
+enum ViewControllersID {
+    static let friendPhotoText = "FriendVCID"
+}
+
+/// Имена xib файлов.
+enum NibNames {
+    static let showPhotoViewNibNameText = "ShowPhotoView"
 }
 
 /// Перечисление с набором букв алфавита, пригодных для использования в качестве первой буквы фамилии или имени.

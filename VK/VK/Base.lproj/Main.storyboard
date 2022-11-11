@@ -194,7 +194,7 @@
                     <navigationItem key="navigationItem" title="Мои группы" id="lzD-si-Euz">
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="BXP-1f-MLC">
                             <connections>
-                                <segue destination="d1w-bc-HUK" kind="show" id="zZ8-MG-CDg"/>
+                                <segue destination="d1w-bc-HUK" kind="show" id="WdI-Ik-KGo"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -285,16 +285,20 @@
             </objects>
             <point key="canvasLocation" x="2485.507246376812" y="111.83035714285714"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Custom Nav Controller-->
         <scene sceneID="zEa-rf-8aj">
             <objects>
-                <navigationController id="Zm2-78-huW" sceneMemberID="viewController">
+                <navigationController extendedLayoutIncludesOpaqueBars="YES" modalPresentationStyle="fullScreen" id="Zm2-78-huW" customClass="CustomNavController" customModule="VK" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="bookmark" catalog="system" id="1HB-42-wbQ"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="i26-Vk-cb9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="0K9-LC-gv4">
+                        <rect key="frame" x="0.0" y="-54" width="0.0" height="0.0"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="yqo-Qr-ceh" kind="relationship" relationship="rootViewController" id="YyW-re-e3m"/>
                     </connections>
@@ -359,7 +363,7 @@
         <!--Item-->
         <scene sceneID="GQf-QW-mJu">
             <objects>
-                <collectionViewController id="x4w-0Y-pPo" customClass="FriendPhotoCollectionViewController" customModule="VK" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="FriendVCID" id="x4w-0Y-pPo" customClass="FriendPhotoCollectionViewController" customModule="VK" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="N8H-3o-bvD" userLabel="collectionView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -503,11 +507,56 @@
                     <navigationItem key="navigationItem" id="b0B-nt-oPb"/>
                     <connections>
                         <outlet property="collectionView" destination="N8H-3o-bvD" id="x6F-fB-dQD"/>
+                        <segue destination="byX-dH-keV" kind="show" identifier="ShowPhotoSegue" id="lj0-mK-s87"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eW1-PC-Pla" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3253.6231884057975" y="111.83035714285714"/>
+        </scene>
+        <!--Show Friend Photo Screen View Controller-->
+        <scene sceneID="A1x-Uf-6xq">
+            <objects>
+                <viewController id="byX-dH-keV" customClass="ShowFriendPhotoScreenViewController" customModule="VK" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ecJ-Lo-B6B">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ceE-WO-BiA">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                                <subviews>
+                                    <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Fbu-KA-MMt">
+                                        <rect key="frame" x="139" y="753" width="116" height="26"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </pageControl>
+                                </subviews>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="Vpr-Yg-cnu"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="OhO-4P-M2R"/>
+                            </scrollView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="bv3-h3-Gg1"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ceE-WO-BiA" firstAttribute="height" secondItem="ecJ-Lo-B6B" secondAttribute="height" id="1uK-MD-k6B"/>
+                            <constraint firstItem="ceE-WO-BiA" firstAttribute="trailing" secondItem="bv3-h3-Gg1" secondAttribute="trailing" id="6XB-TP-hi2"/>
+                            <constraint firstAttribute="bottom" secondItem="ceE-WO-BiA" secondAttribute="bottom" id="6w2-gU-S7v"/>
+                            <constraint firstItem="ceE-WO-BiA" firstAttribute="width" secondItem="ecJ-Lo-B6B" secondAttribute="width" id="IBB-2F-uTV"/>
+                            <constraint firstItem="ceE-WO-BiA" firstAttribute="centerY" secondItem="bv3-h3-Gg1" secondAttribute="centerY" id="e8C-A2-Z19"/>
+                            <constraint firstItem="ceE-WO-BiA" firstAttribute="top" secondItem="bv3-h3-Gg1" secondAttribute="top" id="f2X-US-e4k"/>
+                            <constraint firstItem="ceE-WO-BiA" firstAttribute="leading" secondItem="bv3-h3-Gg1" secondAttribute="leading" id="n35-Fz-D9h"/>
+                            <constraint firstItem="ceE-WO-BiA" firstAttribute="centerX" secondItem="bv3-h3-Gg1" secondAttribute="centerX" id="qJn-Yr-ZTF"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="5fJ-Zf-efT"/>
+                    <connections>
+                        <outlet property="pageControllView" destination="Fbu-KA-MMt" id="zLl-M9-xZF"/>
+                        <outlet property="showPhotoScrollView" destination="ceE-WO-BiA" id="KsM-76-bkj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rgs-RK-ZZc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4053.6231884057975" y="116.51785714285714"/>
         </scene>
         <!--Item-->
         <scene sceneID="tV0-Nq-Kat">
