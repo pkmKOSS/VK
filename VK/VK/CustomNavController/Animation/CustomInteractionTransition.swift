@@ -9,33 +9,33 @@ final class CustomInteractiveTransition: UIPercentDrivenInteractiveTransition {
 
     var viewController: UIViewController? {
         didSet {
-            let recognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleEdgeGestore))
+            let recognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleEdgeGestoreAction))
             recognizer.edges = [.left]
             (viewController as? FriendPhotoCollectionViewController)?.collectionView.addGestureRecognizer(recognizer)
         }
     }
 
-    var hasStarted: Bool = false
-    var shouldGinish: Bool = false
+    var isStarted: Bool = false
+    var isFinished: Bool = false
 
     // MARK: - Private methods
 
-    @objc private func handleEdgeGestore(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+    @objc private func handleEdgeGestoreAction(_ recognizer: UIScreenEdgePanGestureRecognizer) {
         switch recognizer.state {
         case .began:
-            hasStarted = true
+            isStarted = true
             viewController?.navigationController?.popViewController(animated: true)
         case .changed:
             let translation = recognizer.translation(in: recognizer.view)
             let relativeTranslation = translation.y / (recognizer.view?.bounds.width ?? 1)
             let progress = max(0, min(1, relativeTranslation))
-            shouldGinish = progress > 0.33
+            isFinished = progress > 0.33
             update(progress)
         case .ended:
-            hasStarted = false
-            _ = shouldGinish ? finish() : cancel()
+            isStarted = false
+            _ = isFinished ? finish() : cancel()
         case .cancelled:
-            hasStarted = false
+            isStarted = false
             cancel()
         default: return
         }

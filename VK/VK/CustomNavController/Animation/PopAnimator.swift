@@ -4,7 +4,7 @@
 import UIKit
 
 /// Кастомный аниматор перехода
-class PopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+final class PopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     // MARK: - Public methods
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {

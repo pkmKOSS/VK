@@ -16,7 +16,7 @@ final class FriendPhotoCollectionViewController: UICollectionViewController {
         configureTapHandler()
     }
 
-    // MARK: - Public func
+    // MARK: - Public methods
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard

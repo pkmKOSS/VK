@@ -7,6 +7,6 @@ import UIKit
 final class ShowPhotoView: UIView {
     // MARK: - Public @IBOutlet
 
-    @IBOutlet var photoImageView: UIImageView!
-    @IBOutlet var descriptionLabel: UILabel!
+    @IBOutlet private var photoImageView: UIImageView!
+    @IBOutlet private var descriptionLabel: UILabel!
 }

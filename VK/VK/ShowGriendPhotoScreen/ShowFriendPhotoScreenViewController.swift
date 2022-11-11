@@ -114,6 +114,8 @@ final class ShowFriendPhotoScreenViewController: UIViewController {
     }
 }
 
+// MARK: - UIScrollViewDelegate
+
 extension ShowFriendPhotoScreenViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let slides = slides else { return }

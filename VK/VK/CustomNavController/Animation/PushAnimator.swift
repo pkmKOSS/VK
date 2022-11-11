@@ -4,7 +4,9 @@
 import UIKit
 
 /// Класс аниматор перехода
-class PushAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+final class PushAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+    // MARK: - Public methods
+
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         0.5
     }
