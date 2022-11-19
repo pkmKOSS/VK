@@ -5,10 +5,22 @@ import UIKit
 
 /// Кастомный аниматор перехода
 final class PopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+    // MARK: - Private constants
+
+    private struct Constants {
+        static let transitionDuration: CGFloat = 0.5
+        static let destinationIndex = 0
+        static let sourceAnchorPoint = CGPoint(x: 1.0, y: 0.0)
+        static let sourceOrigin = CGPoint(x: 0, y: 0)
+        static let destinationRotationAngle = -(3.14 / 2)
+        static let relativeStartTime = 0.0
+        static let relativeDuration = 1.0
+    }
+
     // MARK: - Public methods
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        0.5
+        Constants.transitionDuration
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -17,34 +29,39 @@ final class PopAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             let destination = transitionContext.viewController(forKey: .to)
         else { return }
 
-        transitionContext.containerView.insertSubview(destination.view, at: 0)
+        transitionContext.containerView.insertSubview(destination.view, at: Constants.destinationIndex)
         destination.view.frame = source.view.frame
-        source.view.layer.anchorPoint = CGPoint(
-            x: 1.0,
-            y: 0.0
-        )
-        source.view.frame.origin = CGPoint(x: 0, y: 0)
+        source.view.layer.anchorPoint = Constants.sourceAnchorPoint
+        source.view.frame.origin = Constants.sourceOrigin
+
+        setAnimation(context: transitionContext, source: source)
+    }
+
+    private func setAnimation(context: UIViewControllerContextTransitioning?, source: UIViewController) {
+        guard let context = context else {
+            return
+        }
 
         UIView.animate(
-            withDuration: transitionDuration(using: transitionContext),
+            withDuration: transitionDuration(using: context),
             delay: 0,
             options: .curveLinear
         ) {
             UIView.addKeyframe(
-                withRelativeStartTime: 0.0,
-                relativeDuration: 1.0
+                withRelativeStartTime: Constants.relativeStartTime,
+                relativeDuration: Constants.relativeDuration
             ) {
-                let rotate = CGAffineTransform(rotationAngle: .pi / -2)
+                let rotate = CGAffineTransform(rotationAngle: Constants.destinationRotationAngle)
                 source.view.transform = rotate
             }
         } completion: { result in
-            if result, !transitionContext.transitionWasCancelled {
+            if result, !context.transitionWasCancelled {
                 source.removeFromParent()
-                transitionContext.completeTransition(true)
-            } else if transitionContext.transitionWasCancelled {
+                context.completeTransition(true)
+            } else if context.transitionWasCancelled {
                 source.view.transform = .identity
             }
-            transitionContext.completeTransition(result && !transitionContext.transitionWasCancelled)
+            context.completeTransition(result && !context.transitionWasCancelled)
         }
     }
 }

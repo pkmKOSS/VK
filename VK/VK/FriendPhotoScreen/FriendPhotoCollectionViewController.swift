@@ -13,6 +13,7 @@ final class FriendPhotoCollectionViewController: UICollectionViewController {
     // MARK: - life cycle
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         configureTapHandler()
     }
 
@@ -73,7 +74,8 @@ final class FriendPhotoCollectionViewController: UICollectionViewController {
     // MARK: - Private methods
 
     private func configureTapHandler() {
-        handler = { unit in
+        handler = { [weak self] unit in
+            guard let self = self else { return }
             self.friend = unit
             self.performSegue(withIdentifier: SegueIdentifiers.showPhotoSegueText, sender: nil)
         }

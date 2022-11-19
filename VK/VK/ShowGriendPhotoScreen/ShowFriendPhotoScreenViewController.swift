@@ -3,12 +3,14 @@
 
 import UIKit
 
+typealias TapHandlerAction = (() -> ())?
+
 /// Экран просмотра фотографии друга.
 final class ShowFriendPhotoScreenViewController: UIViewController {
     // MARK: - Privta @IBOutlet
 
-    @IBOutlet var showPhotoScrollView: UIScrollView!
-    @IBOutlet var pageControllView: UIPageControl!
+    @IBOutlet private var showPhotoScrollView: UIScrollView!
+    @IBOutlet private var pageControllView: UIPageControl!
 
     // MARK: - Public properties
 
@@ -17,8 +19,8 @@ final class ShowFriendPhotoScreenViewController: UIViewController {
     // MARK: - Private properties
 
     private var currentSlideCounter = 0
-    private var slides: [ShowPhotoView]?
-    private var tapHandler: (() -> ())?
+    private var slidesViews: [ShowPhotoView]?
+    private var tapHandler: TapHandlerAction = nil
 
     // MARK: - Life cycle
 
@@ -41,7 +43,7 @@ final class ShowFriendPhotoScreenViewController: UIViewController {
     private func configureScreen() {
         configureTapHandler()
         makeDelegates()
-        slides = configureSlides()
+        slidesViews = configureSlides()
         configureScrollView()
         configurePageControlView()
     }
@@ -64,11 +66,13 @@ final class ShowFriendPhotoScreenViewController: UIViewController {
                 options: nil
             )?
                 .first as? ShowPhotoView else { return [] }
-            slide.photoImageView.image = UIImage(named: image)
             let recognizer = UISwipeGestureRecognizer(target: self, action: #selector(gestoreAction))
             recognizer.direction = .down
-            slide.photoImageView.addGestureRecognizer(recognizer)
-            slide.photoImageView.isUserInteractionEnabled = true
+            slide.configurePhotoImage(
+                image: UIImage(named: image),
+                recognizer: recognizer,
+                isHiden: true
+            )
             slides.append(slide)
         }
 
@@ -76,7 +80,7 @@ final class ShowFriendPhotoScreenViewController: UIViewController {
     }
 
     private func configureScrollView() {
-        guard let slidesForScroll = slides else { return }
+        guard let slidesForScroll = slidesViews else { return }
         showPhotoScrollView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
         showPhotoScrollView.contentSize = CGSize(
             width: view.frame.width * CGFloat(slidesForScroll.count),
@@ -97,13 +101,14 @@ final class ShowFriendPhotoScreenViewController: UIViewController {
     }
 
     private func configurePageControlView() {
-        pageControllView.numberOfPages = slides?.count ?? 0
+        pageControllView.numberOfPages = slidesViews?.count ?? 0
         pageControllView.currentPage = 0
         view.bringSubviewToFront(pageControllView)
     }
 
     private func configureTapHandler() {
-        tapHandler = {
+        tapHandler = { [weak self] in
+            guard let self = self else { return }
             self.dismiss(animated: true)
         }
     }
@@ -118,7 +123,7 @@ final class ShowFriendPhotoScreenViewController: UIViewController {
 
 extension ShowFriendPhotoScreenViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let slides = slides else { return }
+        guard let slides = slidesViews else { return }
         let pageIndex = round(scrollView.contentOffset.x / view.frame.width)
         pageControllView.currentPage = Int(pageIndex)
 
@@ -128,42 +133,65 @@ extension ShowFriendPhotoScreenViewController: UIScrollViewDelegate {
         let maximumVerticalOffset: CGFloat = scrollView.contentSize.height - scrollView.frame.height
         let currentVerticalOffset: CGFloat = scrollView.contentOffset.y
 
-        let percentageHorizontalOffset: CGFloat = currentHorizontalOffset / maximumHorizontalOffset
-        let percentageVerticalOffset: CGFloat = currentVerticalOffset / maximumVerticalOffset
+        var percentageHorizontalOffset = CGFloat()
+        var percentageVerticalOffset = CGFloat()
+
+        if maximumHorizontalOffset > 0 {
+            percentageHorizontalOffset = currentHorizontalOffset / maximumHorizontalOffset
+        }
+
+        if maximumVerticalOffset > 0 {
+            percentageVerticalOffset = currentVerticalOffset / maximumVerticalOffset
+        }
 
         let percentOffset = CGPoint(x: percentageHorizontalOffset, y: percentageVerticalOffset)
+        configureAffineTransform(percentOffset: percentOffset, slides: slides)
+    }
 
+    private func configureAffineTransform(percentOffset: CGPoint, slides: [ShowPhotoView]) {
         if percentOffset.x > 0, percentOffset.x <= 0.25 {
-            slides[0].photoImageView
-                .transform = CGAffineTransform(
-                    scaleX: (0.25 - percentOffset.x) / 0.25,
-                    y: (0.25 - percentOffset.x) / 0.25
-                )
-            slides[1].photoImageView
-                .transform = CGAffineTransform(scaleX: percentOffset.x / 0.25, y: percentOffset.x / 0.25)
+            let zeroTransform = CGAffineTransform(
+                scaleX: (0.25 - percentOffset.x) / 0.25,
+                y: (0.25 - percentOffset.x) / 0.25
+            )
+            slides[safe: 0]?.configureImageAnimation(transform: zeroTransform)
+
+            let firstTransform = CGAffineTransform(
+                scaleX: percentOffset.x / 0.25,
+                y: percentOffset.x / 0.25
+            )
+
+            slides[safe: 1]?.configureImageAnimation(transform: firstTransform)
 
         } else if percentOffset.x > 0.25, percentOffset.x <= 0.50 {
-            slides[1].photoImageView
-                .transform = CGAffineTransform(
-                    scaleX: (0.50 - percentOffset.x) / 0.25,
-                    y: (0.50 - percentOffset.x) / 0.25
-                )
-            slides[2].photoImageView
-                .transform = CGAffineTransform(scaleX: percentOffset.x / 0.50, y: percentOffset.x / 0.50)
+            let firstTransform = CGAffineTransform(
+                scaleX: (0.50 - percentOffset.x) / 0.25,
+                y: (0.50 - percentOffset.x) / 0.25
+            )
+            slides[safe: 1]?.configureImageAnimation(transform: firstTransform)
+
+            let secondTransform = CGAffineTransform(scaleX: percentOffset.x / 0.50, y: percentOffset.x / 0.50)
+            slides[safe: 2]?.configureImageAnimation(transform: secondTransform)
 
         } else if percentOffset.x > 0.50, percentOffset.x <= 0.75 {
-            slides[2].photoImageView
-                .transform = CGAffineTransform(
-                    scaleX: (0.75 - percentOffset.x) / 0.25,
-                    y: (0.75 - percentOffset.x) / 0.25
-                )
-            slides[3].photoImageView
-                .transform = CGAffineTransform(scaleX: percentOffset.x / 0.75, y: percentOffset.x / 0.75)
+            let secondTransform = CGAffineTransform(
+                scaleX: (0.75 - percentOffset.x) / 0.25,
+                y: (0.75 - percentOffset.x) / 0.25
+            )
+            slides[safe: 2]?.configureImageAnimation(transform: secondTransform)
+
+            let thirdTransform = CGAffineTransform(scaleX: percentOffset.x / 0.75, y: percentOffset.x / 0.75)
+            slides[safe: 3]?.configureImageAnimation(transform: thirdTransform)
 
         } else if percentOffset.x > 0.75, percentOffset.x <= 1 {
-            slides[3].photoImageView
-                .transform = CGAffineTransform(scaleX: (1 - percentOffset.x) / 0.25, y: (1 - percentOffset.x) / 0.25)
-            slides[4].photoImageView.transform = CGAffineTransform(scaleX: percentOffset.x, y: percentOffset.x)
+            let thirdTransform = CGAffineTransform(
+                scaleX: (1 - percentOffset.x) / 0.25,
+                y: (1 - percentOffset.x) / 0.25
+            )
+            slides[safe: 3]?.configureImageAnimation(transform: thirdTransform)
+
+            let fourTransform = CGAffineTransform(scaleX: percentOffset.x, y: percentOffset.x)
+            slides[safe: 4]?.configureImageAnimation(transform: fourTransform)
         }
     }
 }

@@ -9,4 +9,20 @@ final class ShowPhotoView: UIView {
 
     @IBOutlet private var photoImageView: UIImageView!
     @IBOutlet private var descriptionLabel: UILabel!
+
+    // MARK: - Public methods
+
+    func configurePhotoImage(
+        image: UIImage? = UIImage(),
+        recognizer: UISwipeGestureRecognizer,
+        isHiden: Bool
+    ) {
+        photoImageView.image = image
+        photoImageView.addGestureRecognizer(recognizer)
+        photoImageView.isHidden = isHiden
+    }
+
+    func configureImageAnimation(transform: CGAffineTransform) {
+        photoImageView.transform = transform
+    }
 }

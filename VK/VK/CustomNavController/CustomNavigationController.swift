@@ -12,7 +12,8 @@ final class CustomNavController: UINavigationController, UINavigationControllerD
     // MARK: - Private life cycle
 
     override func viewDidLoad() {
-        makeDelegates()
+        super.viewDidLoad()
+        delegate = self
     }
 
     // MARK: - public methods
@@ -40,11 +41,5 @@ final class CustomNavController: UINavigationController, UINavigationControllerD
         interactionControllerFor animationController: UIViewControllerAnimatedTransitioning
     ) -> UIViewControllerInteractiveTransitioning? {
         interactiveTransition.isStarted ? interactiveTransition : nil
-    }
-
-    // MARK: - Private methids
-
-    private func makeDelegates() {
-        delegate = self
     }
 }

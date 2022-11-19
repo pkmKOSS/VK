@@ -5,6 +5,15 @@ import UIKit
 
 /// Кастомное интерактивное закрытие экрана
 final class CustomInteractiveTransition: UIPercentDrivenInteractiveTransition {
+    // MARK: - Private constants
+
+    private struct Constants {
+        static let defaultRecognizerWidth: CGFloat = 1
+        static let maxRelativeProgress: CGFloat = 1
+        static let minRelativeProgress: CGFloat = 0
+        static let finishedProgress: CGFloat = 0.33
+    }
+
     // MARK: - Public properties
 
     var viewController: UIViewController? {
@@ -15,8 +24,10 @@ final class CustomInteractiveTransition: UIPercentDrivenInteractiveTransition {
         }
     }
 
-    var isStarted: Bool = false
-    var isFinished: Bool = false
+    // MARK: - Private properties
+
+    private var isStarted: Bool = false
+    private var isFinished: Bool = false
 
     // MARK: - Private methods
 
@@ -27,9 +38,10 @@ final class CustomInteractiveTransition: UIPercentDrivenInteractiveTransition {
             viewController?.navigationController?.popViewController(animated: true)
         case .changed:
             let translation = recognizer.translation(in: recognizer.view)
-            let relativeTranslation = translation.y / (recognizer.view?.bounds.width ?? 1)
-            let progress = max(0, min(1, relativeTranslation))
-            isFinished = progress > 0.33
+            let relativeTranslation = translation
+                .y / (recognizer.view?.bounds.width ?? Constants.defaultRecognizerWidth)
+            let progress = max(Constants.maxRelativeProgress, min(Constants.minRelativeProgress, relativeTranslation))
+            isFinished = progress > Constants.finishedProgress
             update(progress)
         case .ended:
             isStarted = false
