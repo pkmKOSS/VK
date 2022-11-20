@@ -7,7 +7,17 @@ typealias TapHandlerAction = (() -> ())?
 
 /// Экран просмотра фотографии друга.
 final class ShowFriendPhotoScreenViewController: UIViewController {
-    // MARK: - Privta @IBOutlet
+
+    // MARK: - Private constants
+
+    private struct Constants {
+        static let firstTransformScaleCoef = 0.25
+        static let secondTransformScaleCoef = 0.50
+        static let thirdTransformScaleCoef = 0.75
+        static let fourTransformScaleCoef = 1.00
+    }
+
+    // MARK: - Private @IBOutlet
 
     @IBOutlet private var showPhotoScrollView: UIScrollView!
     @IBOutlet private var pageControllView: UIPageControl!
@@ -149,48 +159,57 @@ extension ShowFriendPhotoScreenViewController: UIScrollViewDelegate {
     }
 
     private func configureAffineTransform(percentOffset: CGPoint, slides: [ShowPhotoView]) {
-        if percentOffset.x > 0, percentOffset.x <= 0.25 {
+        if percentOffset.x > 0, percentOffset.x <= Constants.firstTransformScaleCoef {
             let zeroTransform = CGAffineTransform(
-                scaleX: (0.25 - percentOffset.x) / 0.25,
-                y: (0.25 - percentOffset.x) / 0.25
+                scaleX: (Constants.firstTransformScaleCoef - percentOffset.x) / Constants.firstTransformScaleCoef,
+                y: (Constants.firstTransformScaleCoef - percentOffset.x) / Constants.firstTransformScaleCoef
             )
             slides[safe: 0]?.configureImageAnimation(transform: zeroTransform)
 
             let firstTransform = CGAffineTransform(
-                scaleX: percentOffset.x / 0.25,
-                y: percentOffset.x / 0.25
+                scaleX: percentOffset.x / Constants.firstTransformScaleCoef,
+                y: percentOffset.x / Constants.firstTransformScaleCoef
             )
 
             slides[safe: 1]?.configureImageAnimation(transform: firstTransform)
 
-        } else if percentOffset.x > 0.25, percentOffset.x <= 0.50 {
+        } else if percentOffset.x > Constants.firstTransformScaleCoef, percentOffset.x <= Constants.secondTransformScaleCoef {
             let firstTransform = CGAffineTransform(
-                scaleX: (0.50 - percentOffset.x) / 0.25,
-                y: (0.50 - percentOffset.x) / 0.25
+                scaleX: (Constants.secondTransformScaleCoef - percentOffset.x) / Constants.firstTransformScaleCoef,
+                y: (Constants.secondTransformScaleCoef - percentOffset.x) / Constants.firstTransformScaleCoef
             )
             slides[safe: 1]?.configureImageAnimation(transform: firstTransform)
 
-            let secondTransform = CGAffineTransform(scaleX: percentOffset.x / 0.50, y: percentOffset.x / 0.50)
-            slides[safe: 2]?.configureImageAnimation(transform: secondTransform)
-
-        } else if percentOffset.x > 0.50, percentOffset.x <= 0.75 {
             let secondTransform = CGAffineTransform(
-                scaleX: (0.75 - percentOffset.x) / 0.25,
-                y: (0.75 - percentOffset.x) / 0.25
+                scaleX: percentOffset.x / Constants.secondTransformScaleCoef,
+                y: percentOffset.x / Constants.secondTransformScaleCoef
             )
             slides[safe: 2]?.configureImageAnimation(transform: secondTransform)
 
-            let thirdTransform = CGAffineTransform(scaleX: percentOffset.x / 0.75, y: percentOffset.x / 0.75)
-            slides[safe: 3]?.configureImageAnimation(transform: thirdTransform)
+        } else if percentOffset.x > Constants.secondTransformScaleCoef, percentOffset.x <= Constants.thirdTransformScaleCoef {
+            let secondTransform = CGAffineTransform(
+                scaleX: (Constants.thirdTransformScaleCoef - percentOffset.x) / Constants.secondTransformScaleCoef,
+                y: (Constants.thirdTransformScaleCoef - percentOffset.x) / Constants.secondTransformScaleCoef
+            )
+            slides[safe: 2]?.configureImageAnimation(transform: secondTransform)
 
-        } else if percentOffset.x > 0.75, percentOffset.x <= 1 {
             let thirdTransform = CGAffineTransform(
-                scaleX: (1 - percentOffset.x) / 0.25,
-                y: (1 - percentOffset.x) / 0.25
+                scaleX: percentOffset.x / Constants.thirdTransformScaleCoef,
+                y: percentOffset.x / Constants.thirdTransformScaleCoef
             )
             slides[safe: 3]?.configureImageAnimation(transform: thirdTransform)
 
-            let fourTransform = CGAffineTransform(scaleX: percentOffset.x, y: percentOffset.x)
+        } else if percentOffset.x > Constants.thirdTransformScaleCoef, percentOffset.x <= 1 {
+            let thirdTransform = CGAffineTransform(
+                scaleX: (Constants.fourTransformScaleCoef - percentOffset.x) / Constants.secondTransformScaleCoef,
+                y: (Constants.fourTransformScaleCoef - percentOffset.x) / Constants.secondTransformScaleCoef
+            )
+            slides[safe: 3]?.configureImageAnimation(transform: thirdTransform)
+
+            let fourTransform = CGAffineTransform(
+                scaleX: percentOffset.x,
+                y: percentOffset.x
+            )
             slides[safe: 4]?.configureImageAnimation(transform: fourTransform)
         }
     }
