@@ -7,7 +7,6 @@ typealias TapHandlerAction = (() -> ())?
 
 /// Экран просмотра фотографии друга.
 final class ShowFriendPhotoScreenViewController: UIViewController {
-
     // MARK: - Private constants
 
     private struct Constants {
@@ -173,7 +172,9 @@ extension ShowFriendPhotoScreenViewController: UIScrollViewDelegate {
 
             slides[safe: 1]?.configureImageAnimation(transform: firstTransform)
 
-        } else if percentOffset.x > Constants.firstTransformScaleCoef, percentOffset.x <= Constants.secondTransformScaleCoef {
+        } else if percentOffset.x > Constants.firstTransformScaleCoef,
+                  percentOffset.x <= Constants.secondTransformScaleCoef
+        {
             let firstTransform = CGAffineTransform(
                 scaleX: (Constants.secondTransformScaleCoef - percentOffset.x) / Constants.firstTransformScaleCoef,
                 y: (Constants.secondTransformScaleCoef - percentOffset.x) / Constants.firstTransformScaleCoef
@@ -186,7 +187,9 @@ extension ShowFriendPhotoScreenViewController: UIScrollViewDelegate {
             )
             slides[safe: 2]?.configureImageAnimation(transform: secondTransform)
 
-        } else if percentOffset.x > Constants.secondTransformScaleCoef, percentOffset.x <= Constants.thirdTransformScaleCoef {
+        } else if percentOffset.x > Constants.secondTransformScaleCoef,
+                  percentOffset.x <= Constants.thirdTransformScaleCoef
+        {
             let secondTransform = CGAffineTransform(
                 scaleX: (Constants.thirdTransformScaleCoef - percentOffset.x) / Constants.secondTransformScaleCoef,
                 y: (Constants.thirdTransformScaleCoef - percentOffset.x) / Constants.secondTransformScaleCoef

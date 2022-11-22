@@ -26,6 +26,7 @@
 		6B856954291E11BD00510E21 /* PopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B856953291E11BD00510E21 /* PopAnimator.swift */; };
 		6B856956291E133100510E21 /* PushAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B856955291E133100510E21 /* PushAnimator.swift */; };
 		6B888F6D2911A9FA00C4D7A3 /* StringsConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B888F6C2911A9FA00C4D7A3 /* StringsConstants.swift */; };
+		6B8EDEED292C7FD50070BCA6 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8EDEEC292C7FD50070BCA6 /* Session.swift */; };
 		6BC426412918ED0E00FBFE53 /* FriendListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC426402918ED0E00FBFE53 /* FriendListTableViewController.swift */; };
 		6BC426442918F07900FBFE53 /* FriendPhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC426432918F07900FBFE53 /* FriendPhotoCollectionViewController.swift */; };
 		6BC426482918F57A00FBFE53 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC426472918F57A00FBFE53 /* Model.swift */; };
@@ -61,6 +62,7 @@
 		6B856953291E11BD00510E21 /* PopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopAnimator.swift; sourceTree = "<group>"; };
 		6B856955291E133100510E21 /* PushAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAnimator.swift; sourceTree = "<group>"; };
 		6B888F6C2911A9FA00C4D7A3 /* StringsConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringsConstants.swift; sourceTree = "<group>"; };
+		6B8EDEEC292C7FD50070BCA6 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		6BC426402918ED0E00FBFE53 /* FriendListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListTableViewController.swift; sourceTree = "<group>"; };
 		6BC426432918F07900FBFE53 /* FriendPhotoCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendPhotoCollectionViewController.swift; sourceTree = "<group>"; };
 		6BC426472918F57A00FBFE53 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				6B769F192910E2210091426C /* AuthorizationViewController.swift */,
+				6B8EDEEC292C7FD50070BCA6 /* Session.swift */,
 			);
 			path = AuthorizationScreen;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 				6B856950291DA9F400510E21 /* CustomNavigationController.swift in Sources */,
 				6BC426412918ED0E00FBFE53 /* FriendListTableViewController.swift in Sources */,
 				6BC4264D2918F61C00FBFE53 /* UserInfo.swift in Sources */,
+				6B8EDEED292C7FD50070BCA6 /* Session.swift in Sources */,
 				6BC426502918F7C600FBFE53 /* GroupsInfo.swift in Sources */,
 				6B4D6B25291B520B00561929 /* Loader.swift in Sources */,
 				6B769F1A2910E2210091426C /* AuthorizationViewController.swift in Sources */,
