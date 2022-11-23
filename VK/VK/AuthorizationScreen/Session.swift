@@ -1,6 +1,7 @@
 // Session.swift
 // Copyright © RoadMap. All rights reserved.
 
+import Alamofire
 import Foundation
 
 /// Описывает текущую сессию, содержит синглотон.
@@ -11,8 +12,8 @@ final class Session {
 
     // MARK: - Public properties
 
-    var token: String?
     var userID: Int?
+    var accessToken: String?
 
     // MARK: - Private init
 
