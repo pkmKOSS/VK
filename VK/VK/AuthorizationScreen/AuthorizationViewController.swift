@@ -136,6 +136,7 @@ extension AuthorizationViewController: WKNavigationDelegate {
             }
 
         Session.shared.accessToken = params[Constants.accessTokenName]
+        print("token \(params[Constants.accessTokenName])")
 
         // TODO: - Сделать загрузку данных на профильных экранах.
         getFriendsIDList()

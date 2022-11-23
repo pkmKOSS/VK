@@ -24,7 +24,7 @@ final class CustomInteractiveTransition: UIPercentDrivenInteractiveTransition {
         }
     }
 
-    // MARK: - Private properties
+    // MARK: - Public properties
 
     var isStarted: Bool = false
     var isFinished: Bool = false

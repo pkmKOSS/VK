@@ -1,7 +1,6 @@
 // Session.swift
 // Copyright © RoadMap. All rights reserved.
 
-import Alamofire
 import Foundation
 
 /// Описывает текущую сессию, содержит синглотон.
