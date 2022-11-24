@@ -3,7 +3,7 @@
 
 import UIKit
 
-/// Хидер коллекции с фотографиями друга.
+/// Футер таблицы
 final class PhotoCollectionReusableView: UICollectionReusableView {
     // MARK: - Private IBOutlets
 
@@ -16,6 +16,11 @@ final class PhotoCollectionReusableView: UICollectionReusableView {
 
     private var countOfLikes = 0
     private var isAvatarLiked = false
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
 
     // MARK: Private IBAction
 
@@ -59,5 +64,12 @@ final class PhotoCollectionReusableView: UICollectionReusableView {
             for: .normal
         )
         isAvatarLiked = false
+    }
+
+    func configure(urlString: String) {
+        NetworkServiceble.shared.fetchPhoto(by: urlString) { [weak self] data in
+            guard let self = self else { return }
+            self.avatarImageView.image = UIImage(data: data) ?? UIImage()
+        }
     }
 }

@@ -1,4 +1,4 @@
-// Model.swift
+// Models.swift
 // Copyright © RoadMap. All rights reserved.
 
 import Foundation
@@ -9,4 +9,5 @@ struct NetworkUnit {
     let description: String
     let avatarImageName: String
     let unitImageNames: [String]?
+    let id: Int
 }

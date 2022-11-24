@@ -5,6 +5,15 @@ import UIKit
 
 /// Экран c подписками на группы.
 final class MyGroupsTableViewController: UITableViewController {
+    // MARK: - Private constants
+
+    private struct Constants {
+        static let fieldsValue = "description"
+        static let fieldsName = "fields"
+        static let groupdsDescripnionModeName = "extended"
+        static let groupdsDescripnionModeValue = "1"
+    }
+
     // MARK: - Private properties
 
     private var groups: [NetworkUnit] = []
@@ -15,6 +24,7 @@ final class MyGroupsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchMyGroupes()
         configureTapHandler()
         regCells()
     }
@@ -76,6 +86,27 @@ final class MyGroupsTableViewController: UITableViewController {
     }
 
     // MARK: Private methods
+
+    private func fetchMyGroupes() {
+        NetworkServiceble.shared.fetchClientsGroups(
+            parametersMap: [
+                Constants.groupdsDescripnionModeName: Constants.groupdsDescripnionModeValue,
+                Constants.fieldsName: Constants.fieldsValue
+            ]
+        ) { groups in
+            let array = groups.response.items.map { group in
+                NetworkUnit(
+                    name: group.name,
+                    description: group.groupdDescription ?? "",
+                    avatarImageName: group.photo200,
+                    unitImageNames: [],
+                    id: group.id
+                )
+            }
+            self.groups = array
+            self.tableView.reloadData()
+        }
+    }
 
     private func regCells() {
         tableView.register(

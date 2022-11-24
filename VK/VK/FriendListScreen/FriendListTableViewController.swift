@@ -7,18 +7,21 @@ typealias TapHandler = (NetworkUnit) -> ()
 
 /// Экран со списком друзей.
 final class FriendListTableViewController: UITableViewController, UIViewControllerTransitioningDelegate {
+    // MARK: - Private constants
+
+    private struct Constants {
+        static let fieldsValue = "city, photo_200_orig"
+        static let fieldsName = "fields"
+        static let emptyCharacter = Character(" ")
+    }
+
     // MARK: - Private visual components
 
     private var loaderView = Loader()
 
     // MARK: - Private properties
 
-    private var usersAtSections: [[NetworkUnit]] = [[]]
-    private var users: [NetworkUnit] = []
-    private var sortedUsers: [NetworkUnit] = []
-    private var lettersCountMap: [Dictionary<Character, Int>.Element] = []
-    private var sortedlettersMap: [Character: Int] = [:]
-    private var lettersMap: [Character: Int] = Alphabets.russianLettersMap
+    private var sortedFriendsMap: [Character: [NetworkUnit]] = [:]
     private var selectedFriend: NetworkUnit?
     private var tapHandler: TapHandler?
 
@@ -26,17 +29,7 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configScreen()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        setupCell()
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        clearAllArrays()
+        configureScreen()
     }
 
     // MARK: - Public methods
@@ -53,17 +46,18 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
     // MARK: - UITableViewDataSource
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let char = lettersCountMap[safe: section]?.key else { return nil }
-        return String(char)
+        let sortedKeys = sortedFriendsMap.keys.sorted()
+        return String(sortedKeys[section])
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        sortedlettersMap.count
+        sortedFriendsMap.keys.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let number = lettersCountMap[safe: section]?.value else { return 1 }
-        return number
+        let sortedKeys = sortedFriendsMap.keys.sorted()
+        let key = sortedKeys[section]
+        return sortedFriendsMap[key]?.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -71,96 +65,71 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: CellIdentifiers.commonGroupTableViewCellID,
                 for: indexPath
-            ) as? CommonGroupTableViewCell else { return UITableViewCell() }
+            ) as? CommonGroupTableViewCell
+        else { return UITableViewCell() }
 
-        guard usersAtSections.count > 1 else { return UITableViewCell() }
-        cell.configureCell(unit: usersAtSections[indexPath.section][indexPath.row], labelNameTapHandler: tapHandler)
+        let sortedKeys = sortedFriendsMap.keys.sorted()
+        let key = sortedKeys[indexPath.section]
+        guard
+            let friendsListSection = sortedFriendsMap[key],
+            let friendsInfo = friendsListSection[safe: indexPath.row]
+        else { return UITableViewCell() }
+        cell.configureCell(unit: friendsInfo, labelNameTapHandler: tapHandler)
         return cell
     }
 
     // MARK: - Private methods
 
-    private func clearAllArrays() {
-        users.removeAll()
-        sortedUsers.removeAll()
-        lettersCountMap.removeAll()
-        sortedlettersMap.removeAll()
-        usersAtSections = [[]]
-        lettersMap = Alphabets.russianLettersMap
+    private func configureScreen() {
+        fetchFriends()
+        configScreen()
+    }
+
+    private func fetchFriends() {
+        NetworkServiceble.shared.fetchFriends(
+            parametersMap: [
+                Constants.fieldsName: Constants.fieldsValue,
+            ]
+        ) { friends in
+            let array = (friends as? ResponseWithFriends)?.response.items.map { friend in
+                NetworkUnit(
+                    name: "\(friend.firstName) \(friend.lastName)",
+                    description: friend.city?.title ?? String(Constants.emptyCharacter),
+                    avatarImageName: friend.photo ?? String(Constants.emptyCharacter),
+                    unitImageNames: [],
+                    id: friend.id
+                )
+            }
+            self.makeFriendsSortedMap(friendsInfo: array ?? [])
+            self.tableView.reloadData()
+        }
     }
 
     private func configScreen() {
-        configDotsLoader()
+        // configDotsLoader()
         regCells()
         configreTapHandler()
     }
 
     private func setupCell() {
-        makeUsers()
-        getFirstLettersCount()
-        calculateNumberOfSections()
-        sortLettersCountMap()
-        putContactsInSections()
+        configScreen()
     }
 
-    private func makeUsers() {
-        var indexCounter = 0
-        for user in UserNames.names {
-            users.append(NetworkUnit(
-                name: user,
-                description: UserLocations.locations[safe: indexCounter] ?? "",
-                avatarImageName: UserAvatarImageNames.avatarImageNames[safe: indexCounter] ?? "",
-                unitImageNames: UserAvatarImageNames.avatarImageNames
-            ))
-            indexCounter += 1
-        }
-    }
-
-    private func getFirstLettersCount() {
-        sortedUsers = users.sorted(by: { user1, user2 in
-            guard
-                let user1FirstLetter = user1.name.first,
-                let user2FirstLetter = user2.name.first
-            else { return false }
-            return user1FirstLetter < user2FirstLetter
-        })
-
-        for user in sortedUsers {
-            for letter in lettersMap where letter.key == user.name.first {
-                sortedlettersMap[letter.key] = letter.value + 1
-                lettersMap[letter.key]? += 1
+    private func makeFriendsSortedMap(friendsInfo: [NetworkUnit]) {
+        var friendsMap: [Character: [NetworkUnit]] = [:]
+        for info in friendsInfo {
+            if let key = info.name.first {
+                if friendsMap[key] == nil {
+                    friendsMap[key] = [info]
+                } else {
+                    friendsMap[key]?.append(info)
+                    friendsMap[key]?.sort {
+                        $0.name.first ?? Constants.emptyCharacter > $1.name.first ?? Constants.emptyCharacter
+                    }
+                }
             }
         }
-    }
-
-    private func calculateNumberOfSections() {
-        sortedlettersMap = lettersMap.filter { (_: Character, value: Int) in
-            guard value != 0 else { return false }
-            return true
-        }
-    }
-
-    private func sortLettersCountMap() {
-        lettersCountMap = sortedlettersMap.sorted(by: <)
-    }
-
-    private func putContactsInSections() {
-        var letterCounter = 0
-        var userCounter = 0
-        var array: [NetworkUnit] = []
-        for user in sortedUsers {
-            array.append(user)
-            userCounter += 1
-            if userCounter == lettersCountMap[safe: letterCounter]?.value {
-                userCounter = 0
-                letterCounter += 1
-                usersAtSections.append(array)
-                array.removeAll()
-            }
-        }
-        usersAtSections.removeFirst()
-        sleep(1)
-        hideLoadingIndicator()
+        sortedFriendsMap = friendsMap
         tableView.reloadData()
     }
 
@@ -176,8 +145,9 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
 
     private func configreTapHandler() {
         tapHandler = { [weak self] user in
-            guard let self = self else { return }
-            guard let vc = self.storyboard?
+            guard
+                let self = self,
+                let vc = self.storyboard?
                 .instantiateViewController(
                     withIdentifier: ViewControllersID
                         .friendPhotoText

@@ -17,29 +17,14 @@ final class AuthorizationViewController: UIViewController {
     // MARK: - Private constants
 
     private struct Constants {
-        static let friendListMethodName = "friends.get"
-        static let photoMethodName = "photos.getUserPhotos"
-        static let groupsListMethodName = "groups.get"
-        static let clientIDName = "client_id"
-        static let clientIDValue = "51483244"
-        static let redirectURLName = "redirect_url"
-        static let redirectURLValue = "https://oauth.vk.com/blank.html"
-        static let responseTypeName = "response_type"
-        static let responseTypeValue = "token"
         static let accessTokenName = "access_token"
-        static let versionName = "v"
-        static let versionValue = "5.131"
-        static let searchParamName = "q"
-        static let searchParamValue = "Новости"
-        static let searchMethodName = "groups.search"
+        static let fieldsValue = "city"
+        static let fieldsName = "fields"
         static let blankPathName = "/blank.html"
         static let ampersanteCharName = "&"
         static let equalCharName = "="
+        static let storyboardIDName = "FromAuthScreen"
     }
-
-    // MARK: - Private properties
-
-    private let networkService = NetworkServiceImplementation()
 
     // MARK: - life cycle
 
@@ -51,58 +36,15 @@ final class AuthorizationViewController: UIViewController {
     // MARK: - Private methods
 
     private func openAuthPage() {
-        let queryItems = [
-            URLQueryItem(name: Constants.clientIDName, value: Constants.clientIDValue),
-            URLQueryItem(name: Constants.redirectURLName, value: Constants.redirectURLValue),
-            URLQueryItem(name: Constants.responseTypeName, value: Constants.responseTypeValue)
-        ]
-
         guard
-            let url = networkService.getAuthPageRequest(queryItems: queryItems)
+            let url = NetworkServiceble.shared.getAuthPageRequest()
         else { return }
         let request = URLRequest(url: url)
         webView.load(request)
     }
 
-    private func getFriendsIDList() {
-        guard let token = Session.shared.accessToken else { return }
-        let queryItems = [
-            URLQueryItem(name: Constants.clientIDName, value: Constants.clientIDValue),
-            URLQueryItem(name: Constants.accessTokenName, value: token),
-            URLQueryItem(name: Constants.versionName, value: Constants.versionValue)
-        ]
-        networkService.getInfoFor(method: Constants.friendListMethodName, queryItems: queryItems)
-    }
-
-    private func getPhotos() {
-        guard let token = Session.shared.accessToken else { return }
-        let queryItems = [
-            URLQueryItem(name: Constants.clientIDName, value: Constants.clientIDValue),
-            URLQueryItem(name: Constants.accessTokenName, value: token),
-            URLQueryItem(name: Constants.versionName, value: Constants.versionValue)
-        ]
-        networkService.getInfoFor(method: Constants.photoMethodName, queryItems: queryItems)
-    }
-
-    private func getGroupsList() {
-        guard let token = Session.shared.accessToken else { return }
-        let queryItems = [
-            URLQueryItem(name: Constants.clientIDName, value: Constants.clientIDValue),
-            URLQueryItem(name: Constants.accessTokenName, value: token),
-            URLQueryItem(name: Constants.versionName, value: Constants.versionValue)
-        ]
-        networkService.getInfoFor(method: Constants.groupsListMethodName, queryItems: queryItems)
-    }
-
-    private func searchGroups() {
-        guard let token = Session.shared.accessToken else { return }
-        let queryItems = [
-            URLQueryItem(name: Constants.clientIDName, value: Constants.clientIDValue),
-            URLQueryItem(name: Constants.accessTokenName, value: token),
-            URLQueryItem(name: Constants.versionName, value: Constants.versionValue),
-            URLQueryItem(name: Constants.searchParamName, value: Constants.searchParamValue),
-        ]
-        networkService.getInfoFor(method: Constants.searchMethodName, queryItems: queryItems)
+    private func presentNextViewController() {
+        performSegue(withIdentifier: Constants.storyboardIDName, sender: nil)
     }
 }
 
@@ -136,13 +78,8 @@ extension AuthorizationViewController: WKNavigationDelegate {
             }
 
         Session.shared.accessToken = params[Constants.accessTokenName]
-        print("token \(params[Constants.accessTokenName])")
 
-        // TODO: - Сделать загрузку данных на профильных экранах.
-        getFriendsIDList()
-        getPhotos()
-        getGroupsList()
-        searchGroups()
+        presentNextViewController()
         decisionHandler(.cancel)
     }
 }

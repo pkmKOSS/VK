@@ -51,6 +51,7 @@ final class FriendPhotoCollectionViewController: UICollectionViewController {
         default:
             break
         }
+        (view as? PhotoCollectionReusableView)?.configure(urlString: friend?.avatarImageName ?? "")
         return view
     }
 

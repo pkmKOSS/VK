@@ -3,8 +3,12 @@
 
 import Foundation
 
-/// Требование к сущности взаимодействующей с Вконтакте
+/// Сервис для работы с Вконтакте
 protocol NetworkService {
-    func getAuthPageRequest(queryItems: [URLQueryItem]) -> URL?
-    func getInfoFor(method: String, queryItems: [URLQueryItem])
+    func getAuthPageRequest() -> URL?
+    func fetchFriends(parametersMap: [String: String], complition: @escaping (Codable) -> ())
+    func fetchClientsGroups(parametersMap: [String: String], complition: @escaping (ResponseWithGroups) -> ())
+    func fetchAllPhoto(parametersMap: [String: String], complition: @escaping (Codable) -> ())
+    func fetchPhoto(by urlString: String, complition: @escaping (Data) -> ())
+    func fetchFoundGroups(parametrsMap: [String: String], complition: @escaping (ResponseWithGroups) -> ())
 }

@@ -11,6 +11,12 @@ final class SearchGroupTableViewController: UITableViewController {
     var hidenGroups: [NetworkUnit] = []
     var searchedGroup: NetworkUnit?
 
+    // MARK: - Private constants
+
+    private struct Constants {
+        static let searchParamName = "q"
+    }
+
     // MARK: - Private visual components
 
     private var searchBar = UISearchBar()
@@ -52,7 +58,6 @@ final class SearchGroupTableViewController: UITableViewController {
     // MARK: - Private methods
 
     private func configureScreen() {
-        makeGroups()
         regCells()
         configTableView()
     }
@@ -62,19 +67,6 @@ final class SearchGroupTableViewController: UITableViewController {
             UINib(nibName: CellIdentifiers.commonGroupTableViewCellID, bundle: nil),
             forCellReuseIdentifier: CellIdentifiers.commonGroupTableViewCellID
         )
-    }
-
-    private func makeGroups() {
-        var indexCounter = 0
-        for group in GroupsNames.groupsNames {
-            groups.append(NetworkUnit(
-                name: group,
-                description: GroupsDescriptions.groupsDescriptions[safe: indexCounter] ?? "",
-                avatarImageName: GroupsAvatarImageNames.groupsAvatarImageNames[safe: indexCounter] ?? "",
-                unitImageNames: GroupsAvatarImageNames.groupsAvatarImageNames
-            ))
-            indexCounter += 1
-        }
     }
 
     private func didRequestUnwind() {
@@ -94,10 +86,24 @@ final class SearchGroupTableViewController: UITableViewController {
 
 extension SearchGroupTableViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        for group in groups where group.name == searchBar.text {
-            hidenGroups = groups
-            groups = [group]
-            tableView.reloadData()
+        NetworkServiceble.shared.fetchFoundGroups(
+            parametrsMap: [
+                Constants.searchParamName: searchBar.searchTextField.text ?? "",
+            ]
+        ) { [weak self] result in
+            guard let self = self else { return }
+            self.groups.removeAll()
+            let foundGroups = result.response.items
+            for group in foundGroups {
+                self.groups.append(NetworkUnit(
+                    name: group.name,
+                    description: group.screenName,
+                    avatarImageName: group.photo200,
+                    unitImageNames: [],
+                    id: group.id
+                ))
+            }
+            self.tableView.reloadData()
         }
     }
 
