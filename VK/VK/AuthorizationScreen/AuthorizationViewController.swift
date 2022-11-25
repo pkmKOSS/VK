@@ -4,7 +4,7 @@
 import UIKit
 import WebKit
 
-/// Экран авторизации.
+/// Экран авторизации
 final class AuthorizationViewController: UIViewController {
     // MARK: - Private visual components
 
@@ -39,7 +39,7 @@ final class AuthorizationViewController: UIViewController {
 
     // MARK: - Private properties
 
-    private let networkService = NetworkServiceImplementation()
+    private let networkService = NetworkServiceble()
 
     // MARK: - life cycle
 
@@ -64,45 +64,37 @@ final class AuthorizationViewController: UIViewController {
         webView.load(request)
     }
 
-    private func getFriendsIDList() {
-        guard let token = Session.shared.accessToken else { return }
+    private func getFriendsID() {
         let queryItems = [
             URLQueryItem(name: Constants.clientIDName, value: Constants.clientIDValue),
-            URLQueryItem(name: Constants.accessTokenName, value: token),
             URLQueryItem(name: Constants.versionName, value: Constants.versionValue)
         ]
-        networkService.getInfoFor(method: Constants.friendListMethodName, queryItems: queryItems)
+        networkService.fetchFriendsID(method: Constants.friendListMethodName, queryItems: queryItems)
     }
 
     private func getPhotos() {
-        guard let token = Session.shared.accessToken else { return }
         let queryItems = [
             URLQueryItem(name: Constants.clientIDName, value: Constants.clientIDValue),
-            URLQueryItem(name: Constants.accessTokenName, value: token),
             URLQueryItem(name: Constants.versionName, value: Constants.versionValue)
         ]
-        networkService.getInfoFor(method: Constants.photoMethodName, queryItems: queryItems)
+        networkService.fetchFriendsID(method: Constants.photoMethodName, queryItems: queryItems)
     }
 
     private func getGroupsList() {
-        guard let token = Session.shared.accessToken else { return }
         let queryItems = [
             URLQueryItem(name: Constants.clientIDName, value: Constants.clientIDValue),
-            URLQueryItem(name: Constants.accessTokenName, value: token),
             URLQueryItem(name: Constants.versionName, value: Constants.versionValue)
         ]
-        networkService.getInfoFor(method: Constants.groupsListMethodName, queryItems: queryItems)
+        networkService.fetchFriendsID(method: Constants.groupsListMethodName, queryItems: queryItems)
     }
 
     private func searchGroups() {
-        guard let token = Session.shared.accessToken else { return }
         let queryItems = [
             URLQueryItem(name: Constants.clientIDName, value: Constants.clientIDValue),
-            URLQueryItem(name: Constants.accessTokenName, value: token),
             URLQueryItem(name: Constants.versionName, value: Constants.versionValue),
             URLQueryItem(name: Constants.searchParamName, value: Constants.searchParamValue),
         ]
-        networkService.getInfoFor(method: Constants.searchMethodName, queryItems: queryItems)
+        networkService.fetchFriendsID(method: Constants.searchMethodName, queryItems: queryItems)
     }
 }
 
@@ -139,7 +131,7 @@ extension AuthorizationViewController: WKNavigationDelegate {
         print("token \(params[Constants.accessTokenName])")
 
         // TODO: - Сделать загрузку данных на профильных экранах.
-        getFriendsIDList()
+        getFriendsID()
         getPhotos()
         getGroupsList()
         searchGroups()

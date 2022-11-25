@@ -3,8 +3,8 @@
 
 import Foundation
 
-/// Требование к сущности взаимодействующей с Вконтакте
+/// Авторизация и получение списка ID друзей Вконтакте.
 protocol NetworkService {
     func getAuthPageRequest(queryItems: [URLQueryItem]) -> URL?
-    func getInfoFor(method: String, queryItems: [URLQueryItem])
+    func fetchFriendsID(method: String, queryItems: [URLQueryItem])
 }

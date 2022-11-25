@@ -3,7 +3,7 @@
 
 import Foundation
 
-/// Описывает текущую сессию, содержит синглотон.
+/// Описывает текущую сессию.
 final class Session {
     // MARK: - singlton
 

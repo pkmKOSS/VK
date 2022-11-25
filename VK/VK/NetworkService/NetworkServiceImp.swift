@@ -5,7 +5,7 @@ import Alamofire
 import Foundation
 
 /// Сервис загрузки данных из Вконтакте
-final class NetworkServiceImplementation {
+final class NetworkServiceble {
     // MARK: - Private constants
 
     private struct Constants {
@@ -14,10 +14,11 @@ final class NetworkServiceImplementation {
         static let authPathName = "/authorize/"
         static let apiHostName = "api.vk.com"
         static let apiPathName = "/method/"
+        static let accesTokenName = "access_token"
     }
 }
 
-extension NetworkServiceImplementation: NetworkService {
+extension NetworkServiceble: NetworkService {
     func getAuthPageRequest(queryItems: [URLQueryItem]) -> URL? {
         var urlComponents = URLComponents()
         urlComponents.scheme = Constants.schemeName
@@ -29,12 +30,13 @@ extension NetworkServiceImplementation: NetworkService {
         return url
     }
 
-    func getInfoFor(method: String, queryItems: [URLQueryItem]) {
+    func fetchFriendsID(method: String, queryItems: [URLQueryItem]) {
         var urlComponents = URLComponents()
         urlComponents.scheme = Constants.schemeName
         urlComponents.host = Constants.apiHostName
         urlComponents.path = Constants.apiPathName + method
-        urlComponents.queryItems = queryItems
+        urlComponents.queryItems?.append(URLQueryItem(name: Constants.accesTokenName, value: Session.shared.accessToken))
+        urlComponents.queryItems?.append(contentsOf: queryItems)
 
         guard let url = urlComponents.url else { return }
 
