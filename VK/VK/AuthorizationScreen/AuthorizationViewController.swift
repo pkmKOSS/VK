@@ -2,104 +2,139 @@
 // Copyright © RoadMap. All rights reserved.
 
 import UIKit
+import WebKit
 
-/// Экран авторизации.
+/// Экран авторизации
 final class AuthorizationViewController: UIViewController {
-    // MARK: - private visual components
+    // MARK: - Private visual components
 
-    @IBOutlet private var authorizationScrollView: UIScrollView!
-    @IBOutlet private var loginWithAppleButton: UIButton!
-    @IBOutlet private var loginTextField: UITextField!
+    @IBOutlet private var webView: WKWebView! {
+        didSet {
+            webView.navigationDelegate = self
+        }
+    }
+
+    // MARK: - Private constants
+
+    private struct Constants {
+        static let friendListMethodName = "friends.get"
+        static let photoMethodName = "photos.getUserPhotos"
+        static let groupsListMethodName = "groups.get"
+        static let clientIDName = "client_id"
+        static let clientIDValue = "51483244"
+        static let redirectURLName = "redirect_url"
+        static let redirectURLValue = "https://oauth.vk.com/blank.html"
+        static let responseTypeName = "response_type"
+        static let responseTypeValue = "token"
+        static let accessTokenName = "access_token"
+        static let versionName = "v"
+        static let versionValue = "5.131"
+        static let searchParamName = "q"
+        static let searchParamValue = "Новости"
+        static let searchMethodName = "groups.search"
+        static let blankPathName = "/blank.html"
+        static let ampersanteCharName = "&"
+        static let equalCharName = "="
+    }
+
+    // MARK: - Private properties
+
+    private let networkService = NetworkServiceble()
 
     // MARK: - life cycle
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        addObserves()
-        configLoginWithAppleButton()
-        addTapGestoreRecognizer()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        openAuthPage()
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        removeObsevers()
-    }
+    // MARK: - Private methods
 
-    // MARK: - Segue methods
+    private func openAuthPage() {
+        let queryItems = [
+            URLQueryItem(name: Constants.clientIDName, value: Constants.clientIDValue),
+            URLQueryItem(name: Constants.redirectURLName, value: Constants.redirectURLValue),
+            URLQueryItem(name: Constants.responseTypeName, value: Constants.responseTypeValue)
+        ]
 
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         guard
-            identifier == StringConstants.segueIdentifier,
-            let loginTextFieldText = loginTextField.text
-        else { return false }
-        guard loginTextFieldText == StringConstants.trueLogin else { return false }
-        return true
-    }
-
-    // MARK: - private methods
-
-    private func addTapGestoreRecognizer() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboardAction))
-        authorizationScrollView.addGestureRecognizer(tapGesture)
-    }
-
-    private func addObserves() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShown),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShown),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
-    }
-
-    private func removeObsevers() {
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIResponder.keyboardDidHideNotification,
-            object: nil
-        )
-
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIResponder.keyboardDidShowNotification,
-            object: nil
-        )
-    }
-
-    private func configLoginWithAppleButton() {
-        loginWithAppleButton.layer.borderWidth = 1
-        loginWithAppleButton.layer.borderColor = UIColor.black.cgColor
-    }
-
-    @objc private func keyboardWillShown(notification: Notification) {
-        guard
-            let info = notification.userInfo as? NSDictionary,
-            let kbSize = (info.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue)?.cgRectValue.size
+            let url = networkService.getAuthPageRequest(queryItems: queryItems)
         else { return }
-
-        let contentInsets = UIEdgeInsets(
-            top: 0,
-            left: 0,
-            bottom: kbSize.height,
-            right: 0
-        )
-        authorizationScrollView.contentInset = contentInsets
-        authorizationScrollView.scrollIndicatorInsets = contentInsets
+        let request = URLRequest(url: url)
+        webView.load(request)
     }
 
-    @objc private func keyboardWillHideAction(notification: Notification) {
-        authorizationScrollView.contentInset = UIEdgeInsets.zero
-        authorizationScrollView.scrollIndicatorInsets = UIEdgeInsets.zero
+    private func getFriendsID() {
+        let queryItems = [
+            URLQueryItem(name: Constants.clientIDName, value: Constants.clientIDValue),
+            URLQueryItem(name: Constants.versionName, value: Constants.versionValue)
+        ]
+        networkService.fetchFriendsID(method: Constants.friendListMethodName, queryItems: queryItems)
     }
 
-    @objc private func hideKeyboardAction() {
-        authorizationScrollView.endEditing(true)
+    private func getPhotos() {
+        let queryItems = [
+            URLQueryItem(name: Constants.clientIDName, value: Constants.clientIDValue),
+            URLQueryItem(name: Constants.versionName, value: Constants.versionValue)
+        ]
+        networkService.fetchFriendsID(method: Constants.photoMethodName, queryItems: queryItems)
+    }
+
+    private func getGroupsList() {
+        let queryItems = [
+            URLQueryItem(name: Constants.clientIDName, value: Constants.clientIDValue),
+            URLQueryItem(name: Constants.versionName, value: Constants.versionValue)
+        ]
+        networkService.fetchFriendsID(method: Constants.groupsListMethodName, queryItems: queryItems)
+    }
+
+    private func searchGroups() {
+        let queryItems = [
+            URLQueryItem(name: Constants.clientIDName, value: Constants.clientIDValue),
+            URLQueryItem(name: Constants.versionName, value: Constants.versionValue),
+            URLQueryItem(name: Constants.searchParamName, value: Constants.searchParamValue),
+        ]
+        networkService.fetchFriendsID(method: Constants.searchMethodName, queryItems: queryItems)
+    }
+}
+
+// WKNavigationDelegate methods
+extension AuthorizationViewController: WKNavigationDelegate {
+    func webView(
+        _ webView: WKWebView,
+        decidePolicyFor navigationResponse: WKNavigationResponse,
+        decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void
+    ) {
+        guard
+            let url = navigationResponse.response.url,
+            url.path == Constants.blankPathName,
+            let fragment = url.fragment
+        else {
+            decisionHandler(.allow)
+            return
+        }
+
+        let params = fragment
+            .components(separatedBy: Constants.ampersanteCharName)
+            .map { $0.components(separatedBy: Constants.equalCharName) }
+            .reduce([String: String]()) { result, param in
+                guard
+                    let key = param[safe: 0],
+                    let value = param[safe: 1]
+                else { return [:] }
+                var dict = result
+                dict[key] = value
+                return dict
+            }
+
+        Session.shared.accessToken = params[Constants.accessTokenName]
+        print("token \(params[Constants.accessTokenName])")
+
+        // TODO: - Сделать загрузку данных на профильных экранах.
+        getFriendsID()
+        getPhotos()
+        getGroupsList()
+        searchGroups()
+        decisionHandler(.cancel)
     }
 }

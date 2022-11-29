@@ -7,7 +7,6 @@ typealias TapHandlerAction = (() -> ())?
 
 /// Экран просмотра фотографии друга.
 final class ShowFriendPhotoScreenViewController: UIViewController {
-
     // MARK: - Private constants
 
     private struct Constants {
@@ -173,7 +172,10 @@ extension ShowFriendPhotoScreenViewController: UIScrollViewDelegate {
 
             slides[safe: 1]?.configureImageAnimation(transform: firstTransform)
 
-        } else if percentOffset.x > Constants.firstTransformScaleCoef, percentOffset.x <= Constants.secondTransformScaleCoef {
+        } else if
+            percentOffset.x > Constants.firstTransformScaleCoef,
+            percentOffset.x <= Constants.secondTransformScaleCoef
+        {
             let firstTransform = CGAffineTransform(
                 scaleX: (Constants.secondTransformScaleCoef - percentOffset.x) / Constants.firstTransformScaleCoef,
                 y: (Constants.secondTransformScaleCoef - percentOffset.x) / Constants.firstTransformScaleCoef
@@ -186,7 +188,10 @@ extension ShowFriendPhotoScreenViewController: UIScrollViewDelegate {
             )
             slides[safe: 2]?.configureImageAnimation(transform: secondTransform)
 
-        } else if percentOffset.x > Constants.secondTransformScaleCoef, percentOffset.x <= Constants.thirdTransformScaleCoef {
+        } else if
+            percentOffset.x > Constants.secondTransformScaleCoef,
+            percentOffset.x <= Constants.thirdTransformScaleCoef
+        {
             let secondTransform = CGAffineTransform(
                 scaleX: (Constants.thirdTransformScaleCoef - percentOffset.x) / Constants.secondTransformScaleCoef,
                 y: (Constants.thirdTransformScaleCoef - percentOffset.x) / Constants.secondTransformScaleCoef
@@ -198,8 +203,9 @@ extension ShowFriendPhotoScreenViewController: UIScrollViewDelegate {
                 y: percentOffset.x / Constants.thirdTransformScaleCoef
             )
             slides[safe: 3]?.configureImageAnimation(transform: thirdTransform)
-
-        } else if percentOffset.x > Constants.thirdTransformScaleCoef, percentOffset.x <= 1 {
+        } else if
+            percentOffset.x > Constants.thirdTransformScaleCoef, percentOffset.x <= 1
+        {
             let thirdTransform = CGAffineTransform(
                 scaleX: (Constants.fourTransformScaleCoef - percentOffset.x) / Constants.secondTransformScaleCoef,
                 y: (Constants.fourTransformScaleCoef - percentOffset.x) / Constants.secondTransformScaleCoef

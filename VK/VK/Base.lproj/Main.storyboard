@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="wSP-RL-mi3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -17,140 +18,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="URY-fQ-mez">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VKLogo" translatesAutoresizingMaskIntoConstraints="NO" id="F94-i2-wZr">
-                                        <rect key="frame" x="157" y="97" width="100" height="100"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="100" id="AGS-L7-hbK"/>
-                                            <constraint firstAttribute="width" constant="100" id="hZL-Mm-Uhv"/>
-                                        </constraints>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Вход в ВКонтакте" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lbc-Ox-5ol">
-                                        <rect key="frame" x="70" y="234" width="274" height="32"/>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="26"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Телефон или почта" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aS9-a6-Akd">
-                                        <rect key="frame" x="20.5" y="292" width="373" height="34"/>
-                                        <color key="backgroundColor" red="0.94591003659999995" green="0.95292955639999999" blue="0.96129685639999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="10"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nML-VW-OXJ">
-                                        <rect key="frame" x="20.5" y="347" width="373" height="34"/>
-                                        <color key="backgroundColor" red="0.1750635505" green="0.50498592850000001" blue="0.89027208089999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="373" id="S6V-U8-ktO"/>
-                                        </constraints>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" subtitle="">
-                                            <attributedString key="attributedTitle">
-                                                <fragment content="Войти">
-                                                    <attributes>
-                                                        <font key="NSFont" size="17" name="Helvetica-Bold"/>
-                                                        <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                    </attributes>
-                                                </fragment>
-                                            </attributedString>
-                                        </buttonConfiguration>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="10"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="или" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a72-wj-g9d">
-                                        <rect key="frame" x="150" y="398" width="114" height="21"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="114" id="k9K-YK-foD"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4nc-7B-FeO">
-                                        <rect key="frame" x="20.5" y="445" width="373" height="31"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Войти через Apple"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="5"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <segue destination="wSP-RL-mi3" kind="show" identifier="loginSegue" id="ZHe-sj-3fR"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZkM-Ng-7Nz">
-                                        <rect key="frame" x="20.5" y="706" width="373" height="31"/>
-                                        <color key="backgroundColor" red="0.28971594569999998" green="0.70247268679999997" blue="0.29809707400000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="373" id="Nj8-b6-2yb"/>
-                                            <constraint firstAttribute="height" constant="31" id="Qze-nb-sLZ"/>
-                                        </constraints>
-                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Зарегистрироваться"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="5"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="ZkM-Ng-7Nz" secondAttribute="bottom" constant="81" id="27f-M7-yFr"/>
-                                    <constraint firstItem="F94-i2-wZr" firstAttribute="top" secondItem="URY-fQ-mez" secondAttribute="top" constant="97" id="4qs-Ez-5CD"/>
-                                    <constraint firstAttribute="trailing" secondItem="F94-i2-wZr" secondAttribute="trailing" constant="157" id="6pD-Gz-Ib9"/>
-                                    <constraint firstItem="ZkM-Ng-7Nz" firstAttribute="top" secondItem="4nc-7B-FeO" secondAttribute="bottom" constant="230" id="7J5-im-Iu4"/>
-                                    <constraint firstItem="aS9-a6-Akd" firstAttribute="centerX" secondItem="lbc-Ox-5ol" secondAttribute="centerX" id="AqD-tt-GtD"/>
-                                    <constraint firstItem="aS9-a6-Akd" firstAttribute="top" secondItem="lbc-Ox-5ol" secondAttribute="bottom" constant="26" id="Es1-a9-voD"/>
-                                    <constraint firstAttribute="trailing" secondItem="nML-VW-OXJ" secondAttribute="trailing" constant="20.5" id="G4d-ac-c7D"/>
-                                    <constraint firstAttribute="trailing" secondItem="a72-wj-g9d" secondAttribute="trailing" constant="150" id="H5h-ha-gwE"/>
-                                    <constraint firstItem="a72-wj-g9d" firstAttribute="centerX" secondItem="nML-VW-OXJ" secondAttribute="centerX" id="H8h-UJ-NW5"/>
-                                    <constraint firstItem="lbc-Ox-5ol" firstAttribute="centerX" secondItem="F94-i2-wZr" secondAttribute="centerX" id="Qeb-Ww-TBi"/>
-                                    <constraint firstAttribute="trailing" secondItem="lbc-Ox-5ol" secondAttribute="trailing" constant="70" id="Rzn-If-aTy"/>
-                                    <constraint firstItem="nML-VW-OXJ" firstAttribute="centerX" secondItem="aS9-a6-Akd" secondAttribute="centerX" id="Wh4-Ov-EQF"/>
-                                    <constraint firstItem="4nc-7B-FeO" firstAttribute="top" secondItem="a72-wj-g9d" secondAttribute="bottom" constant="26" id="YfZ-s5-qDr"/>
-                                    <constraint firstItem="4nc-7B-FeO" firstAttribute="width" secondItem="nML-VW-OXJ" secondAttribute="width" id="dqc-C3-AVJ"/>
-                                    <constraint firstItem="4nc-7B-FeO" firstAttribute="centerX" secondItem="a72-wj-g9d" secondAttribute="centerX" id="fg5-Kr-vaK"/>
-                                    <constraint firstItem="lbc-Ox-5ol" firstAttribute="top" secondItem="F94-i2-wZr" secondAttribute="bottom" constant="37" id="i3F-Ms-rdM"/>
-                                    <constraint firstItem="F94-i2-wZr" firstAttribute="leading" secondItem="URY-fQ-mez" secondAttribute="leading" constant="157" id="i4L-s7-M34"/>
-                                    <constraint firstItem="F94-i2-wZr" firstAttribute="centerX" secondItem="URY-fQ-mez" secondAttribute="centerX" id="iOx-fC-mmo"/>
-                                    <constraint firstItem="a72-wj-g9d" firstAttribute="top" secondItem="nML-VW-OXJ" secondAttribute="bottom" constant="17" id="nxb-2Z-MBw"/>
-                                    <constraint firstItem="nML-VW-OXJ" firstAttribute="top" secondItem="aS9-a6-Akd" secondAttribute="bottom" constant="21" id="q8K-PX-QIP"/>
-                                    <constraint firstItem="aS9-a6-Akd" firstAttribute="width" secondItem="nML-VW-OXJ" secondAttribute="width" id="rst-AA-xU2"/>
-                                    <constraint firstItem="ZkM-Ng-7Nz" firstAttribute="centerX" secondItem="4nc-7B-FeO" secondAttribute="centerX" id="sHF-fO-RaU"/>
-                                </constraints>
-                                <viewLayoutGuide key="contentLayoutGuide" id="PZV-Sg-fCY"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="G3b-Yr-4by"/>
-                            </scrollView>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p8U-od-zsx">
+                                <rect key="frame" x="0.0" y="48" width="414" height="814"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="URY-fQ-mez" secondAttribute="trailing" id="4Sh-g8-3Lj"/>
-                            <constraint firstItem="URY-fQ-mez" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="76b-e9-VnT"/>
-                            <constraint firstItem="URY-fQ-mez" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="CUf-Nb-59h"/>
-                            <constraint firstItem="URY-fQ-mez" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="OLJ-ZJ-fwf"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="URY-fQ-mez" secondAttribute="trailing" id="oAY-Kg-T1Y"/>
+                            <constraint firstItem="p8U-od-zsx" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="1Jd-Uf-lvf"/>
+                            <constraint firstItem="p8U-od-zsx" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="HCZ-gY-7NP"/>
+                            <constraint firstItem="p8U-od-zsx" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="bOJ-wq-7LE"/>
+                            <constraint firstItem="p8U-od-zsx" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="lTX-dS-3Zb"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="authorizationScrollView" destination="URY-fQ-mez" id="CLo-jU-6Ni"/>
-                        <outlet property="loginTextField" destination="aS9-a6-Akd" id="NlL-RD-V7y"/>
-                        <outlet property="loginWithAppleButton" destination="4nc-7B-FeO" id="XJm-At-MGh"/>
+                        <outlet property="webView" destination="p8U-od-zsx" id="Rd8-s4-Yd4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -181,7 +68,7 @@
             <objects>
                 <tableViewController title="TableView" id="pOQ-rs-unD" customClass="MyGroupsTableViewController" customModule="VK" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="w75-BU-ao3">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <sections/>
@@ -211,7 +98,7 @@
             <objects>
                 <tableViewController id="4fx-4y-o74" customClass="GroupNewsTableViewController" customModule="VK" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="gQJ-AS-IEK">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <sections/>
@@ -231,7 +118,7 @@
             <objects>
                 <tableViewController id="yqo-Qr-ceh" customClass="FriendListTableViewController" customModule="VK" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="gSL-XP-yDX">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -291,12 +178,11 @@
                 <navigationController extendedLayoutIncludesOpaqueBars="YES" modalPresentationStyle="fullScreen" id="Zm2-78-huW" customClass="CustomNavController" customModule="VK" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="bookmark" catalog="system" id="1HB-42-wbQ"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="i26-Vk-cb9">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="0K9-LC-gv4">
-                        <rect key="frame" x="0.0" y="-54" width="0.0" height="0.0"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
@@ -312,7 +198,7 @@
             <objects>
                 <tableViewController id="d1w-bc-HUK" customClass="SearchGroupTableViewController" customModule="VK" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="AJP-Lv-YWD">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="J2G-Bc-Un1">
@@ -365,7 +251,7 @@
             <objects>
                 <collectionViewController storyboardIdentifier="FriendVCID" id="x4w-0Y-pPo" customClass="FriendPhotoCollectionViewController" customModule="VK" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="N8H-3o-bvD" userLabel="collectionView">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="aEl-kj-4TE">
@@ -519,7 +405,7 @@
             <objects>
                 <viewController id="byX-dH-keV" customClass="ShowFriendPhotoScreenViewController" customModule="VK" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ecJ-Lo-B6B">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ceE-WO-BiA">
@@ -564,11 +450,10 @@
                 <navigationController id="z8j-ty-JX1" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" image="person.2" catalog="system" id="wvQ-OP-Sf4"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="6fL-1Z-61w">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="JUi-el-TON">
-                        <rect key="frame" x="0.0" y="-54" width="0.0" height="0.0"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
@@ -582,10 +467,9 @@
     </scenes>
     <resources>
         <image name="AlexLeonovAvatar" width="1024" height="1024"/>
-        <image name="VKLogo" width="1200" height="1200"/>
-        <image name="bookmark" catalog="system" width="112" height="128"/>
-        <image name="heart" catalog="system" width="128" height="109"/>
-        <image name="person.2" catalog="system" width="128" height="81"/>
+        <image name="bookmark" catalog="system" width="110" height="128"/>
+        <image name="heart" catalog="system" width="128" height="107"/>
+        <image name="person.2" catalog="system" width="128" height="82"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
