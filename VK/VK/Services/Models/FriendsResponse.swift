@@ -2,7 +2,6 @@
 // Copyright © RoadMap. All rights reserved.
 
 import Foundation
-import RealmSwift
 
 /// Друзья
 final class FriendsResponse: Decodable {

@@ -137,12 +137,18 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Мои друзья 9" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FhE-XU-dbg">
-                                    <rect key="frame" x="8" y="6" width="179" height="38"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Мои друзья:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FhE-XU-dbg">
+                                    <rect key="frame" x="8" y="6" width="101" height="38"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="38" id="GAk-we-zVH"/>
-                                        <constraint firstAttribute="width" constant="179" id="vf5-VJ-YiG"/>
+                                        <constraint firstAttribute="width" constant="101" id="vf5-VJ-YiG"/>
                                     </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M5K-uL-3JS">
+                                    <rect key="frame" x="117" y="15" width="58" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
@@ -150,11 +156,15 @@
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
+                                <constraint firstAttribute="bottom" secondItem="M5K-uL-3JS" secondAttribute="bottom" constant="8" id="JIj-bj-cay"/>
+                                <constraint firstItem="dtn-iq-Q9j" firstAttribute="leading" secondItem="M5K-uL-3JS" secondAttribute="trailing" constant="100" id="USr-d0-6Rs"/>
+                                <constraint firstItem="M5K-uL-3JS" firstAttribute="top" secondItem="VbU-g4-20Y" secondAttribute="top" constant="15" id="Usr-tR-t8K"/>
                                 <constraint firstItem="FhE-XU-dbg" firstAttribute="top" secondItem="VbU-g4-20Y" secondAttribute="top" constant="6" id="XMB-hY-hD1"/>
                                 <constraint firstAttribute="trailing" secondItem="dtn-iq-Q9j" secondAttribute="trailing" constant="8" id="ZUX-5n-eiu"/>
                                 <constraint firstItem="dtn-iq-Q9j" firstAttribute="centerY" secondItem="FhE-XU-dbg" secondAttribute="centerY" id="aPp-zL-Oah"/>
+                                <constraint firstItem="M5K-uL-3JS" firstAttribute="leading" secondItem="FhE-XU-dbg" secondAttribute="trailing" constant="8" symbolic="YES" id="bUg-X6-Vhy"/>
                                 <constraint firstItem="FhE-XU-dbg" firstAttribute="leading" secondItem="VbU-g4-20Y" secondAttribute="leading" constant="8" id="yDw-lr-WxH"/>
-                                <constraint firstItem="dtn-iq-Q9j" firstAttribute="leading" secondItem="FhE-XU-dbg" secondAttribute="trailing" constant="88" id="zlg-wb-zv4"/>
+                                <constraint firstItem="dtn-iq-Q9j" firstAttribute="leading" secondItem="FhE-XU-dbg" secondAttribute="trailing" constant="166" id="zlg-wb-zv4"/>
                             </constraints>
                         </view>
                         <sections/>
@@ -166,6 +176,7 @@
                     <tabBarItem key="tabBarItem" title="Item" id="mML-1Z-eJT"/>
                     <navigationItem key="navigationItem" title="Друзья" id="jVY-wY-T67"/>
                     <connections>
+                        <outlet property="countOfFriendsLabel" destination="M5K-uL-3JS" id="8Jh-xt-egW"/>
                         <segue destination="x4w-0Y-pPo" kind="show" identifier="showFriendSegue" id="Zet-Gl-gCJ"/>
                     </connections>
                 </tableViewController>

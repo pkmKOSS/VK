@@ -12,6 +12,10 @@ final class Group: Object, Decodable {
     @objc dynamic var photo200: String = ""
     var type: TypeEnum = .group
 
+    override class func primaryKey() -> String? {
+        "id"
+    }
+
     enum CodingKeys: String, CodingKey {
         case id, name
         case screenName = "screen_name"

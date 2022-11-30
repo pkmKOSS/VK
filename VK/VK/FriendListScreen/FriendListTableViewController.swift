@@ -1,6 +1,7 @@
 // FriendListTableViewController.swift
 // Copyright © RoadMap. All rights reserved.
 
+import RealmSwift
 import UIKit
 
 typealias TapHandler = (NetworkUnit) -> ()
@@ -15,6 +16,10 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
         static let emptyString = " "
     }
 
+    // MARK: - Private @IBOutlet
+
+    @IBOutlet private var countOfFriendsLabel: UILabel!
+
     // MARK: - Private visual components
 
     private var loaderView = Loader()
@@ -24,7 +29,9 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
     private var sortedFriendsMap: [Character: [NetworkUnit]] = [:]
     private var selectedFriend: NetworkUnit?
     private var tapHandler: TapHandler?
-    private var networkService = NetworkService()
+    private var notificationToken = NotificationToken()
+    private let networkService = NetworkService()
+    private let localService = LocalService()
 
     // MARK: - Life cycle
 
@@ -82,23 +89,65 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
     // MARK: - Private methods
 
     private func configureScreen() {
-        fetchFriends()
         setupScene()
+        setupNotToken()
+        fetchFriends { [weak self] in
+            guard let self = self else { return }
+            self.loadData()
+        }
     }
 
-    private func fetchFriends() {
+    private func fetchFriends(completion: @escaping () -> ()) {
         networkService.fetchFriends { [weak self] result in
             guard let self = self else { return }
 
             switch result {
             case let .success(friendsResponse):
-                let array = friendsResponse.response.items.map { friend in
-                    NetworkUnit(friend: friend)
-                }
-                self.makeFriendsSortedMap(friendsInfo: array)
-                self.tableView.reloadData()
+                let friends = friendsResponse.response.items
+                self.saveData(friends: friends)
+                completion()
             case let .failure(error):
                 print(error)
+            }
+        }
+    }
+
+    private func saveData(friends: [Friend]) {
+        localService.saveData(objects: friends)
+    }
+
+    private func loadData() {
+        DispatchQueue.global().async { [weak self] in
+            guard
+                let self = self,
+                let friends = self.localService.loadData(objectType: Friend.self)
+            else { return }
+
+            let friendsNetworkUnits = friends.map {
+                NetworkUnit(friend: $0)
+            }
+            DispatchQueue.main.async {
+                self.configCountOfFriendsLabel(count: friends.count)
+                self.makeFriendsSortedMap(friends: friendsNetworkUnits)
+                self.tableView.reloadData()
+            }
+        }
+    }
+
+    /// был вариант с батч апдейт,  все работало. Проверял принтами и инсертами новых друзей. Потом сломалось
+    /// параллельное открытие файла. Оставил так.
+    private func setupNotToken() {
+        localService.observeChanges(
+            type: Friend.self,
+            notToken: &notificationToken
+        ) { changes in
+            switch changes {
+            case .initial:
+                break
+            case .update:
+                self.tableView.reloadData()
+            case let .error(error):
+                print(#function, error)
             }
         }
     }
@@ -108,10 +157,14 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
         configureTapHandler()
     }
 
-    private func makeFriendsSortedMap(friendsInfo: [NetworkUnit]) {
+    private func configCountOfFriendsLabel(count: Int) {
+        countOfFriendsLabel.text = String(count)
+    }
+
+    private func makeFriendsSortedMap(friends: [NetworkUnit]) {
         var friendsMap: [Character: [NetworkUnit]] = [:]
-        friendsInfo.forEach {
-            guard let key = $0.name.first else { return }
+        friends.forEach {
+            guard let key = $0.name.first else { return } // key нужен в блоке после else потому отдельным гвардом.
             guard
                 friendsMap[key] == nil
             else {
@@ -123,9 +176,7 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
             }
             friendsMap[key] = [$0]
         }
-
         sortedFriendsMap = friendsMap
-        tableView.reloadData()
     }
 
     private func regCells() {

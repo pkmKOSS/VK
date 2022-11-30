@@ -19,7 +19,7 @@ final class SearchGroupTableViewController: UITableViewController {
 
     // MARK: - Private properties
 
-    private var networkService = NetworkService()
+    private let networkService = NetworkService()
 
     // MARK: - Private visual components
 
