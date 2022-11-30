@@ -1,4 +1,4 @@
-// MyGroupsTableViewController.swift
+// ClientsGroupsTableViewController.swift
 // Copyright © RoadMap. All rights reserved.
 
 import UIKit
@@ -19,12 +19,13 @@ final class MyGroupsTableViewController: UITableViewController {
     private var groups: [NetworkUnit] = []
     private var selectedGroup: NetworkUnit?
     private var tapHandler: TapHandler?
+    private var networkService = NetworkService()
 
     // MARK: - Life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchMyGroupes()
+        fetchClientsGroupes()
         configureTapHandler()
         regCells()
     }
@@ -87,19 +88,19 @@ final class MyGroupsTableViewController: UITableViewController {
 
     // MARK: Private methods
 
-    private func fetchMyGroupes() {
-        NetworkService.shared.fetchClientsGroups { groups in
-            let array = groups.response.items.map { group in
-                NetworkUnit(
-                    name: group.name,
-                    description: group.groupdDescription ?? "",
-                    avatarImageName: group.photo200,
-                    unitImageNames: [],
-                    id: group.id
-                )
+    private func fetchClientsGroupes() {
+        networkService.fetchClientsGroups { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case let .success(groupsResponse):
+                let array = groupsResponse.response.items.map {
+                    NetworkUnit(group: $0)
+                }
+                self.groups = array
+                self.tableView.reloadData()
+            case let .failure(error):
+                print("\(error)")
             }
-            self.groups = array
-            self.tableView.reloadData()
         }
     }
 

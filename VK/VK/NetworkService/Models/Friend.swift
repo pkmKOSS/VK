@@ -1,25 +1,8 @@
-// Friends.swift
+// Friend.swift
 // Copyright © RoadMap. All rights reserved.
 
 import Foundation
 import RealmSwift
-
-/// Друзья
-final class ResponseWithFriends: Decodable {
-    let response: Friends
-
-    /// Ответ с количеством друзей и объектами "Друг"
-    class Friends: Decodable {
-        let count: Int
-        let items: [Friend]
-    }
-}
-
-/// Место проживания
-final class City: Object, Decodable {
-    @objc dynamic var id: Int
-    @objc dynamic var title: String
-}
 
 /// Друг
 final class Friend: Object, Decodable {

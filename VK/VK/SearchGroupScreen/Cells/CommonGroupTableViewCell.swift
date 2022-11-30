@@ -16,6 +16,7 @@ final class CommonGroupTableViewCell: UITableViewCell {
     private var friend: NetworkUnit?
     private var labelNameTapHandler: TapHandler?
     private var avatarTapHandler: TapHandler?
+    private var networkService = NetworkService()
 
     // MARK: - Public methods
 
@@ -33,15 +34,17 @@ final class CommonGroupTableViewCell: UITableViewCell {
 
     private func configreAvatarImageView(avatarImageName: String) {
         DispatchQueue.global().async {
-            guard
-                let url = URL(string: avatarImageName),
-                let imageData = try? Data(contentsOf: url)
-            else { return }
-            let image = UIImage(data: imageData)
-
-            DispatchQueue.main.async { [weak self] in
+            self.networkService.fetchPhoto(by: avatarImageName) { [weak self] result in
                 guard let self = self else { return }
-                self.groupAvatarImageView.image = image
+                switch result {
+                case let .success(data):
+                    DispatchQueue.main.async {
+                        guard let image = UIImage(data: data) else { return }
+                        self.groupAvatarImageView.image = image
+                    }
+                case let .failure(error):
+                    print(error)
+                }
             }
         }
     }

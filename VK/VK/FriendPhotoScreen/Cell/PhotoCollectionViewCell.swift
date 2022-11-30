@@ -22,15 +22,16 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
     // MARK: - Private properties
 
     private var tapHandler: TapHandler?
-    private var selectedFriend: NetworkUnit?
+    private var selectedFriendNetworkUnit: NetworkUnit?
     private var imagesURLStrings: [String] = []
     private var images: [UIImage] = []
+    private var networkService = NetworkService()
 
     // MARK: Public methods
 
     func configureCell(unit: NetworkUnit, handler: TapHandler?) {
-        selectedFriend = unit
-        fetchPhotos()
+        selectedFriendNetworkUnit = unit
+        fetchAllPhoto()
         tapHandler = handler
         configureTapGestoreRecognizer()
     }
@@ -39,13 +40,21 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
 
     private func configreAvatarImageView() {
         for imagesURLString in imagesURLStrings {
-            NetworkService.shared.fetchPhoto(by: imagesURLString) { [weak self] data in
+            networkService.fetchPhoto(by: imagesURLString) { [weak self] result in
                 guard let self = self else { return }
-                self.images.append(UIImage(data: data) ?? UIImage())
-                if self.images.count == self.imagesURLStrings.count {
-                    DispatchQueue.main.async {
-                        self.configurePhotos()
+                switch result {
+                case let .success(data):
+                    guard let image = UIImage(data: data) else { return }
+                    self.images.append(image)
+
+                    if self.images.count == self.imagesURLStrings.count {
+                        DispatchQueue.main.async {
+                            self.configurePhotos()
+                        }
                     }
+
+                case let .failure(error):
+                    print(error)
                 }
             }
         }
@@ -64,25 +73,30 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
         firstPhotoImageView.isUserInteractionEnabled = true
     }
 
-    private func fetchPhotos() {
-        NetworkService.shared.fetchAllPhoto(by: selectedFriend?.id ?? Constants.defaultFriendID) { result in
-            let resultWithPhotos = result as? ResponseWithPhoto
-
-            for photo in resultWithPhotos?.response.items ?? [] {
-                let size = photo.sizes
-                size.forEach { [weak self] item in
-                    guard let self = self else { return }
-                    self.imagesURLStrings.append(item.url)
+    private func fetchAllPhoto() {
+        networkService
+            .fetchAllPhoto(by: selectedFriendNetworkUnit?.id ?? Constants.defaultFriendID) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case let .success(photoResponse):
+                    for photo in photoResponse.response.items {
+                        let size = photo.sizes
+                        size.forEach { [weak self] item in
+                            guard let self = self else { return }
+                            self.imagesURLStrings.append(item.url)
+                        }
+                    }
+                    self.configreAvatarImageView()
+                case let .failure(error):
+                    print(error)
                 }
             }
-            self.configreAvatarImageView()
-        }
     }
 
     @objc private func tapHandlerAction() {
         guard
             let action = tapHandler,
-            let unit = selectedFriend
+            let unit = selectedFriendNetworkUnit
         else { return }
         action(unit)
     }

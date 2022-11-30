@@ -24,6 +24,7 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
     private var sortedFriendsMap: [Character: [NetworkUnit]] = [:]
     private var selectedFriend: NetworkUnit?
     private var tapHandler: TapHandler?
+    private var networkService = NetworkService()
 
     // MARK: - Life cycle
 
@@ -86,18 +87,19 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
     }
 
     private func fetchFriends() {
-        NetworkService.shared.fetchFriends { friends in
-            let array = (friends as? ResponseWithFriends)?.response.items.map { friend in
-                NetworkUnit(
-                    name: "\(friend.firstName) \(friend.lastName)",
-                    description: friend.city?.title ?? Constants.emptyString,
-                    avatarImageName: friend.photo ?? Constants.emptyString,
-                    unitImageNames: [],
-                    id: friend.id
-                )
+        networkService.fetchFriends { [weak self] result in
+            guard let self = self else { return }
+
+            switch result {
+            case let .success(friendsResponse):
+                let array = friendsResponse.response.items.map { friend in
+                    NetworkUnit(friend: friend)
+                }
+                self.makeFriendsSortedMap(friendsInfo: array)
+                self.tableView.reloadData()
+            case let .failure(error):
+                print(error)
             }
-            self.makeFriendsSortedMap(friendsInfo: array ?? [])
-            self.tableView.reloadData()
         }
     }
 
@@ -108,18 +110,18 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
 
     private func makeFriendsSortedMap(friendsInfo: [NetworkUnit]) {
         var friendsMap: [Character: [NetworkUnit]] = [:]
-        friendsInfo.forEach { info in
-            guard let key = info.name.first else { return }
+        friendsInfo.forEach {
+            guard let key = $0.name.first else { return }
             guard
                 friendsMap[key] == nil
             else {
-                friendsMap[key]?.append(info)
+                friendsMap[key]?.append($0)
                 friendsMap[key]?.sort {
                     $0.name.first ?? Constants.emptyCharacter > $1.name.first ?? Constants.emptyCharacter
                 }
                 return
             }
-            friendsMap[key] = [info]
+            friendsMap[key] = [$0]
         }
 
         sortedFriendsMap = friendsMap
@@ -140,15 +142,15 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
         tapHandler = { [weak self] user in
             guard
                 let self = self,
-                let vc = self.storyboard?
+                let friendPhotoViewController = self.storyboard?
                 .instantiateViewController(
                     withIdentifier: ViewControllersID
                         .friendPhotoText
                 ) as? FriendPhotoCollectionViewController
             else { return }
-            vc.friend = user
-            vc.transitioningDelegate = self
-            self.navigationController?.pushViewController(vc, animated: true)
+            friendPhotoViewController.friend = user
+            friendPhotoViewController.transitioningDelegate = self
+            self.navigationController?.pushViewController(friendPhotoViewController, animated: true)
         }
     }
 

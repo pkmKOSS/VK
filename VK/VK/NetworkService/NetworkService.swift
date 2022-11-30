@@ -8,7 +8,6 @@ import Foundation
 final class NetworkService: NetworkServicable {
     // MARK: - Public properties
 
-    static let shared = NetworkService()
     var token: String?
 
     // MARK: - Private properties
@@ -21,7 +20,7 @@ final class NetworkService: NetworkServicable {
         case apiHostName = "api.vk.com"
         case apiPathName = "/method/"
         case clientID = "client_id"
-        case clientIDValue = "51489508"
+        case clientIDValue = "51491322"
         case appVersionName = "v"
         case accessToken = "access_token"
         case fields
@@ -46,7 +45,10 @@ final class NetworkService: NetworkServicable {
     }
 
     private lazy var defaultQueryItems = [
-        URLQueryItem(name: QueryItems.accessToken.rawValue, value: token ?? QueryItems.emptyString.rawValue),
+        URLQueryItem(
+            name: QueryItems.accessToken.rawValue,
+            value: Session.shared.accessToken ?? QueryItems.emptyString.rawValue
+        ),
         URLQueryItem(name: QueryItems.clientID.rawValue, value: QueryItems.clientIDValue.rawValue),
         URLQueryItem(name: QueryItems.appVersionName.rawValue, value: QueryItems.appVersionValue.rawValue)
     ]
@@ -57,10 +59,6 @@ final class NetworkService: NetworkServicable {
         URLQueryItem(name: QueryItems.clientID.rawValue, value: QueryItems.clientIDValue.rawValue),
         URLQueryItem(name: QueryItems.scopeTypeName.rawValue, value: QueryItems.scropeTypeValue.rawValue),
     ]
-
-    // MARK: - Private init
-
-    private init() {}
 
     // MARK: - Public methods
 
@@ -75,7 +73,7 @@ final class NetworkService: NetworkServicable {
         return url
     }
 
-    func fetchFriends(complition: @escaping (Decodable) -> ()) {
+    func fetchFriends(complition: @escaping (Result<FriendsResponse, Error>) -> ()) {
         let parametersMap = [
             QueryItems.fields.rawValue: QueryItems.fieldsValue.rawValue,
         ]
@@ -86,12 +84,10 @@ final class NetworkService: NetworkServicable {
         urlComponents.queryItems = defaultQueryItems + makeURLQueryItems(itemsMap: parametersMap)
 
         guard let url = urlComponents.url else { return }
-        sendRequest(url: url, method: .get, model: ResponseWithFriends.self) { result in
-            complition(result)
-        }
+        sendRequest(url: url, method: .get, model: FriendsResponse.self, complition: complition)
     }
 
-    func fetchClientsGroups(complition: @escaping (ResponseWithGroups) -> ()) {
+    func fetchClientsGroups(complition: @escaping (Result<GroupsResponse, Error>) -> ()) {
         let parametersMap = [
             QueryItems.modeParamName.rawValue: QueryItems.modeParamValue.rawValue,
             QueryItems.fields.rawValue: QueryItems.modeParamValue.rawValue
@@ -103,12 +99,10 @@ final class NetworkService: NetworkServicable {
         urlComponents.queryItems = defaultQueryItems + makeURLQueryItems(itemsMap: parametersMap)
 
         guard let url = urlComponents.url else { return }
-        sendRequest(url: url, method: .get, model: ResponseWithGroups.self) { result in
-            complition(result)
-        }
+        sendRequest(url: url, method: .get, model: GroupsResponse.self, complition: complition)
     }
 
-    func fetchFoundGroups(parametrsMap: [String: String], complition: @escaping (ResponseWithGroups) -> ()) {
+    func fetchFoundGroups(parametrsMap: [String: String], complition: @escaping (Result<GroupsResponse, Error>) -> ()) {
         var urlComponents = URLComponents()
         urlComponents.scheme = QueryItems.schemeName.rawValue
         urlComponents.host = QueryItems.apiHostName.rawValue
@@ -117,12 +111,10 @@ final class NetworkService: NetworkServicable {
 
         guard let url = urlComponents.url else { return }
 
-        sendRequest(url: url, method: .get, model: ResponseWithGroups.self) { result in
-            complition(result)
-        }
+        sendRequest(url: url, method: .get, model: GroupsResponse.self, complition: complition)
     }
 
-    func fetchAllPhoto(by id: Int, complition: @escaping (Decodable) -> ()) {
+    func fetchAllPhoto(by id: Int, complition: @escaping (Result<PhotoResponse, Error>) -> ()) {
         let parametersMap = [
             QueryItems.ownerIDName.rawValue: "\(id)",
             QueryItems.modeParamName.rawValue: QueryItems.modeParamValue.rawValue
@@ -135,17 +127,22 @@ final class NetworkService: NetworkServicable {
         urlComponents.queryItems = defaultQueryItems + makeURLQueryItems(itemsMap: parametersMap)
 
         guard let url = urlComponents.url else { return }
-        sendRequest(url: url, method: .get, model: ResponseWithPhoto.self) { result in
-            complition(result)
-        }
+        sendRequest(url: url, method: .get, model: PhotoResponse.self, complition: complition)
     }
 
-    func fetchPhoto(by urlString: String, completion: @escaping (Data) -> ()) {
-        guard let url = URL(string: urlString) else { return }
+    func fetchPhoto(by urlString: String, completion: @escaping (Result<Data, Error>) -> ()) {
         DispatchQueue.global().async {
-            AF.request(url).responseData { response in
-                guard let data = response.data else { return }
-                completion(data)
+            guard
+                let url = URL(string: urlString)
+            else { return }
+
+            AF.request(url, method: .get).responseData { response in
+                switch response.result {
+                case let .success(data):
+                    completion(.success(data))
+                case let .failure(afError):
+                    completion(.failure(afError))
+                }
             }
         }
     }
@@ -156,15 +153,16 @@ final class NetworkService: NetworkServicable {
         url: URL,
         method: HTTPMethod,
         model: T.Type,
-        complition: @escaping (T) -> ()
+        complition: @escaping (Result<T, Error>) -> ()
     ) {
-        AF.request(url, method: .get).responseData(completionHandler: { response in
-            guard
-                let data = response.value,
-                let decodedData = try? JSONDecoder().decode(model, from: data)
-            else { return }
-            complition(decodedData)
-        })
+        AF.request(url, method: .get).responseDecodable(of: T.self) { response in
+            switch response.result {
+            case let .success(data):
+                complition(.success(data))
+            case let .failure(afError):
+                complition(.failure(afError))
+            }
+        }
     }
 
     private func makeURLQueryItems(itemsMap: [String: String]) -> [URLQueryItem] {

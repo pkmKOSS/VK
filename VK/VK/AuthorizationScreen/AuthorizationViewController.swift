@@ -26,6 +26,10 @@ final class AuthorizationViewController: UIViewController {
         static let tabBarControllerSegueIDName = "FromAuthScreen"
     }
 
+    // MARK: - Private properties
+
+    private var networkService = NetworkService()
+
     // MARK: - life cycle
 
     override func viewDidLoad() {
@@ -37,7 +41,7 @@ final class AuthorizationViewController: UIViewController {
 
     private func openAuthPage() {
         guard
-            let url = NetworkService.shared.getAuthPageRequest()
+            let url = networkService.getAuthPageRequest()
         else { return }
         let request = URLRequest(url: url)
         webView.load(request)
@@ -77,7 +81,7 @@ extension AuthorizationViewController: WKNavigationDelegate {
                 return dict
             }
 
-        NetworkService.shared.token = params[Constants.accessTokenName]
+        Session.shared.accessToken = params[Constants.accessTokenName]
 
         presentNextViewController()
         decisionHandler(.cancel)

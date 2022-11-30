@@ -1,18 +1,8 @@
-// Groups.swift
+// Group.swift
 // Copyright © RoadMap. All rights reserved.
 
+import Foundation
 import RealmSwift
-
-/// Ответ с группами и их количеством.
-struct ResponseWithGroups: Decodable {
-    let response: Response
-
-    /// Ответ с группами  и их количеством
-    struct Response: Decodable {
-        let count: Int
-        let items: [Group]
-    }
-}
 
 /// Группа
 final class Group: Object, Decodable {

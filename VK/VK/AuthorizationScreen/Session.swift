@@ -11,11 +11,7 @@ final class Session {
 
     // MARK: - Public properties
 
-    var accessToken: String? {
-        didSet {
-            NetworkService.shared.token = accessToken
-        }
-    }
+    var accessToken: String?
 
     // MARK: - Private init
 

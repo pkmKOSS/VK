@@ -9,13 +9,17 @@ final class SearchGroupTableViewController: UITableViewController {
 
     var groups: [NetworkUnit] = []
     var hidenGroups: [NetworkUnit] = []
-    var searchedGroup: NetworkUnit?
+    var foundGroupNetworkUnit: NetworkUnit?
 
     // MARK: - Private constants
 
     private struct Constants {
         static let searchParamName = "q"
     }
+
+    // MARK: - Private properties
+
+    private var networkService = NetworkService()
 
     // MARK: - Private visual components
 
@@ -80,31 +84,40 @@ final class SearchGroupTableViewController: UITableViewController {
         tableView.tableHeaderView = searchBar
         searchBar.delegate = self
     }
+
+    private func findGroups(requestText: String?) {
+        guard
+            let text = requestText,
+            requestText != " "
+        else { return }
+        networkService.fetchFoundGroups(
+            parametrsMap: [
+                Constants.searchParamName: text
+            ]
+        ) { [weak self] result in
+            guard let self = self else { return }
+
+            self.groups.removeAll()
+
+            switch result {
+            case let .success(groupsResponse):
+                let foundGroups = groupsResponse.response.items
+                for group in foundGroups {
+                    self.groups.append(NetworkUnit(group: group))
+                }
+                self.tableView.reloadData()
+            case let .failure(error):
+                print(error)
+            }
+        }
+    }
 }
 
 // MARK: - UISearchBarDelegate
 
 extension SearchGroupTableViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        NetworkService.shared.fetchFoundGroups(
-            parametrsMap: [
-                Constants.searchParamName: searchBar.searchTextField.text ?? "",
-            ]
-        ) { [weak self] result in
-            guard let self = self else { return }
-            self.groups.removeAll()
-            let foundGroups = result.response.items
-            for group in foundGroups {
-                self.groups.append(NetworkUnit(
-                    name: group.name,
-                    description: group.screenName,
-                    avatarImageName: group.photo200,
-                    unitImageNames: [],
-                    id: group.id
-                ))
-            }
-            self.tableView.reloadData()
-        }
+        findGroups(requestText: searchBar.searchTextField.text)
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
