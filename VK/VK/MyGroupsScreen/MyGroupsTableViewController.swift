@@ -88,12 +88,7 @@ final class MyGroupsTableViewController: UITableViewController {
     // MARK: Private methods
 
     private func fetchMyGroupes() {
-        NetworkServiceble.shared.fetchClientsGroups(
-            parametersMap: [
-                Constants.groupdsDescripnionModeName: Constants.groupdsDescripnionModeValue,
-                Constants.fieldsName: Constants.fieldsValue
-            ]
-        ) { groups in
+        NetworkService.shared.fetchClientsGroups { groups in
             let array = groups.response.items.map { group in
                 NetworkUnit(
                     name: group.name,

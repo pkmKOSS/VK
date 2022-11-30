@@ -9,6 +9,7 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
         static let ownerIDName = "owner_id"
         static let modeParamName = "extended"
         static let modeParamValue = "1"
+        static let defaultFriendID = 1
     }
 
     // MARK: - Private @IBOutlets
@@ -29,7 +30,7 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
 
     func configureCell(unit: NetworkUnit, handler: TapHandler?) {
         selectedFriend = unit
-        getPhotos()
+        fetchPhotos()
         tapHandler = handler
         configureTapGestoreRecognizer()
     }
@@ -38,7 +39,7 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
 
     private func configreAvatarImageView() {
         for imagesURLString in imagesURLStrings {
-            NetworkServiceble.shared.fetchPhoto(by: imagesURLString) { [weak self] data in
+            NetworkService.shared.fetchPhoto(by: imagesURLString) { [weak self] data in
                 guard let self = self else { return }
                 self.images.append(UIImage(data: data) ?? UIImage())
                 if self.images.count == self.imagesURLStrings.count {
@@ -63,13 +64,8 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
         firstPhotoImageView.isUserInteractionEnabled = true
     }
 
-    private func getPhotos() {
-        NetworkServiceble.shared.fetchAllPhoto(
-            parametersMap: [
-                Constants.ownerIDName: "\(selectedFriend?.id ?? 0)",
-                Constants.modeParamName: Constants.modeParamValue
-            ]
-        ) { result in
+    private func fetchPhotos() {
+        NetworkService.shared.fetchAllPhoto(by: selectedFriend?.id ?? Constants.defaultFriendID) { result in
             let resultWithPhotos = result as? ResponseWithPhoto
 
             for photo in resultWithPhotos?.response.items ?? [] {

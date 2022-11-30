@@ -5,7 +5,6 @@ import UIKit
 
 /// Общая ячейка для списка сообществ пользователя и поиска сооществ.
 final class CommonGroupTableViewCell: UITableViewCell {
-
     // MARK: - private outlats
 
     @IBOutlet private var groupAvatarImageView: UIImageView!
@@ -34,9 +33,12 @@ final class CommonGroupTableViewCell: UITableViewCell {
 
     private func configreAvatarImageView(avatarImageName: String) {
         DispatchQueue.global().async {
-            guard let url = URL(string: avatarImageName) else { return }
-            let imageData = try? Data(contentsOf: url)
-            let image = UIImage(data: imageData ?? Data())
+            guard
+                let url = URL(string: avatarImageName),
+                let imageData = try? Data(contentsOf: url)
+            else { return }
+            let image = UIImage(data: imageData)
+
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
                 self.groupAvatarImageView.image = image

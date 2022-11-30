@@ -23,7 +23,7 @@ final class AuthorizationViewController: UIViewController {
         static let blankPathName = "/blank.html"
         static let ampersanteCharName = "&"
         static let equalCharName = "="
-        static let storyboardIDName = "FromAuthScreen"
+        static let tabBarControllerSegueIDName = "FromAuthScreen"
     }
 
     // MARK: - life cycle
@@ -37,14 +37,14 @@ final class AuthorizationViewController: UIViewController {
 
     private func openAuthPage() {
         guard
-            let url = NetworkServiceble.shared.getAuthPageRequest()
+            let url = NetworkService.shared.getAuthPageRequest()
         else { return }
         let request = URLRequest(url: url)
         webView.load(request)
     }
 
     private func presentNextViewController() {
-        performSegue(withIdentifier: Constants.storyboardIDName, sender: nil)
+        performSegue(withIdentifier: Constants.tabBarControllerSegueIDName, sender: nil)
     }
 }
 
@@ -77,7 +77,7 @@ extension AuthorizationViewController: WKNavigationDelegate {
                 return dict
             }
 
-        Session.shared.accessToken = params[Constants.accessTokenName]
+        NetworkService.shared.token = params[Constants.accessTokenName]
 
         presentNextViewController()
         decisionHandler(.cancel)

@@ -17,11 +17,6 @@ final class PhotoCollectionReusableView: UICollectionReusableView {
     private var countOfLikes = 0
     private var isAvatarLiked = false
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
     // MARK: Private IBAction
 
     @IBAction private func heartButtonAction(_ sender: Any) {
@@ -67,7 +62,7 @@ final class PhotoCollectionReusableView: UICollectionReusableView {
     }
 
     func configure(urlString: String) {
-        NetworkServiceble.shared.fetchPhoto(by: urlString) { [weak self] data in
+        NetworkService.shared.fetchPhoto(by: urlString) { [weak self] data in
             guard let self = self else { return }
             self.avatarImageView.image = UIImage(data: data) ?? UIImage()
         }

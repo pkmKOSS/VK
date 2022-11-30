@@ -4,18 +4,18 @@
 import RealmSwift
 
 /// Ответ с группами и их количеством.
-struct ResponseWithGroups: Codable {
+struct ResponseWithGroups: Decodable {
     let response: Response
 
     /// Ответ с группами  и их количеством
-    struct Response: Codable {
+    struct Response: Decodable {
         let count: Int
         let items: [Group]
     }
 }
 
 /// Группа
-final class Group: Object, Codable {
+final class Group: Object, Decodable {
     @objc dynamic var id = 0
     @objc dynamic var name = "", screenName = ""
     @objc dynamic var groupdDescription: String?
@@ -31,7 +31,7 @@ final class Group: Object, Codable {
     }
 
     /// Типы
-    enum TypeEnum: String, Codable {
+    enum TypeEnum: String, Decodable {
         case event
         case group
         case page

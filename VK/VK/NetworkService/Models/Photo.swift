@@ -4,19 +4,19 @@
 import Foundation
 
 /// Ответ с фотографиями
-struct ResponseWithPhoto: Codable {
+struct ResponseWithPhoto: Decodable {
     let response: Response
 
     // MARK: - Response
 
-    struct Response: Codable {
+    struct Response: Decodable {
         let count: Int
         let items: [Photo]
     }
 
     // MARK: - Item
 
-    final class Photo: Codable {
+    final class Photo: Decodable {
         let sizes: [Size]
 
         enum CodingKeys: String, CodingKey {
@@ -26,7 +26,7 @@ struct ResponseWithPhoto: Codable {
 
     // MARK: - Size
 
-    struct Size: Codable {
+    struct Size: Decodable {
         let height: Int
         let type: String
         let width: Int

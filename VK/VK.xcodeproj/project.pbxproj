@@ -29,7 +29,6 @@
 		6B856954291E11BD00510E21 /* PopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B856953291E11BD00510E21 /* PopAnimator.swift */; };
 		6B856956291E133100510E21 /* PushAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B856955291E133100510E21 /* PushAnimator.swift */; };
 		6B888F6D2911A9FA00C4D7A3 /* StringsConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B888F6C2911A9FA00C4D7A3 /* StringsConstants.swift */; };
-		6B8EDEED292C7FD50070BCA6 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8EDEEC292C7FD50070BCA6 /* Session.swift */; };
 		6BC426412918ED0E00FBFE53 /* FriendListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC426402918ED0E00FBFE53 /* FriendListTableViewController.swift */; };
 		6BC426442918F07900FBFE53 /* FriendPhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC426432918F07900FBFE53 /* FriendPhotoCollectionViewController.swift */; };
 		6BC426482918F57A00FBFE53 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC426472918F57A00FBFE53 /* Models.swift */; };
@@ -37,8 +36,8 @@
 		6BC426502918F7C600FBFE53 /* GroupsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC4264F2918F7C600FBFE53 /* GroupsInfo.swift */; };
 		6BC426532918FF4C00FBFE53 /* MyGroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC426522918FF4C00FBFE53 /* MyGroupsTableViewController.swift */; };
 		6BC426562919001100FBFE53 /* SearchGroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC426552919001100FBFE53 /* SearchGroupTableViewController.swift */; };
-		6BC4F44C292DD79F00F54785 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC4F44B292DD79F00F54785 /* NetworkService.swift */; };
-		6BC4F44E292DD7EB00F54785 /* NetworkServiceble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC4F44D292DD7EB00F54785 /* NetworkServiceble.swift */; };
+		6BC4F44C292DD79F00F54785 /* NetworkServicable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC4F44B292DD79F00F54785 /* NetworkServicable.swift */; };
+		6BC4F44E292DD7EB00F54785 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC4F44D292DD7EB00F54785 /* NetworkService.swift */; };
 		6BE3782D291A003900A0DBB0 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE3782C291A003900A0DBB0 /* PhotoCollectionViewCell.swift */; };
 		6BE53E7C291CAB23003C3750 /* ShowFriendPhotoScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE53E7B291CAB23003C3750 /* ShowFriendPhotoScreenViewController.swift */; };
 		6BE53E7E291CAB96003C3750 /* ShowPhotoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6BE53E7D291CAB96003C3750 /* ShowPhotoView.xib */; };
@@ -74,7 +73,6 @@
 		6B856953291E11BD00510E21 /* PopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopAnimator.swift; sourceTree = "<group>"; };
 		6B856955291E133100510E21 /* PushAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAnimator.swift; sourceTree = "<group>"; };
 		6B888F6C2911A9FA00C4D7A3 /* StringsConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringsConstants.swift; sourceTree = "<group>"; };
-		6B8EDEEC292C7FD50070BCA6 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		6BC426402918ED0E00FBFE53 /* FriendListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListTableViewController.swift; sourceTree = "<group>"; };
 		6BC426432918F07900FBFE53 /* FriendPhotoCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendPhotoCollectionViewController.swift; sourceTree = "<group>"; };
 		6BC426472918F57A00FBFE53 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
@@ -82,8 +80,8 @@
 		6BC4264F2918F7C600FBFE53 /* GroupsInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsInfo.swift; sourceTree = "<group>"; };
 		6BC426522918FF4C00FBFE53 /* MyGroupsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyGroupsTableViewController.swift; sourceTree = "<group>"; };
 		6BC426552919001100FBFE53 /* SearchGroupTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupTableViewController.swift; sourceTree = "<group>"; };
-		6BC4F44B292DD79F00F54785 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		6BC4F44D292DD7EB00F54785 /* NetworkServiceble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceble.swift; sourceTree = "<group>"; };
+		6BC4F44B292DD79F00F54785 /* NetworkServicable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServicable.swift; sourceTree = "<group>"; };
+		6BC4F44D292DD7EB00F54785 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		6BE3782C291A003900A0DBB0 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		6BE53E7B291CAB23003C3750 /* ShowFriendPhotoScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowFriendPhotoScreenViewController.swift; sourceTree = "<group>"; };
 		6BE53E7D291CAB96003C3750 /* ShowPhotoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShowPhotoView.xib; sourceTree = "<group>"; };
@@ -194,7 +192,6 @@
 			isa = PBXGroup;
 			children = (
 				6B769F192910E2210091426C /* AuthorizationViewController.swift */,
-				6B8EDEEC292C7FD50070BCA6 /* Session.swift */,
 			);
 			path = AuthorizationScreen;
 			sourceTree = "<group>";
@@ -309,8 +306,8 @@
 			isa = PBXGroup;
 			children = (
 				6BE949D8292F34770091DF14 /* Models */,
-				6BC4F44B292DD79F00F54785 /* NetworkService.swift */,
-				6BC4F44D292DD7EB00F54785 /* NetworkServiceble.swift */,
+				6BC4F44B292DD79F00F54785 /* NetworkServicable.swift */,
+				6BC4F44D292DD7EB00F54785 /* NetworkService.swift */,
 			);
 			path = NetworkService;
 			sourceTree = "<group>";
@@ -520,11 +517,10 @@
 				6B856950291DA9F400510E21 /* CustomNavigationController.swift in Sources */,
 				6BC426412918ED0E00FBFE53 /* FriendListTableViewController.swift in Sources */,
 				6BC4264D2918F61C00FBFE53 /* UserInfo.swift in Sources */,
-				6B8EDEED292C7FD50070BCA6 /* Session.swift in Sources */,
 				6B1E28C729346338001E6D14 /* PhotoCollectionReusableView.swift in Sources */,
-				6BC4F44E292DD7EB00F54785 /* NetworkServiceble.swift in Sources */,
+				6BC4F44E292DD7EB00F54785 /* NetworkService.swift in Sources */,
 				6BC426502918F7C600FBFE53 /* GroupsInfo.swift in Sources */,
-				6BC4F44C292DD79F00F54785 /* NetworkService.swift in Sources */,
+				6BC4F44C292DD79F00F54785 /* NetworkServicable.swift in Sources */,
 				6B4D6B25291B520B00561929 /* Loader.swift in Sources */,
 				6BE949DA292F348D0091DF14 /* Friends.swift in Sources */,
 				6B769F1A2910E2210091426C /* AuthorizationViewController.swift in Sources */,

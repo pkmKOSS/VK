@@ -86,7 +86,7 @@ final class SearchGroupTableViewController: UITableViewController {
 
 extension SearchGroupTableViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        NetworkServiceble.shared.fetchFoundGroups(
+        NetworkService.shared.fetchFoundGroups(
             parametrsMap: [
                 Constants.searchParamName: searchBar.searchTextField.text ?? "",
             ]

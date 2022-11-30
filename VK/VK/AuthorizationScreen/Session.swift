@@ -11,10 +11,9 @@ final class Session {
 
     // MARK: - Public properties
 
-    var userID: Int?
     var accessToken: String? {
         didSet {
-            NetworkServiceble.shared.token = accessToken
+            NetworkService.shared.token = accessToken
         }
     }
 

@@ -10,9 +10,9 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
     // MARK: - Private constants
 
     private struct Constants {
-        static let fieldsValue = "city, photo_200_orig"
-        static let fieldsName = "fields"
+        static let defaultRawValue = 0
         static let emptyCharacter = Character(" ")
+        static let emptyString = " "
     }
 
     // MARK: - Private visual components
@@ -57,7 +57,7 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let sortedKeys = sortedFriendsMap.keys.sorted()
         let key = sortedKeys[section]
-        return sortedFriendsMap[key]?.count ?? 0
+        return sortedFriendsMap[key]?.count ?? Constants.defaultRawValue
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -82,20 +82,16 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
 
     private func configureScreen() {
         fetchFriends()
-        configScreen()
+        setupScene()
     }
 
     private func fetchFriends() {
-        NetworkServiceble.shared.fetchFriends(
-            parametersMap: [
-                Constants.fieldsName: Constants.fieldsValue,
-            ]
-        ) { friends in
+        NetworkService.shared.fetchFriends { friends in
             let array = (friends as? ResponseWithFriends)?.response.items.map { friend in
                 NetworkUnit(
                     name: "\(friend.firstName) \(friend.lastName)",
-                    description: friend.city?.title ?? String(Constants.emptyCharacter),
-                    avatarImageName: friend.photo ?? String(Constants.emptyCharacter),
+                    description: friend.city?.title ?? Constants.emptyString,
+                    avatarImageName: friend.photo ?? Constants.emptyString,
                     unitImageNames: [],
                     id: friend.id
                 )
@@ -105,30 +101,27 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
         }
     }
 
-    private func configScreen() {
-        // configDotsLoader()
+    private func setupScene() {
         regCells()
-        configreTapHandler()
-    }
-
-    private func setupCell() {
-        configScreen()
+        configureTapHandler()
     }
 
     private func makeFriendsSortedMap(friendsInfo: [NetworkUnit]) {
         var friendsMap: [Character: [NetworkUnit]] = [:]
-        for info in friendsInfo {
-            if let key = info.name.first {
-                if friendsMap[key] == nil {
-                    friendsMap[key] = [info]
-                } else {
-                    friendsMap[key]?.append(info)
-                    friendsMap[key]?.sort {
-                        $0.name.first ?? Constants.emptyCharacter > $1.name.first ?? Constants.emptyCharacter
-                    }
+        friendsInfo.forEach { info in
+            guard let key = info.name.first else { return }
+            guard
+                friendsMap[key] == nil
+            else {
+                friendsMap[key]?.append(info)
+                friendsMap[key]?.sort {
+                    $0.name.first ?? Constants.emptyCharacter > $1.name.first ?? Constants.emptyCharacter
                 }
+                return
             }
+            friendsMap[key] = [info]
         }
+
         sortedFriendsMap = friendsMap
         tableView.reloadData()
     }
@@ -143,7 +136,7 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
         )
     }
 
-    private func configreTapHandler() {
+    private func configureTapHandler() {
         tapHandler = { [weak self] user in
             guard
                 let self = self,
