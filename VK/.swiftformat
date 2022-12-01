@@ -13,3 +13,5 @@
 --ifdef no-indent
 
 --swiftversion 5.3
+
+--exclude Pods

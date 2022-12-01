@@ -1,20 +1,31 @@
-// MyGroupsTableViewController.swift
+// ClientsGroupsTableViewController.swift
 // Copyright © RoadMap. All rights reserved.
 
 import UIKit
 
 /// Экран c подписками на группы.
 final class MyGroupsTableViewController: UITableViewController {
+    // MARK: - Private constants
+
+    private struct Constants {
+        static let fieldsValue = "description"
+        static let fieldsName = "fields"
+        static let groupdsDescripnionModeName = "extended"
+        static let groupdsDescripnionModeValue = "1"
+    }
+
     // MARK: - Private properties
 
     private var groups: [NetworkUnit] = []
     private var selectedGroup: NetworkUnit?
     private var tapHandler: TapHandler?
+    private var networkService = NetworkService()
 
     // MARK: - Life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchClientsGroupes()
         configureTapHandler()
         regCells()
     }
@@ -76,6 +87,22 @@ final class MyGroupsTableViewController: UITableViewController {
     }
 
     // MARK: Private methods
+
+    private func fetchClientsGroupes() {
+        networkService.fetchClientsGroups { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case let .success(groupsResponse):
+                let array = groupsResponse.response.items.map {
+                    NetworkUnit(group: $0)
+                }
+                self.groups = array
+                self.tableView.reloadData()
+            case let .failure(error):
+                print("\(error)")
+            }
+        }
+    }
 
     private func regCells() {
         tableView.register(

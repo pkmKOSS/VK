@@ -233,6 +233,18 @@ custom_rules:
       - comment
     severity: error
 
+  custom_cyrillic_code:
+    name: "Использование кириллицы вне комментариев, строк и документации запрещено"
+    regex: "[ЁёА-я]"
+    message: "Проверь название на содержание символов кириллицы"
+    match_kinds:
+      - argument
+      - identifier
+      - keyword
+      - parameter
+      - typeidentifier
+    severity: error
+
   custom_map_name:
     name: "Словари должны именоваться с суффиксом Map"
     regex: "(?<!(Map)|(map))(:| =) \\[\\w+: \\w+]( |,|\\))"

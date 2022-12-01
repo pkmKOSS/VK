@@ -5,6 +5,13 @@ import UIKit
 
 /// Ячейка экрана с фотографиями пользователя
 final class PhotoCollectionViewCell: UICollectionViewCell {
+    private struct Constants {
+        static let ownerIDName = "owner_id"
+        static let modeParamName = "extended"
+        static let modeParamValue = "1"
+        static let defaultFriendID = 1
+    }
+
     // MARK: - Private @IBOutlets
 
     @IBOutlet private var firstPhotoImageView: UIImageView!
@@ -15,24 +22,49 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
     // MARK: - Private properties
 
     private var tapHandler: TapHandler?
-    private var selectedFriend: NetworkUnit?
+    private var selectedFriendNetworkUnit: NetworkUnit?
+    private var imagesURLStrings: [String] = []
+    private var images: [UIImage] = []
+    private var networkService = NetworkService()
 
     // MARK: Public methods
 
     func configureCell(unit: NetworkUnit, handler: TapHandler?) {
+        selectedFriendNetworkUnit = unit
+        fetchAllPhoto()
         tapHandler = handler
-        selectedFriend = unit
         configureTapGestoreRecognizer()
-        configreAvatarImageView(imageNames: unit.unitImageNames ?? [])
     }
 
     // MARK: Private methods
 
-    private func configreAvatarImageView(imageNames: [String]) {
-        firstPhotoImageView.image = UIImage(named: imageNames[safe: 0] ?? "")
-        secondPhotoImageView.image = UIImage(named: imageNames[safe: 1] ?? "")
-        thirdPhotoImageView.image = UIImage(named: imageNames[safe: 2] ?? "")
-        foursPhotoImageView.image = UIImage(named: imageNames[safe: 3] ?? "")
+    private func configreAvatarImageView() {
+        for imagesURLString in imagesURLStrings {
+            networkService.fetchPhoto(by: imagesURLString) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case let .success(data):
+                    guard let image = UIImage(data: data) else { return }
+                    self.images.append(image)
+
+                    if self.images.count == self.imagesURLStrings.count {
+                        DispatchQueue.main.async {
+                            self.configurePhotos()
+                        }
+                    }
+
+                case let .failure(error):
+                    print(error)
+                }
+            }
+        }
+    }
+
+    private func configurePhotos() {
+        firstPhotoImageView.image = images.randomElement() ?? UIImage()
+        secondPhotoImageView.image = images.randomElement() ?? UIImage()
+        thirdPhotoImageView.image = images.randomElement() ?? UIImage()
+        foursPhotoImageView.image = images.randomElement() ?? UIImage()
     }
 
     private func configureTapGestoreRecognizer() {
@@ -41,10 +73,30 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
         firstPhotoImageView.isUserInteractionEnabled = true
     }
 
+    private func fetchAllPhoto() {
+        networkService
+            .fetchAllPhoto(by: selectedFriendNetworkUnit?.id ?? Constants.defaultFriendID) { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case let .success(photoResponse):
+                    for photo in photoResponse.response.items {
+                        let size = photo.sizes
+                        size.forEach { [weak self] item in
+                            guard let self = self else { return }
+                            self.imagesURLStrings.append(item.url)
+                        }
+                    }
+                    self.configreAvatarImageView()
+                case let .failure(error):
+                    print(error)
+                }
+            }
+    }
+
     @objc private func tapHandlerAction() {
         guard
             let action = tapHandler,
-            let unit = selectedFriend
+            let unit = selectedFriendNetworkUnit
         else { return }
         action(unit)
     }

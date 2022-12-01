@@ -3,7 +3,7 @@
 
 import UIKit
 
-/// Хидер коллекции с фотографиями друга.
+/// Футер таблицы
 final class PhotoCollectionReusableView: UICollectionReusableView {
     // MARK: - Private IBOutlets
 
@@ -16,6 +16,7 @@ final class PhotoCollectionReusableView: UICollectionReusableView {
 
     private var countOfLikes = 0
     private var isAvatarLiked = false
+    private var networkService = NetworkService()
 
     // MARK: Private IBAction
 
@@ -59,5 +60,19 @@ final class PhotoCollectionReusableView: UICollectionReusableView {
             for: .normal
         )
         isAvatarLiked = false
+    }
+
+    func configure(urlString: String) {
+        networkService.fetchPhoto(by: urlString) { [weak self] result in
+            guard let self = self else { return }
+
+            switch result {
+            case let .success(data):
+                guard let image = UIImage(data: data) else { return }
+                self.avatarImageView.image = image
+            case let .failure(error):
+                print(error)
+            }
+        }
     }
 }

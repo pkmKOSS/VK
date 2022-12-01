@@ -11,7 +11,6 @@ final class Session {
 
     // MARK: - Public properties
 
-    var userID: Int?
     var accessToken: String?
 
     // MARK: - Private init
