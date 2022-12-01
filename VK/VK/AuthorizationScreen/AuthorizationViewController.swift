@@ -4,7 +4,7 @@
 import UIKit
 import WebKit
 
-/// Экран авторизации.
+/// Экран авторизации
 final class AuthorizationViewController: UIViewController {
     // MARK: - Private visual components
 
@@ -28,7 +28,7 @@ final class AuthorizationViewController: UIViewController {
 
     // MARK: - Private properties
 
-    private var networkService = NetworkService()
+    private let networkService = NetworkService()
 
     // MARK: - life cycle
 
