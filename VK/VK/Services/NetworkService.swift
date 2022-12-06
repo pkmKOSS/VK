@@ -42,6 +42,7 @@ final class NetworkService: NetworkServicable {
         case fieldsValue = "city, photo_200_orig"
         case groupFieldsValue = "description"
         case emptyString = ""
+        case wallPostMethodName = "wall.get"
     }
 
     private lazy var defaultQueryItems = [
@@ -112,6 +113,22 @@ final class NetworkService: NetworkServicable {
         guard let url = urlComponents.url else { return }
 
         sendRequest(url: url, method: .get, model: GroupsResponse.self, complition: complition)
+    }
+
+    func fetchPosts(by id: Int, complition: @escaping (Result<NewsPostResponse, Error>) -> ()) {
+        let parametersMap = [
+            QueryItems.modeParamName.rawValue: QueryItems.modeParamValue.rawValue,
+            QueryItems.fields.rawValue: "date, text, comments, likes, attachments",
+            QueryItems.ownerIDName.rawValue: String(id)
+        ]
+        var urlComponents = URLComponents()
+        urlComponents.scheme = QueryItems.schemeName.rawValue
+        urlComponents.host = QueryItems.apiHostName.rawValue
+        urlComponents.path = QueryItems.apiPathName.rawValue + QueryItems.wallPostMethodName.rawValue
+        urlComponents.queryItems = defaultQueryItems + makeURLQueryItems(itemsMap: parametersMap)
+
+        guard let url = urlComponents.url else { return }
+        sendRequest(url: url, method: .get, model: NewsPostResponse.self, complition: complition)
     }
 
     func fetchAllPhoto(by id: Int, complition: @escaping (Result<PhotoResponse, Error>) -> ()) {

@@ -11,4 +11,5 @@ protocol NetworkServicable {
     func fetchAllPhoto(by id: Int, complition: @escaping (Result<PhotoResponse, Error>) -> ())
     func fetchPhoto(by urlString: String, completion: @escaping (Result<Data, Error>) -> ())
     func fetchFoundGroups(parametrsMap: [String: String], complition: @escaping (Result<GroupsResponse, Error>) -> ())
+    func fetchPosts(by id: Int, complition: @escaping (Result<NewsPostResponse, Error>) -> ())
 }
