@@ -6,9 +6,13 @@ import RealmSwift
 
 /// Друг
 final class Friend: Object, Decodable {
+    /// ID друга
     @objc dynamic var id: Int
+    /// Город проживания
     @objc dynamic var city: City?
+    /// url-строка аватара
     @objc dynamic var photo: String?
+    /// Имя и фамилия
     @objc dynamic var firstName, lastName: String
 
     /// Ключи

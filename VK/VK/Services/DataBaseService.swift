@@ -1,4 +1,4 @@
-// LocalService.swift
+// DataBaseService.swift
 // Copyright © RoadMap. All rights reserved.
 
 import Foundation
@@ -6,7 +6,7 @@ import Realm
 import RealmSwift
 
 /// Сервис для локального хранения данных.
-struct LocalService {
+struct DataBaseService {
     // MARK: - Public Methods
 
     func observeChanges<T: Object>(
@@ -22,7 +22,7 @@ struct LocalService {
                 completion(changes)
             }
         } catch {
-            print(#function, error)
+            print(error.localizedDescription)
         }
     }
 
@@ -35,7 +35,7 @@ struct LocalService {
                 objects.forEach { realm.add($0, update: .modified) }
             }
         } catch {
-            print(#function, error)
+            print(error.localizedDescription)
         }
     }
 
@@ -45,7 +45,7 @@ struct LocalService {
             let objects = Array(realm.objects(objectType))
             return objects
         } catch {
-            print(#function, error)
+            print(error.localizedDescription)
             return nil
         }
     }

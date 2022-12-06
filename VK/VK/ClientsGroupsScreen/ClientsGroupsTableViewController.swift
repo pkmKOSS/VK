@@ -16,11 +16,11 @@ final class MyGroupsTableViewController: UITableViewController {
 
     // MARK: - Private properties
 
+    private let networkService = NetworkService()
+    private let dataBaseService = DataBaseService()
     private var groups: [NetworkUnit] = []
     private var selectedGroup: NetworkUnit?
     private var tapHandler: TapHandler?
-    private let networkService = NetworkService()
-    private let localService = LocalService()
 
     // MARK: - Life cycle
 
@@ -33,7 +33,7 @@ final class MyGroupsTableViewController: UITableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard
-            segue.identifier == SegueIdentifiers.groupNewsScreenText,
+            segue.identifier == SegueIdentifiers.groupNewsScreenName,
             let destination = segue.destination as? GroupNewsTableViewController,
             let group = selectedGroup
         else { return }
@@ -121,19 +121,18 @@ final class MyGroupsTableViewController: UITableViewController {
         tapHandler = { [weak self] group in
             guard let self = self else { return }
             self.selectedGroup = group
-            self.performSegue(withIdentifier: SegueIdentifiers.groupNewsScreenText, sender: nil)
+            self.performSegue(withIdentifier: SegueIdentifiers.groupNewsScreenName, sender: nil)
         }
     }
 
     private func saveData(groups: [Group]) {
-        localService.saveData(objects: groups)
+        dataBaseService.saveData(objects: groups)
     }
 
     private func loadData() {
-        DispatchQueue.global().async { [weak self] in
+        DispatchQueue.global().async {
             guard
-                let self = self,
-                let groups = self.localService.loadData(objectType: Group.self)
+                let groups = self.dataBaseService.loadData(objectType: Group.self)
             else { return }
 
             let groupsNetworkUnits = groups.map { group in

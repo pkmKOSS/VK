@@ -3,9 +3,9 @@
 
 import Foundation
 
-// MARK: - Item
-
+/// Фото
 final class PhotoItems: Decodable {
+    /// Размеры фото
     let sizes: [Size]
 
     enum CodingKeys: String, CodingKey {

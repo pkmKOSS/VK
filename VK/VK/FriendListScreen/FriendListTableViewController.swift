@@ -26,12 +26,12 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
 
     // MARK: - Private properties
 
+    private let networkService = NetworkService()
+    private let dataBaseService = DataBaseService()
     private var sortedFriendsMap: [Character: [NetworkUnit]] = [:]
     private var selectedFriend: NetworkUnit?
     private var tapHandler: TapHandler?
     private var notificationToken = NotificationToken()
-    private let networkService = NetworkService()
-    private let localService = LocalService()
 
     // MARK: - Life cycle
 
@@ -113,21 +113,20 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
     }
 
     private func saveData(friends: [Friend]) {
-        localService.saveData(objects: friends)
+        dataBaseService.saveData(objects: friends)
     }
 
     private func loadData() {
-        DispatchQueue.global().async { [weak self] in
+        DispatchQueue.global().async {
             guard
-                let self = self,
-                let friends = self.localService.loadData(objectType: Friend.self)
+                let friends = self.dataBaseService.loadData(objectType: Friend.self)
             else { return }
 
             let friendsNetworkUnits = friends.map {
                 NetworkUnit(friend: $0)
             }
             DispatchQueue.main.async {
-                self.configCountOfFriendsLabel(count: friends.count)
+                self.updateFriendsLabelText(count: friends.count)
                 self.makeFriendsSortedMap(friends: friendsNetworkUnits)
                 self.tableView.reloadData()
             }
@@ -137,7 +136,7 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
     /// был вариант с батч апдейт,  все работало. Проверял принтами и инсертами новых друзей. Потом сломалось
     /// параллельное открытие файла. Оставил так.
     private func setupNotToken() {
-        localService.observeChanges(
+        dataBaseService.observeChanges(
             type: Friend.self,
             notToken: &notificationToken
         ) { changes in
@@ -147,7 +146,7 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
             case .update:
                 self.tableView.reloadData()
             case let .error(error):
-                print(#function, error)
+                print(error.localizedDescription)
             }
         }
     }
@@ -157,14 +156,14 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
         configureTapHandler()
     }
 
-    private func configCountOfFriendsLabel(count: Int) {
+    private func updateFriendsLabelText(count: Int) {
         countOfFriendsLabel.text = String(count)
     }
 
     private func makeFriendsSortedMap(friends: [NetworkUnit]) {
         var friendsMap: [Character: [NetworkUnit]] = [:]
         friends.forEach {
-            guard let key = $0.name.first else { return } // key нужен в блоке после else потому отдельным гвардом.
+            guard let key = $0.name.first else { return }
             guard
                 friendsMap[key] == nil
             else {
