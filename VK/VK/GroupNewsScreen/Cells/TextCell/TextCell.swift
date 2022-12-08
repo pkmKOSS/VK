@@ -11,7 +11,7 @@ final class TextCell: UITableViewCell, NewsPostsCellProtocol {
 
     // MARK: Public methods
 
-    func configureCell(post: NewsPostItem, group: NetworkUnit) {
+    func configureCell(post: NewsPostItem, group: NetworkUnit, networkService: NetworkService? = nil) {
         postTextView.text = post.text
     }
 }

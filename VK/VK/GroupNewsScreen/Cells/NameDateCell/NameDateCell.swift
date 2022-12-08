@@ -18,7 +18,7 @@ final class NameDateCell: NewsPostCell {
 
     // MARK: - Public methods
 
-    func configureCell(post: NewsPostItem, group: NetworkUnit) {
+    func configureCell(post: NewsPostItem, group: NetworkUnit, networkService: NetworkService? = nil) {
         postAuthorNameLabel.text = group.name
         postsDateNameLabel.text = formateDate(date: post.date)
     }

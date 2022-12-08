@@ -14,7 +14,7 @@ final class UsersReactionsCell: UITableViewCell, NewsPostsCellProtocol {
 
     // MARK: - Public methods
 
-    func configureCell(post: NewsPostItem, group: NetworkUnit) {
+    func configureCell(post: NewsPostItem, group: NetworkUnit, networkService: NetworkService? = nil) {
         likesCountLabel.text = String(post.likes.count)
         repostsCountLabel.text = String(post.reposts.count)
         commentsCountLabel.text = String(post.comments.count)
