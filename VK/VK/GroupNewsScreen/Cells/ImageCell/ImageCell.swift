@@ -5,13 +5,17 @@ import UIKit
 
 /// Ячейка с изображением поста.
 final class ImageCell: UITableViewCell, NewsPostsCellProtocol {
-    @IBOutlet var postsImageView: UIImageView!
+    // MARK: - Private constants
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    private struct Constants {
+        static let sizeTypeName = "r"
     }
+
+    // MARK: - Private @IBOutlet
+
+    @IBOutlet private var postsImageView: UIImageView!
+
+    // MARK: - Public methods
 
     func configureCell(post: NewsPostItem, group: NetworkUnit) {
         guard
@@ -21,11 +25,12 @@ final class ImageCell: UITableViewCell, NewsPostsCellProtocol {
         postsImageView.loadImageFromURL(urlString: size.url)
     }
 
-    func selectImageSize(sizes: [Size]) -> [Size] {
-        let largeSizes = sizes.filter { size in
-            size.type == "r"
-        }
+    // MARK: - Private methods
 
+    private func selectImageSize(sizes: [Size]) -> [Size] {
+        let largeSizes = sizes.filter { size in
+            size.type == Constants.sizeTypeName
+        }
         return largeSizes
     }
 }

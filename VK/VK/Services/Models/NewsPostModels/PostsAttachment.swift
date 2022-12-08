@@ -5,5 +5,6 @@ import Foundation
 
 /// Вложение поста
 struct Attachment: Decodable {
+    /// Фото
     let photo: Photo?
 }

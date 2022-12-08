@@ -5,12 +5,19 @@ import Foundation
 
 /// Пост с новостью
 struct NewsPostItem: Decodable {
+    /// ID и дата новости
     let id, date: Int
+    /// Текст новости
     let text: String
+    /// Комментарии
     let comments: Comments
+    /// Лайки
     let likes: Likes
+    /// Репосты
     let reposts: Reposts
+    /// Типы поста
     let postType: PostType
+    /// Медиа вложения
     let attachments: [Attachment]?
 
     enum CodingKeys: String, CodingKey {

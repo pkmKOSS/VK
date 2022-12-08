@@ -5,11 +5,12 @@ import UIKit
 
 /// Экран с новостями сообщества.
 final class GroupNewsTableViewController: UITableViewController {
-
     // MARK: - Private constants
 
     private struct Constant {
         static let defaultGroupID = 97_418_841
+        static let numberOfCellInImagePost = 4
+        static let numberOfCellInTextPost = 3
     }
 
     // MARK: - Private enum
@@ -35,15 +36,14 @@ final class GroupNewsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureTableView()
-        fetchPosts()
+        setupScene()
     }
 
     // MARK: - TableViewDataSource
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard posts[section].attachments?.first != nil else { return 3 }
-        return 4
+        guard posts[section].attachments?.first != nil else { return Constant.numberOfCellInTextPost }
+        return Constant.numberOfCellInImagePost
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -87,7 +87,6 @@ final class GroupNewsTableViewController: UITableViewController {
         indexPath: IndexPath,
         selectedGroup: NetworkUnit
     ) -> NewsPostCell? {
-
         let reusableCell = tableView.dequeueReusableCell(withIdentifier: typeOfCell.rawValue)
 
         switch typeOfCell {
@@ -142,5 +141,10 @@ final class GroupNewsTableViewController: UITableViewController {
             UINib(nibName: PostCellTypes.userReactionCell.rawValue, bundle: nil),
             forCellReuseIdentifier: PostCellTypes.userReactionCell.rawValue
         )
+    }
+
+    private func setupScene() {
+        configureTableView()
+        fetchPosts()
     }
 }

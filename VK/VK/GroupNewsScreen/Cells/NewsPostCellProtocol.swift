@@ -5,7 +5,7 @@ import UIKit
 
 typealias NewsPostCell = UITableViewCell & NewsPostsCellProtocol
 
-/// Настройки ячейки поста.
+/// Настройка ячейки поста.
 protocol NewsPostsCellProtocol {
     func configureCell(post: NewsPostItem, group: NetworkUnit)
 }

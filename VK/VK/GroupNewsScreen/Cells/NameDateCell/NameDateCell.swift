@@ -4,24 +4,32 @@
 import UIKit
 
 /// Ячейка с именем автора и датой поста.
-class NameDateCell: UITableViewCell, NewsPostsCellProtocol {
-    @IBOutlet var postAuthorNameLabel: UILabel!
-    @IBOutlet var postsDateNameLabel: UILabel!
+final class NameDateCell: NewsPostCell {
+    // MARK: - Private constants
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    private struct Constants {
+        static let dateFormateName = "dd-MM-yyyy hh:mm"
     }
+
+    // MARK: - Private @IBOutlets
+
+    @IBOutlet private var postAuthorNameLabel: UILabel!
+    @IBOutlet private var postsDateNameLabel: UILabel!
+
+    // MARK: - Public methods
 
     func configureCell(post: NewsPostItem, group: NetworkUnit) {
         postAuthorNameLabel.text = group.name
         postsDateNameLabel.text = formateDate(date: post.date)
     }
 
-    func formateDate(date: Int) -> String {
+    // MARK: - Private methods
+
+    private func formateDate(date: Int) -> String {
         let dateInterval = TimeInterval(date)
         let date = Date(timeIntervalSince1970: dateInterval)
         let dateFormater = DateFormatter()
-        let dateFormate = "dd-MM-yyyy hh:mm"
+        let dateFormate = Constants.dateFormateName
         dateFormater.dateFormat = dateFormate
         return dateFormater.string(from: date)
     }

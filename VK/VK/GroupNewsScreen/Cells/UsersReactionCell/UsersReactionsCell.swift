@@ -4,15 +4,15 @@
 import UIKit
 
 /// Ячейка с реакцией пользователей на пост.
-class UsersReactionsCell: UITableViewCell, NewsPostsCellProtocol {
-    @IBOutlet var likesCountLabel: UILabel!
-    @IBOutlet var likeButton: UIButton!
-    @IBOutlet var repostsCountLabel: UILabel!
-    @IBOutlet var commentsCountLabel: UILabel!
+final class UsersReactionsCell: UITableViewCell, NewsPostsCellProtocol {
+    // MARK: - Private @IBOutlet
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
+    @IBOutlet private var likesCountLabel: UILabel!
+    @IBOutlet private var likeButton: UIButton!
+    @IBOutlet private var repostsCountLabel: UILabel!
+    @IBOutlet private var commentsCountLabel: UILabel!
+
+    // MARK: - Public methods
 
     func configureCell(post: NewsPostItem, group: NetworkUnit) {
         likesCountLabel.text = String(post.likes.count)

@@ -4,13 +4,12 @@
 import UIKit
 
 /// Ячейка с текстом поста.
-class TextCell: UITableViewCell, NewsPostsCellProtocol {
-    @IBOutlet var postTextView: UITextView!
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+final class TextCell: UITableViewCell, NewsPostsCellProtocol {
+    // MARK: - Private @IBOutlet
 
-        // Configure the view for the selected state
-    }
+    @IBOutlet var postTextView: UITextView!
+
+    // MARK: Public methods
 
     func configureCell(post: NewsPostItem, group: NetworkUnit) {
         postTextView.text = post.text
