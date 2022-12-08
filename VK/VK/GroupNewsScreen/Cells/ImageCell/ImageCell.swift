@@ -15,6 +15,10 @@ final class ImageCell: UITableViewCell, NewsPostsCellProtocol {
 
     @IBOutlet private var postsImageView: UIImageView!
 
+    // MARK: - Privete properties
+
+    private let networkService = NetworkService()
+
     // MARK: - Public methods
 
     func configureCell(post: NewsPostItem, group: NetworkUnit) {
@@ -22,7 +26,7 @@ final class ImageCell: UITableViewCell, NewsPostsCellProtocol {
             let photo = post.attachments?.first?.photo,
             let size = selectImageSize(sizes: photo.sizes).first
         else { return }
-        postsImageView.loadImageFromURL(urlString: size.url)
+        postsImageView.loadImageFromURL(urlString: size.url, networkService: networkService)
     }
 
     // MARK: - Private methods

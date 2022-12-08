@@ -7,7 +7,7 @@ import UIKit
 final class GroupNewsTableViewController: UITableViewController {
     // MARK: - Private constants
 
-    private struct Constant {
+    private enum Constant {
         static let defaultGroupID = 97_418_841
         static let numberOfCellInImagePost = 4
         static let numberOfCellInTextPost = 3
@@ -68,7 +68,8 @@ final class GroupNewsTableViewController: UITableViewController {
     // MARK: - Private methods
 
     private func fetchPosts() {
-        networkService.fetchPosts(by: -(group?.id ?? -Constant.defaultGroupID)) { response in
+        networkService.fetchPosts(by: -(group?.id ?? -Constant.defaultGroupID)) { [weak self] response in
+            guard let self = self else { return }
             switch response {
             case let .success(success):
                 for post in success.response.items {

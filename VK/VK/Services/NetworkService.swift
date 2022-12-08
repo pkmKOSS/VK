@@ -43,6 +43,7 @@ final class NetworkService: NetworkServicable {
         case groupFieldsValue = "description"
         case emptyString = ""
         case wallPostMethodName = "wall.get"
+        case newsPostsFeildsValue = "date, text, comments, likes, attachments"
     }
 
     private lazy var defaultQueryItems = [
@@ -74,7 +75,7 @@ final class NetworkService: NetworkServicable {
         return url
     }
 
-    func fetchFriends(complition: @escaping (Result<FriendsResponse, Error>) -> ()) {
+    func fetchFriends(completion: @escaping (Result<FriendsResponse, Error>) -> ()) {
         let parametersMap = [
             QueryItems.fields.rawValue: QueryItems.fieldsValue.rawValue,
         ]
@@ -85,10 +86,10 @@ final class NetworkService: NetworkServicable {
         urlComponents.queryItems = defaultQueryItems + makeURLQueryItems(itemsMap: parametersMap)
 
         guard let url = urlComponents.url else { return }
-        sendRequest(url: url, method: .get, model: FriendsResponse.self, complition: complition)
+        sendRequest(url: url, method: .get, model: FriendsResponse.self, completion: completion)
     }
 
-    func fetchClientsGroups(complition: @escaping (Result<GroupsResponse, Error>) -> ()) {
+    func fetchClientsGroups(completion: @escaping (Result<GroupsResponse, Error>) -> ()) {
         let parametersMap = [
             QueryItems.modeParamName.rawValue: QueryItems.modeParamValue.rawValue,
             QueryItems.fields.rawValue: QueryItems.modeParamValue.rawValue
@@ -100,10 +101,10 @@ final class NetworkService: NetworkServicable {
         urlComponents.queryItems = defaultQueryItems + makeURLQueryItems(itemsMap: parametersMap)
 
         guard let url = urlComponents.url else { return }
-        sendRequest(url: url, method: .get, model: GroupsResponse.self, complition: complition)
+        sendRequest(url: url, method: .get, model: GroupsResponse.self, completion: completion)
     }
 
-    func fetchFoundGroups(parametrsMap: [String: String], complition: @escaping (Result<GroupsResponse, Error>) -> ()) {
+    func fetchFoundGroups(parametrsMap: [String: String], completion: @escaping (Result<GroupsResponse, Error>) -> ()) {
         var urlComponents = URLComponents()
         urlComponents.scheme = QueryItems.schemeName.rawValue
         urlComponents.host = QueryItems.apiHostName.rawValue
@@ -112,13 +113,13 @@ final class NetworkService: NetworkServicable {
 
         guard let url = urlComponents.url else { return }
 
-        sendRequest(url: url, method: .get, model: GroupsResponse.self, complition: complition)
+        sendRequest(url: url, method: .get, model: GroupsResponse.self, completion: completion)
     }
 
-    func fetchPosts(by id: Int, complition: @escaping (Result<NewsPostResponse, Error>) -> ()) {
+    func fetchPosts(by id: Int, completion: @escaping (Result<NewsPostResponse, Error>) -> ()) {
         let parametersMap = [
             QueryItems.modeParamName.rawValue: QueryItems.modeParamValue.rawValue,
-            QueryItems.fields.rawValue: "date, text, comments, likes, attachments",
+            QueryItems.fields.rawValue: QueryItems.newsPostsFeildsValue.rawValue,
             QueryItems.ownerIDName.rawValue: String(id)
         ]
         var urlComponents = URLComponents()
@@ -128,10 +129,10 @@ final class NetworkService: NetworkServicable {
         urlComponents.queryItems = defaultQueryItems + makeURLQueryItems(itemsMap: parametersMap)
 
         guard let url = urlComponents.url else { return }
-        sendRequest(url: url, method: .get, model: NewsPostResponse.self, complition: complition)
+        sendRequest(url: url, method: .get, model: NewsPostResponse.self, completion: completion)
     }
 
-    func fetchAllPhoto(by id: Int, complition: @escaping (Result<PhotoResponse, Error>) -> ()) {
+    func fetchAllPhoto(by id: Int, completion: @escaping (Result<PhotoResponse, Error>) -> ()) {
         let parametersMap = [
             QueryItems.ownerIDName.rawValue: "\(id)",
             QueryItems.modeParamName.rawValue: QueryItems.modeParamValue.rawValue
@@ -144,7 +145,7 @@ final class NetworkService: NetworkServicable {
         urlComponents.queryItems = defaultQueryItems + makeURLQueryItems(itemsMap: parametersMap)
 
         guard let url = urlComponents.url else { return }
-        sendRequest(url: url, method: .get, model: PhotoResponse.self, complition: complition)
+        sendRequest(url: url, method: .get, model: PhotoResponse.self, completion: completion)
     }
 
     func fetchPhoto(by urlString: String, completion: @escaping (Result<Data, Error>) -> ()) {
@@ -170,14 +171,14 @@ final class NetworkService: NetworkServicable {
         url: URL,
         method: HTTPMethod,
         model: T.Type,
-        complition: @escaping (Result<T, Error>) -> ()
+        completion: @escaping (Result<T, Error>) -> ()
     ) {
         AF.request(url, method: .get).responseDecodable(of: T.self) { response in
             switch response.result {
             case let .success(data):
-                complition(.success(data))
+                completion(.success(data))
             case let .failure(afError):
-                complition(.failure(afError))
+                completion(.failure(afError))
             }
         }
     }

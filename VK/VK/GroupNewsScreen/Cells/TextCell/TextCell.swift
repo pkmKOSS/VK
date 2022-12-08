@@ -7,7 +7,7 @@ import UIKit
 final class TextCell: UITableViewCell, NewsPostsCellProtocol {
     // MARK: - Private @IBOutlet
 
-    @IBOutlet var postTextView: UITextView!
+    @IBOutlet private var postTextView: UITextView!
 
     // MARK: Public methods
 

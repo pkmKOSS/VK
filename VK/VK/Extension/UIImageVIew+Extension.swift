@@ -5,9 +5,9 @@ import UIKit
 
 // Добавляет возможность загрузки изображения по строке ссылки.
 extension UIImageView {
-    func loadImageFromURL(urlString: String) {
-        let networkService = NetworkService()
-        networkService.fetchPhoto(by: urlString) { result in
+    func loadImageFromURL(urlString: String, networkService: NetworkService) {
+        networkService.fetchPhoto(by: urlString) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case let .success(success):
                 DispatchQueue.main.async {
