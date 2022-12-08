@@ -9,5 +9,4 @@ target 'VK' do
 
  pod 'Alamofire'
  pod 'RealmSwift' 
-
 end

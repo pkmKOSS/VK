@@ -16,25 +16,24 @@ final class MyGroupsTableViewController: UITableViewController {
 
     // MARK: - Private properties
 
+    private let networkService = NetworkService()
+    private let dataBaseService = DataBaseService()
     private var groups: [NetworkUnit] = []
     private var selectedGroup: NetworkUnit?
     private var tapHandler: TapHandler?
-    private var networkService = NetworkService()
 
     // MARK: - Life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchClientsGroupes()
-        configureTapHandler()
-        regCells()
+        configureScene()
     }
 
     // MARK: - Public methods
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard
-            segue.identifier == SegueIdentifiers.groupNewsScreenText,
+            segue.identifier == SegueIdentifiers.groupNewsScreenName,
             let destination = segue.destination as? GroupNewsTableViewController,
             let group = selectedGroup
         else { return }
@@ -88,16 +87,23 @@ final class MyGroupsTableViewController: UITableViewController {
 
     // MARK: Private methods
 
-    private func fetchClientsGroupes() {
+    private func configureScene() {
+        fetchClientsGroups { [weak self] in
+            guard let self = self else { return }
+            self.loadData()
+        }
+        configureTapHandler()
+        regCells()
+    }
+
+    private func fetchClientsGroups(completion: @escaping () -> ()) {
         networkService.fetchClientsGroups { [weak self] result in
             guard let self = self else { return }
             switch result {
             case let .success(groupsResponse):
-                let array = groupsResponse.response.items.map {
-                    NetworkUnit(group: $0)
-                }
-                self.groups = array
-                self.tableView.reloadData()
+                let groups = groupsResponse.response.items
+                self.saveData(groups: groups)
+                completion()
             case let .failure(error):
                 print("\(error)")
             }
@@ -115,7 +121,28 @@ final class MyGroupsTableViewController: UITableViewController {
         tapHandler = { [weak self] group in
             guard let self = self else { return }
             self.selectedGroup = group
-            self.performSegue(withIdentifier: SegueIdentifiers.groupNewsScreenText, sender: nil)
+            self.performSegue(withIdentifier: SegueIdentifiers.groupNewsScreenName, sender: nil)
+        }
+    }
+
+    private func saveData(groups: [Group]) {
+        dataBaseService.saveData(objects: groups)
+    }
+
+    private func loadData() {
+        DispatchQueue.global().async {
+            guard
+                let groups = self.dataBaseService.loadData(objectType: Group.self)
+            else { return }
+
+            let groupsNetworkUnits = groups.map { group in
+                NetworkUnit(group: group)
+            }
+            self.groups = groupsNetworkUnits
+
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
 }

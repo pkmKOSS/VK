@@ -6,9 +6,13 @@ import RealmSwift
 
 /// Друг
 final class Friend: Object, Decodable {
+    /// ID друга
     @objc dynamic var id: Int
+    /// Город проживания
     @objc dynamic var city: City?
+    /// url-строка аватара
     @objc dynamic var photo: String?
+    /// Имя и фамилия
     @objc dynamic var firstName, lastName: String
 
     /// Ключи
@@ -17,5 +21,9 @@ final class Friend: Object, Decodable {
         case photo = "photo_200_orig"
         case firstName = "first_name"
         case lastName = "last_name"
+    }
+
+    override class func primaryKey() -> String? {
+        "id"
     }
 }

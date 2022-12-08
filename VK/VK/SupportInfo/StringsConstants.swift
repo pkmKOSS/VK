@@ -25,7 +25,7 @@ enum CellIdentifiers {
 enum SegueIdentifiers {
     static let addGroupText = "addGroup"
     static let showFriendSegueText = "showFriendSegue"
-    static let groupNewsScreenText = "GroupNewsScreen"
+    static let groupNewsScreenName = "GroupNewsScreen"
     static let showPhotoSegueText = "ShowPhotoSegue"
 }
 
