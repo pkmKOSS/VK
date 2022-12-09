@@ -10,8 +10,4 @@ final class City: Object, Decodable {
     @objc dynamic var id: Int
     /// Название города
     @objc dynamic var title: String
-
-    override class func primaryKey() -> String? {
-        "id"
-    }
 }

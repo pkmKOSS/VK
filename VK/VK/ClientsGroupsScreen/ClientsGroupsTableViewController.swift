@@ -1,6 +1,9 @@
 // ClientsGroupsTableViewController.swift
 // Copyright © RoadMap. All rights reserved.
 
+// swiftlint:disable all
+
+import PromiseKit
 import UIKit
 
 /// Экран c подписками на группы.
@@ -18,7 +21,8 @@ final class MyGroupsTableViewController: UITableViewController {
 
     private let networkService = NetworkService()
     private let dataBaseService = DataBaseService()
-    private var groups: [NetworkUnit] = []
+    private var parsedGroups: [NetworkUnit] = []
+    private var fetchedGroups: [Group] = []
     private var selectedGroup: NetworkUnit?
     private var tapHandler: TapHandler?
 
@@ -43,7 +47,7 @@ final class MyGroupsTableViewController: UITableViewController {
     // MARK: - UITableViewDataSource
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        groups.count
+        parsedGroups.count
     }
 
     override func tableView(
@@ -52,7 +56,7 @@ final class MyGroupsTableViewController: UITableViewController {
         forRowAt indexPath: IndexPath
     ) {
         if editingStyle == .delete {
-            groups.remove(at: indexPath.row)
+            parsedGroups.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
@@ -64,7 +68,7 @@ final class MyGroupsTableViewController: UITableViewController {
                 for: indexPath
             ) as? CommonGroupTableViewCell
         else { return UITableViewCell() }
-        cell.configureCell(unit: groups[indexPath.row], labelNameTapHandler: tapHandler)
+        cell.configureCell(unit: parsedGroups[indexPath.row], labelNameTapHandler: tapHandler)
         return cell
     }
 
@@ -81,7 +85,7 @@ final class MyGroupsTableViewController: UITableViewController {
             let indexPath = myGroupsTableViewController.tableView.indexPathForSelectedRow
         else { return }
         let group = myGroupsTableViewController.groups[indexPath.row]
-        groups.append(group)
+        parsedGroups.append(group)
         tableView.reloadData()
     }
 
@@ -96,17 +100,15 @@ final class MyGroupsTableViewController: UITableViewController {
         regCells()
     }
 
-    private func fetchClientsGroups(completion: @escaping () -> ()) {
-        networkService.fetchClientsGroups { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case let .success(groupsResponse):
-                let groups = groupsResponse.response.items
-                self.saveData(groups: groups)
-                completion()
-            case let .failure(error):
-                print("\(error)")
-            }
+    private func fetchClientsGroups(completion: () -> ()) {
+        firstly {
+            // TODO: Убрать форс анрап.
+            networkService.fetchClientsGroups()!
+        }.done { group in
+            self.saveData(groups: group)
+            self.loadData()
+        }.catch { error in
+            print("fetchClientsGroups \(error)")
         }
     }
 
@@ -138,7 +140,7 @@ final class MyGroupsTableViewController: UITableViewController {
             let groupsNetworkUnits = groups.map { group in
                 NetworkUnit(group: group)
             }
-            self.groups = groupsNetworkUnits
+            self.parsedGroups = groupsNetworkUnits
 
             DispatchQueue.main.async {
                 self.tableView.reloadData()
