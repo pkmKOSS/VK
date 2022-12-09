@@ -13,6 +13,8 @@ final class FetchFriendsAsyncOperation: AsyncOperation {
 
     private let networkService: NetworkService
 
+    // MARK: - Конструктор
+    
     /// Конструктор
     /// - Parameter networkService: Сервис для работы с сетью
     init(networkService: NetworkService) {

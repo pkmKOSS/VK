@@ -47,7 +47,7 @@ class AsyncOperation: Operation {
         state == .finished
     }
 
-    // MARK: - Private methods
+    // MARK: - Public methods
 
     override func start() {
         guard isCancelled else {

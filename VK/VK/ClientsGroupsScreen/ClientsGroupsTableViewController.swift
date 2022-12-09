@@ -1,8 +1,6 @@
 // ClientsGroupsTableViewController.swift
 // Copyright © RoadMap. All rights reserved.
 
-// swiftlint:disable all
-
 import PromiseKit
 import UIKit
 
@@ -103,7 +101,9 @@ final class MyGroupsTableViewController: UITableViewController {
     private func fetchClientsGroups(completion: () -> ()) {
         firstly {
             // TODO: Убрать форс анрап.
+            // swiftlint:disable all
             networkService.fetchClientsGroups()!
+            // swiftlint:enable all
         }.done { group in
             self.saveData(groups: group)
             self.loadData()

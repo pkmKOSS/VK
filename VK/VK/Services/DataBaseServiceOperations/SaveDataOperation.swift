@@ -10,6 +10,8 @@ final class SaveDataOperation: Operation {
     private let dataForSave: [Friend]?
     private let dataBaseService: DataBaseService
 
+    // MARK: - Конструктор
+
     /// Конструктор
     /// - Parameters:
     ///   - dataForSave: Данные для сохранения
