@@ -34,7 +34,7 @@ final class CommonGroupTableViewCell: UITableViewCell {
 
     private func configreAvatarImageView(avatarImageName: String) {
         DispatchQueue.global().async {
-            self.networkService.fetchPhoto(by: avatarImageName) { [weak self] result in
+            self.networkService.fetchPhoto(isCashingEnable: true, by: avatarImageName) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case let .success(data):
