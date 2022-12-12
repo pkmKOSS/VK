@@ -7,7 +7,6 @@ import Foundation
 final class SaveDataOperation: Operation {
     // MARK: - Private properties
 
-    private let dataForSave: [Friend]?
     private let operation: FetchFriendsAsyncOperation
     private let dataBaseService: DataBaseService
 
@@ -17,8 +16,7 @@ final class SaveDataOperation: Operation {
     /// - Parameters:
     ///   - dataForSave: Данные для сохранения
     ///   - dataBaseService: Сервис для сохранения
-    init(dataForSave: [Friend]?, dataBaseService: DataBaseService, operation: FetchFriendsAsyncOperation) {
-        self.dataForSave = dataForSave
+    init(dataBaseService: DataBaseService, operation: FetchFriendsAsyncOperation) {
         self.dataBaseService = dataBaseService
         self.operation = operation
         super.init()

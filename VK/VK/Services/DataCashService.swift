@@ -12,11 +12,15 @@ final class DataCashService {
         case images = "Images"
     }
 
-    // MARK: - Private properties
+    // MARK: - Private constants
 
     private enum Constants {
         static let slashName = "/"
     }
+
+    // MARK: - Private properties
+
+    private var cashStorageMap: [String: Data] = [:]
 
     // MARK: - Public methods
 
@@ -32,6 +36,7 @@ final class DataCashService {
         else { return }
         let filePath = "\(path)/\(fileName)"
         FileManager.default.createFile(atPath: filePath, contents: data)
+        cashStorageMap[String(fileName)] = data
     }
 
     /// Загрузка данных из кеша.
@@ -50,11 +55,17 @@ final class DataCashService {
         else { return }
         let url = URL(fileURLWithPath: "\(directoryPath)\(Constants.slashName)\(fileName)")
 
-        do {
-            let data = try Data(contentsOf: url)
-            completion(.success(data))
-        } catch let error as NSError {
-            completion(.failure(error))
+        if let cashedData = cashStorageMap[String(fileName)] {
+            completion(.success(cashedData))
+        } else {
+            let url = URL(fileURLWithPath: "\(directoryPath)/\(fileName)")
+
+            do {
+                let data = try Data(contentsOf: url)
+                completion(.success(data))
+            } catch let error as NSError {
+                completion(.failure(error))
+            }
         }
     }
 

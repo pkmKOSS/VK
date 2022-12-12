@@ -11,7 +11,7 @@ class AsyncOperation: Operation {
         case ready, executing, finished
 
         fileprivate var keyPath: String {
-            Constants.keyPathPrefix + rawValue.capitalized
+            "\(Constants.keyPathPrefix)\(rawValue.capitalized)"
         }
     }
 
