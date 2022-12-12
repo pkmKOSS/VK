@@ -19,8 +19,8 @@ final class MyGroupsTableViewController: UITableViewController {
 
     private let networkService = NetworkService()
     private let dataBaseService = DataBaseService()
-    private var parsedGroups: [NetworkUnit] = []
-    private var fetchedGroups: [Group] = []
+    private var networkUnits: [NetworkUnit] = []
+    private var groups: [Group] = []
     private var selectedGroup: NetworkUnit?
     private var tapHandler: TapHandler?
 
@@ -45,7 +45,7 @@ final class MyGroupsTableViewController: UITableViewController {
     // MARK: - UITableViewDataSource
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        parsedGroups.count
+        networkUnits.count
     }
 
     override func tableView(
@@ -54,7 +54,7 @@ final class MyGroupsTableViewController: UITableViewController {
         forRowAt indexPath: IndexPath
     ) {
         if editingStyle == .delete {
-            parsedGroups.remove(at: indexPath.row)
+            networkUnits.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
@@ -66,7 +66,7 @@ final class MyGroupsTableViewController: UITableViewController {
                 for: indexPath
             ) as? CommonGroupTableViewCell
         else { return UITableViewCell() }
-        cell.configureCell(unit: parsedGroups[indexPath.row], labelNameTapHandler: tapHandler)
+        cell.configureCell(unit: networkUnits[indexPath.row], labelNameTapHandler: tapHandler)
         return cell
     }
 
@@ -83,7 +83,7 @@ final class MyGroupsTableViewController: UITableViewController {
             let indexPath = myGroupsTableViewController.tableView.indexPathForSelectedRow
         else { return }
         let group = myGroupsTableViewController.groups[indexPath.row]
-        parsedGroups.append(group)
+        networkUnits.append(group)
         tableView.reloadData()
     }
 
@@ -100,15 +100,12 @@ final class MyGroupsTableViewController: UITableViewController {
 
     private func fetchClientsGroups(completion: () -> ()) {
         firstly {
-            // TODO: Убрать форс анрап.
-            // swiftlint:disable all
-            networkService.fetchClientsGroups()!
-            // swiftlint:enable all
+            networkService.fetchClientsGroups() ?? Promise { _ in [] }
         }.done { group in
             self.saveData(groups: group)
             self.loadData()
         }.catch { error in
-            print("fetchClientsGroups \(error)")
+            print(error.localizedDescription)
         }
     }
 
@@ -140,7 +137,7 @@ final class MyGroupsTableViewController: UITableViewController {
             let groupsNetworkUnits = groups.map { group in
                 NetworkUnit(group: group)
             }
-            self.parsedGroups = groupsNetworkUnits
+            self.networkUnits = groupsNetworkUnits
 
             DispatchQueue.main.async {
                 self.tableView.reloadData()
