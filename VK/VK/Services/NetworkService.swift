@@ -166,7 +166,11 @@ final class NetworkService: NetworkServicable {
         sendRequest(url: url, method: HTTPMethod.get, model: PhotoResponse.self, completion: completion)
     }
 
-    func fetchPhoto(isCashingEnable: Bool, by urlString: String, completion: @escaping (Swift.Result<Data, Swift.Error>) -> ()) {
+    func fetchPhoto(
+        isCashingEnable: Bool,
+        by urlString: String,
+        completion: @escaping (Swift.Result<Data, Swift.Error>) -> ()
+    ) {
         var fetchedData: Data?
 
         if isCashingEnable {

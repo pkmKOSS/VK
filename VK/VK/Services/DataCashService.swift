@@ -12,6 +12,12 @@ final class DataCashService {
         case images = "Images"
     }
 
+    // MARK: - Private properties
+
+    private enum Constants {
+        static let slashName = "/"
+    }
+
     // MARK: - Public methods
 
     /// Сохранение данных в кеш.
@@ -22,7 +28,7 @@ final class DataCashService {
     func saveDataToCache(fileURL: String, data: Data, cashDataType: CashDataType) {
         guard
             let path = getDirectoryPath(cashDataType: cashDataType),
-            let fileName = fileURL.split(separator: "/").last
+            let fileName = fileURL.split(separator: Character(Constants.slashName)).last
         else { return }
         let filePath = "\(path)/\(fileName)"
         FileManager.default.createFile(atPath: filePath, contents: data)
@@ -40,9 +46,9 @@ final class DataCashService {
     ) {
         guard
             let directoryPath = getDirectoryPath(cashDataType: cashDataType),
-            let fileName = fileURL.split(separator: "/").last
+            let fileName = fileURL.split(separator: Character(Constants.slashName)).last
         else { return }
-        let url = URL(fileURLWithPath: "\(directoryPath)/\(fileName)")
+        let url = URL(fileURLWithPath: "\(directoryPath)\(Constants.slashName)\(fileName)")
 
         do {
             let data = try Data(contentsOf: url)

@@ -98,10 +98,15 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
     private func fetchFriends() {
         let fetchFriendOperationQueue = OperationQueue()
         let asyncOperation = FetchFriendsAsyncOperation(networkService: networkService)
-        let saveDataOperation = SaveDataOperation(dataForSave: friends, dataBaseService: dataBaseService)
+        let saveDataOperation = SaveDataOperation(
+            dataForSave: asyncOperation.resultOfRequest?.response.items,
+            dataBaseService: dataBaseService,
+            operation: asyncOperation
+        )
         saveDataOperation.addDependency(asyncOperation)
         fetchFriendOperationQueue.addOperations([asyncOperation, saveDataOperation], waitUntilFinished: false)
-        asyncOperation.completionBlock = { [weak self] in
+
+        saveDataOperation.completionBlock = { [weak self] in
             guard let self = self else { return }
             self.loadData()
         }

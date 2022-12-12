@@ -17,7 +17,6 @@ struct DataBaseService {
         do {
             let realm = try Realm()
             let objects = realm.objects(type)
-
             notToken = objects.observe { changes in
                 completion(changes)
             }
@@ -30,6 +29,7 @@ struct DataBaseService {
         do {
             let configuration = Realm.Configuration(deleteRealmIfMigrationNeeded: false)
             let realm = try Realm(configuration: configuration)
+            print("saveData \(realm.configuration.fileURL)")
 
             try realm.write {
                 objects.forEach { realm.add($0, update: .modified) }
@@ -42,6 +42,7 @@ struct DataBaseService {
     func loadData<T: Object>(objectType: T.Type) -> [T]? {
         do {
             let realm = try Realm()
+            print("saveData \(realm.configuration.fileURL)")
             let objects = Array(realm.objects(objectType))
             return objects
         } catch {

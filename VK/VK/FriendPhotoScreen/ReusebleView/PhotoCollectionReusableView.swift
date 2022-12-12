@@ -63,7 +63,7 @@ final class PhotoCollectionReusableView: UICollectionReusableView {
     }
 
     func configure(urlString: String) {
-        networkService.fetchPhoto(by: urlString) { [weak self] result in
+        networkService.fetchPhoto(isCashingEnable: true, by: urlString) { [weak self] result in
             guard let self = self else { return }
 
             switch result {
