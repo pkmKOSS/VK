@@ -11,7 +11,7 @@ protocol NetworkServicable {
     func fetchClientsGroups() -> Promise<[Group]>?
     func fetchAllPhoto(by id: Int, completion: @escaping (Swift.Result<PhotoResponse, Error>) -> ())
     func fetchPhoto(
-        isCashingEnable: Bool,
+        isCachingEnable: Bool,
         by urlString: String,
         completion: @escaping (Swift.Result<Data, Error>) -> ()
     )

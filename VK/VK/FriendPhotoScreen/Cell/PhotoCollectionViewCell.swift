@@ -40,7 +40,7 @@ final class PhotoCollectionViewCell: UICollectionViewCell {
 
     private func configreAvatarImageView() {
         for imagesURLString in imagesURLStrings {
-            networkService.fetchPhoto(isCashingEnable: true, by: imagesURLString) { [weak self] result in
+            networkService.fetchPhoto(isCachingEnable: true, by: imagesURLString) { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case let .success(data):

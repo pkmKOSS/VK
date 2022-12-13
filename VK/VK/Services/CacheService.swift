@@ -1,14 +1,14 @@
-// DataCashService.swift
+// CacheService.swift
 // Copyright © RoadMap. All rights reserved.
 
 import UIKit
 
 /// Сервис для кэширования данных.
-final class DataCashService {
+final class CacheService {
     // MARK: - Public enum
 
     /// Типы данных конвертируемых  Data
-    enum CashDataType: String {
+    enum CacheDataType: String {
         case images = "Images"
     }
 
@@ -20,7 +20,7 @@ final class DataCashService {
 
     // MARK: - Private properties
 
-    private var cashStorageMap: [String: Data] = [:]
+    private var cacheStorageMap: [String: Data] = [:]
 
     // MARK: - Public methods
 
@@ -29,14 +29,14 @@ final class DataCashService {
     ///   - fileURL: URL объекта. Используется для присвоения имени локальному файлу.
     ///   - data: Экземпляр Data
     ///   - cashDataType: Тип, который был источником Data. Влияет на директорию размещения файла.
-    func saveDataToCache(fileURL: String, data: Data, cashDataType: CashDataType) {
+    func saveDataToCache(fileURL: String, data: Data, cacheDataType: CacheDataType) {
         guard
-            let path = getDirectoryPath(cashDataType: cashDataType),
+            let path = getDirectoryPath(cacheDataType: cacheDataType),
             let fileName = fileURL.split(separator: Character(Constants.slashName)).last
         else { return }
         let filePath = "\(path)/\(fileName)"
         FileManager.default.createFile(atPath: filePath, contents: data)
-        cashStorageMap[String(fileName)] = data
+        cacheStorageMap[String(fileName)] = data
     }
 
     /// Загрузка данных из кеша.
@@ -46,16 +46,16 @@ final class DataCashService {
     ///   - completion: Возвращает экземпляр класса Result<Data, Swift.Error>).
     func loadDataFromCache(
         fileURL: String,
-        cashDataType: CashDataType,
+        cacheDataType: CacheDataType,
         completion: @escaping (Swift.Result<Data, Swift.Error>) -> ()
     ) {
         guard
-            let directoryPath = getDirectoryPath(cashDataType: cashDataType),
+            let directoryPath = getDirectoryPath(cacheDataType: cacheDataType),
             let fileName = fileURL.split(separator: Character(Constants.slashName)).last
         else { return }
         let url = URL(fileURLWithPath: "\(directoryPath)\(Constants.slashName)\(fileName)")
 
-        if let cashedData = cashStorageMap[String(fileName)] {
+        if let cashedData = cacheStorageMap[String(fileName)] {
             completion(.success(cashedData))
         } else {
             let url = URL(fileURLWithPath: "\(directoryPath)/\(fileName)")
@@ -71,18 +71,18 @@ final class DataCashService {
 
     // MARK: - Private methods
 
-    private func getDirectoryPath(cashDataType: CashDataType) -> String? {
+    private func getDirectoryPath(cacheDataType: CacheDataType) -> String? {
         let directory = {
-            switch cashDataType {
+            switch cacheDataType {
             case .images:
                 return FileManager.SearchPathDirectory.cachesDirectory
             }
         }()
 
         guard
-            let cashDirectory = FileManager.default.urls(for: directory, in: .userDomainMask).first
+            let cacheDirectory = FileManager.default.urls(for: directory, in: .userDomainMask).first
         else { return nil }
-        let url = cashDirectory.appendingPathComponent(cashDataType.rawValue, isDirectory: true)
+        let url = cacheDirectory.appendingPathComponent(cacheDataType.rawValue, isDirectory: true)
 
         if !FileManager.default.fileExists(atPath: url.path) {
             try? FileManager.default.createDirectory(
@@ -92,6 +92,6 @@ final class DataCashService {
             )
         }
 
-        return cashDirectory.appendingPathComponent(cashDataType.rawValue, isDirectory: true).path
+        return cacheDirectory.appendingPathComponent(cacheDataType.rawValue, isDirectory: true).path
     }
 }

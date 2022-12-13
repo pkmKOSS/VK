@@ -62,7 +62,7 @@ final class NetworkService: NetworkServicable {
         URLQueryItem(name: QueryItems.scopeTypeName.rawValue, value: QueryItems.scropeTypeValue.rawValue),
     ]
 
-    private let dataCashService = DataCashService()
+    private let cacheService = CacheService()
 
     // MARK: - Public methods
 
@@ -167,14 +167,14 @@ final class NetworkService: NetworkServicable {
     }
 
     func fetchPhoto(
-        isCashingEnable: Bool,
+        isCachingEnable: Bool,
         by urlString: String,
         completion: @escaping (Swift.Result<Data, Swift.Error>) -> ()
     ) {
         var fetchedData: Data?
 
-        if isCashingEnable {
-            dataCashService.loadDataFromCache(fileURL: urlString, cashDataType: .images) { result in
+        if isCachingEnable {
+            cacheService.loadDataFromCache(fileURL: urlString, cacheDataType: .images) { result in
                 switch result {
                 case let .success(data):
                     fetchedData = data
@@ -194,7 +194,7 @@ final class NetworkService: NetworkServicable {
             AF.request(url, method: .get).responseData { response in
                 switch response.result {
                 case let .success(data):
-                    self.dataCashService.saveDataToCache(fileURL: urlString, data: data, cashDataType: .images)
+                    self.cacheService.saveDataToCache(fileURL: urlString, data: data, cacheDataType: .images)
                     completion(.success(data))
                 case let .failure(afError):
                     completion(.failure(afError))
