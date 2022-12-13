@@ -29,6 +29,7 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
     private let networkService = NetworkService()
     private let dataBaseService = DataBaseService()
     private var sortedFriendsMap: [Character: [NetworkUnit]] = [:]
+    private var friends: [Friend] = []
     private var selectedFriend: NetworkUnit?
     private var tapHandler: TapHandler?
     private var notificationToken = NotificationToken()
@@ -91,24 +92,18 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
     private func configureScreen() {
         setupScene()
         setupNotToken()
-        fetchFriends { [weak self] in
-            guard let self = self else { return }
-            self.loadData()
-        }
+        fetchFriends()
     }
 
-    private func fetchFriends(completion: @escaping () -> ()) {
-        networkService.fetchFriends { [weak self] result in
+    private func fetchFriends() {
+        let fetchFriendOperationQueue = OperationQueue()
+        let asyncOperation = FetchFriendsAsyncOperation(networkService: networkService)
+        let saveDataOperation = SaveDataOperation(friends: friends, dataBaseService: dataBaseService)
+        saveDataOperation.addDependency(asyncOperation)
+        fetchFriendOperationQueue.addOperations([asyncOperation, saveDataOperation], waitUntilFinished: false)
+        asyncOperation.completionBlock = { [weak self] in
             guard let self = self else { return }
-
-            switch result {
-            case let .success(friendsResponse):
-                let friends = friendsResponse.response.items
-                self.saveData(friends: friends)
-                completion()
-            case let .failure(error):
-                print(error)
-            }
+            self.loadData()
         }
     }
 
