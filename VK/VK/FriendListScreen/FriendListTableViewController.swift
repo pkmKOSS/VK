@@ -101,6 +101,7 @@ final class FriendListTableViewController: UITableViewController, UIViewControll
             dataBaseService: dataBaseService,
             operation: asyncOperation
         )
+       
         saveDataOperation.addDependency(asyncOperation)
         fetchFriendOperationQueue.addOperations([asyncOperation, saveDataOperation], waitUntilFinished: false)
 

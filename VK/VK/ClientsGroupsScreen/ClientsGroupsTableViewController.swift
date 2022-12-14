@@ -100,15 +100,12 @@ final class MyGroupsTableViewController: UITableViewController {
 
     private func fetchClientsGroups(completion: () -> ()) {
         firstly {
-            // TODO: Убрать форс анрап.
-            // swiftlint:disable all
-            networkService.fetchClientsGroups()!
-            // swiftlint:enable all
+            networkService.fetchClientsGroups() ?? Promise { _ in [] }
         }.done { group in
             self.saveData(groups: group)
             self.loadData()
         }.catch { error in
-            print("fetchClientsGroups \(error)")
+            print(error.localizedDescription)
         }
     }
 
