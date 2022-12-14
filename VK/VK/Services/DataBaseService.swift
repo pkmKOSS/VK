@@ -17,7 +17,6 @@ struct DataBaseService {
         do {
             let realm = try Realm()
             let objects = realm.objects(type)
-
             notToken = objects.observe { changes in
                 completion(changes)
             }

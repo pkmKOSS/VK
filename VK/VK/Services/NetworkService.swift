@@ -62,6 +62,8 @@ final class NetworkService: NetworkServicable {
         URLQueryItem(name: QueryItems.scopeTypeName.rawValue, value: QueryItems.scropeTypeValue.rawValue),
     ]
 
+    private let cacheService = CacheService()
+
     // MARK: - Public methods
 
     func getAuthPageRequest() -> URL? {
@@ -164,15 +166,35 @@ final class NetworkService: NetworkServicable {
         sendRequest(url: url, method: HTTPMethod.get, model: PhotoResponse.self, completion: completion)
     }
 
-    func fetchPhoto(by urlString: String, completion: @escaping (Swift.Result<Data, Error>) -> ()) {
-        DispatchQueue.global().async {
-            guard
-                let url = URL(string: urlString)
-            else { return }
+    func fetchPhoto(
+        isCachingEnable: Bool,
+        by urlString: String,
+        completion: @escaping (Swift.Result<Data, Swift.Error>) -> ()
+    ) {
+        var fetchedData: Data?
 
+        if isCachingEnable {
+            cacheService.loadDataFromCache(fileURL: urlString, cacheDataType: .images) { result in
+                switch result {
+                case let .success(data):
+                    fetchedData = data
+                    completion(.success(data))
+                case let .failure(error):
+                    print("\(error)")
+                }
+            }
+        }
+
+        guard
+            fetchedData == nil,
+            let url = URL(string: urlString)
+        else { return }
+
+        DispatchQueue.global().async {
             AF.request(url, method: .get).responseData { response in
                 switch response.result {
                 case let .success(data):
+                    self.cacheService.saveDataToCache(fileURL: urlString, data: data, cacheDataType: .images)
                     completion(.success(data))
                 case let .failure(afError):
                     completion(.failure(afError))

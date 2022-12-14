@@ -7,7 +7,7 @@ import Foundation
 final class FetchFriendsAsyncOperation: AsyncOperation {
     // MARK: - Public properties
 
-    var resultOfRequest: Result<FriendsResponse, Error>?
+    var resultOfRequest: FriendsResponse?
 
     // MARK: - Private properties
 
@@ -27,7 +27,12 @@ final class FetchFriendsAsyncOperation: AsyncOperation {
     override func main() {
         networkService.fetchFriends { [weak self] result in
             guard let self = self else { return }
-            self.resultOfRequest = result
+            switch result {
+            case let .success(response):
+                self.resultOfRequest = response
+            case let .failure(error):
+                print(error)
+            }
             self.state = .finished
         }
     }

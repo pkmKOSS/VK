@@ -7,7 +7,7 @@ import Foundation
 final class SaveDataOperation: Operation {
     // MARK: - Private properties
 
-    private let friends: [Friend]?
+    private let operation: FetchFriendsAsyncOperation
     private let dataBaseService: DataBaseService
 
     // MARK: - Конструктор
@@ -16,16 +16,16 @@ final class SaveDataOperation: Operation {
     /// - Parameters:
     ///   - dataForSave: Данные для сохранения
     ///   - dataBaseService: Сервис для сохранения
-    init(friends: [Friend], dataBaseService: DataBaseService) {
-        self.friends = friends
+    init(dataBaseService: DataBaseService, operation: FetchFriendsAsyncOperation) {
         self.dataBaseService = dataBaseService
+        self.operation = operation
         super.init()
     }
 
     // MARK: - Public methods
 
     override func main() {
-        guard let data = friends else { return }
+        guard let data = operation.resultOfRequest?.response.items else { return }
         dataBaseService.saveData(objects: data)
     }
 }

@@ -10,7 +10,11 @@ protocol NetworkServicable {
     func fetchFriends(completion: @escaping (Swift.Result<FriendsResponse, Error>) -> ())
     func fetchClientsGroups() -> Promise<[Group]>?
     func fetchAllPhoto(by id: Int, completion: @escaping (Swift.Result<PhotoResponse, Error>) -> ())
-    func fetchPhoto(by urlString: String, completion: @escaping (Swift.Result<Data, Error>) -> ())
+    func fetchPhoto(
+        isCachingEnable: Bool,
+        by urlString: String,
+        completion: @escaping (Swift.Result<Data, Error>) -> ()
+    )
     func fetchFoundGroups(
         parametrsMap: [String: String],
         completion: @escaping (Swift.Result<GroupsResponse, Error>) -> ()
